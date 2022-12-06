@@ -1,0 +1,27 @@
+# compiled python modules
+**/__pycache__/
+*.pyc
+
+# distribution folder
+/dist/
+/build/
+
+# common virtual environments
+.venv/
+.env/
+
+# pycharm IDE file folder
+/.idea/
+
+# vscode
+.vscode/
+*.code-workspace
+
+# mac
+.DS_Store
+
+# testing models
+**/__test_model*
+
+# ETABS shortcuts
+*.lnk

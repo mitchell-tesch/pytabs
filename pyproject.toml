@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pytabs"
+version = "0.0.1"
+authors = [
+    {name = "Mitchell Tesch"},
+    {email = "mitchell.z.tesch@gmail.com"}
+]
+description = "A python wrapper for the CSI ETABS .NET API"
+readme = "README.md"
+requires-python = ">=3.8"
+license_file = {file = "LICENSE"}
+keyword = ["structural-engineering", "computational-design", "finite-element-analysis", "ETABS", "API"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Topic :: Scientific/Engineering"
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
+]
+dependencies = ["pythonnet"]
+
+[project.optional-dependencies]
+examples = [
+    "pandas",
+    "xlwings"
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
