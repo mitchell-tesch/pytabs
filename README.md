@@ -1,15 +1,32 @@
 # pyTABS
-
 ## Description
-CSI ETABS .NET API python wrapper - providing simple python interface with the ETABS 19+ .NET API.
+A Python wrapper for CSi ETABS .NET API - a simple yet robust Python interface to the ETABS .NET API. Not affiliated with Computer and Structures Inc.
+
+
+## Installation
+*pyTABS* can be installed through the Python package manager:
+```
+$ pip install pytabs
+```
+
 
 ## Requirements
  - Python 3.8+
  - pythonnet
 
 
-## Contibutors:
-Request developer access to this repo.
+## Usage
+Documentation is currently work in progress.
+
+_For examples, please refer to the [examples](./examples/)._
+
+
+## Licence
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+
+## Contibutors
+Contributors welcome.
 
 IntelliSense of the ETABSv1 namespace (ETABSv1.dll) can be achieved via the included stub file. This stub file has been generated using [IronPython Stubs](https://github.com/gtalarico/ironpython-stubs) by [gtalarico](https://github.com/gtalarico).
 

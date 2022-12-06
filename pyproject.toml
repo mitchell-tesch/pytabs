@@ -2,6 +2,7 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+
 [project]
 name = "pytabs"
 version = "0.0.1"
@@ -16,7 +17,7 @@ license_file = {file = "LICENSE"}
 keyword = ["structural-engineering", "computational-design", "finite-element-analysis", "ETABS", "API"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
-    "Topic :: Scientific/Engineering"
+    "Topic :: Scientific/Engineering",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
@@ -27,6 +28,7 @@ classifiers = [
 ]
 dependencies = ["pythonnet"]
 
+
 [project.optional-dependencies]
 examples = [
     "pandas",
@@ -35,5 +37,5 @@ examples = [
 
 
 [project.urls]
-"Homepage" = "https://github.com/pypa/sampleproject"
-"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
+"Homepage" = "https://github.com/mitchell-tesch/pytabs"
+"Bug Tracker" = "https://github.com/mitchell-tesch/pytabs/issues"
