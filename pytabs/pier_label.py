@@ -2,12 +2,13 @@
 # PierLabel - cPierLabel interface 
 __all__ = ['PierLabel']
 
-# import typing
-from typing import TypedDict
 # import pyTABS error handler
 from pytabs.error_handle import *
 # import ETABS API .dll
 from ETABSv1 import *
+
+# import typing
+from typing import TypedDict
 
 
 class SectionProperties(TypedDict):

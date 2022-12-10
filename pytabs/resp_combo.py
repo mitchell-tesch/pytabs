@@ -2,8 +2,6 @@
 # RespCombo - cCombo interface 
 __all__ = ['RespCombo']
 
-# import typing
-from typing import Union
 # import pyTABS error handler
 from pytabs.error_handle import *
 # import ETABS API .dll

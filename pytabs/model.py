@@ -5,8 +5,8 @@ __all__ = ['EtabsModel']
 # general library imports
 import clr # pythonnet clr-loader
 from pathlib import Path
-from typing import Union
-from typing import TypedDict
+from typing import Union, TypedDict
+
 
 # pythonnet clr-loader import of Marshal - ETABS API requirement
 clr.AddReference("System.Runtime.InteropServices")
@@ -27,6 +27,7 @@ from pytabs.pier_label import *
 from pytabs.analysis_results import *
 from pytabs.load_cases import *
 from pytabs.resp_combo import *
+from pytabs.story import *
 
 
 class UnitsComponents(TypedDict):
@@ -113,6 +114,7 @@ class EtabsModel():
             self.analysis_results = AnalysisResults(self.sap_model)
             self.load_cases = LoadCases(self.sap_model)
             self.resp_combo = RespCombo(self.sap_model)
+            self.story = Story(self.sap_model)
             
             # relate ETABS fixed enumerations
             self.eLoadCaseType = eLoadCaseType

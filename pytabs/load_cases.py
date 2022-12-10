@@ -2,12 +2,13 @@
 # LoadCases - cLoadCases interface 
 __all__ = ['LoadCases']
 
-# import typing
-from typing import Union
 # import pyTABS error handler
 from pytabs.error_handle import *
 # import ETABS API .dll
 from ETABSv1 import *
+
+# import typing
+from typing import Union
 
 
 class LoadCases:
