@@ -10,7 +10,7 @@ authors = [
     {name = "Mitchell Tesch"},
     {email = "mitchell.z.tesch@gmail.com"}
 ]
-description = "A python wrapper for the CSI ETABS .NET API"
+description = "A python wrapper for the CSi ETABS .NET API"
 readme = "README.md"
 requires-python = ">=3.8"
 license_file = {file = "LICENSE"}
