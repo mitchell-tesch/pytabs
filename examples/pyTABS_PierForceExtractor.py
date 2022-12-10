@@ -3,9 +3,6 @@
 VERSION = '221204'
 
 # Development Environment Configuration 
-# add cwd to path to allow running for calling development environment
-import sys
-sys.path.append('../pytabs')
 # Location of workbook for mock caller
 WB_FN = './examples/pyTABS_PierForceExtractor.xlsm'
 
@@ -29,7 +26,7 @@ RAW_RESULTS_SHEET = 'RawResults'
 RAW_RESULTS_RANGE = 'A4'
 # Workbook Pier summary sheet template configuration
 PIER_RESULTS_SHEET = '_PierTemplate'
-PIER_RESULTS_RANGE = 'A4'
+PIER_RESULTS_RANGE = 'A3'
 # Rounding of pier forces - number of decimals
 RESULTS_DECIMALS = 0
 # Run start date and time for last run output
@@ -93,7 +90,10 @@ def write_result_data(wb : xw.Book, pier_forces_df, pier_summary_dfs):
     template_sheet = wb.sheets[PIER_RESULTS_SHEET]
     for pier, summary_df in pier_summary_dfs.items():
         pier_sheet = template_sheet.copy(before=template_sheet, name=f"Pier_{pier}")
-        pier_sheet.range('A1').value = f"Pier Summary: {pier}"
+        if pier[:2] == 'SW':
+            pier_sheet.range('A1').value = f"{pier} SHORING WALL LOADING SCHEDULE"
+        else:
+            pier_sheet.range('A1').value = f"{pier} BARRETTE LOADING SCHEDULE"
         pier_sheet.range(PIER_RESULTS_RANGE).options(index=False, header=False).value = summary_df
         pier_sheet.visible = True
         
@@ -194,14 +194,23 @@ def main():
                                'm3': round(pier_forces['m3'][_r], RESULTS_DECIMALS)}])
         pier_forces_df = pd.concat([pier_forces_df, row_df], ignore_index=True)
     
+    # create a set of unique piers for summary ie. grouping of shoring wall panels
+    summary_target_piers = set()
+    for pier in target_pier_properties:
+        if pier[:2] == 'SW':
+            summary_target_piers.add(pier.split('-')[0])
+        else:
+            summary_target_piers.add(pier)
+    summary_target_piers = sorted(summary_target_piers)
+    
     # create summary data frames for each pier
     print("\nCreating summary force tables for each pier.")
     pier_summary_dfs = {}
-    for _p, pier in enumerate(target_pier_properties.keys()):
-        print(f"\t> Pier {_p+1}/{len(target_pier_properties)} - {pier}\r")
+    for _p, pier in enumerate(summary_target_piers):
+        print(f"\t> Pier {_p+1}/{len(summary_target_piers)} - {pier}\r")
         pier_summary_df = pd.DataFrame()
         for case in target_cases_combos:
-            filtered_df = pier_forces_df.loc[(pier_forces_df.id == pier) & (pier_forces_df.case == case)]
+            filtered_df = pier_forces_df.loc[(pier_forces_df.id.str.startswith(pier)) & (pier_forces_df.case == case)]
             header_df = pd.DataFrame({'id': [pier, pier],
                                       'theta': [filtered_df.theta.iloc[0], filtered_df.theta.iloc[0]],
                                       'case': [case, case],
