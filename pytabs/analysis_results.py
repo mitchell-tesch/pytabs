@@ -30,11 +30,6 @@ class PierForce(TypedDict):
 class AnalysisResults:
     """AnalysisResults interface"""
     def __init__(self, sap_model : cSapModel) -> None:
-        """substantiates the cAnalysisResults interface
-
-        Args:
-            sap_model (cSapModel): SapModel from EtabsModel
-        """
         # link of SapModel interface
         self.sap_model = sap_model
         # create AnalysisResultsSetup interface
@@ -50,46 +45,48 @@ class AnalysisResults:
 
     def get_case_selected_for_output(self, case_name : str) -> bool:
         """Checks if a load case is selected for output.
-        
-        Args:
-            case_name (str): The name of an existing load case
 
-        Returns:
-            bool: selected for output?
+        :param case_name: name of an existing load case
+        :type case_name: str
+        :return: True if the Case selected for output, False otherwise
+        :rtype: bool
         """
         [ret, selected] = self.analysis_results_setup.GetCaseSelectedForOutput(case_name)
+        handle(ret)
         return selected
 
 
     def get_combo_selected_for_output(self, combo_name : str) -> bool:
         """Checks if a load combination is selected for output.
-        
-        Args:
-            combo_name (str): The name of an existing load combination
 
-        Returns:
-            bool: selected for output?
+        :param combo_name: name of an existing combination
+        :type combo_name: str
+        :return: True if the Combination selected for output, False otherwise
+        :rtype: bool
         """
         [ret, selected] = self.analysis_results_setup.GetComboSelectedForOutput(combo_name)
+        handle(ret)
         return selected
 
 
     def set_case_selected_for_output(self, case_name : str, select_state : bool = True) -> None:
         """Sets a load case selected for output flag.
 
-        Args:
-            case_name (str): name of existing load case
-            select_state (bool, optional): selected for output?. Defaults to True.
+        :param case_name: name of existing load case
+        :type case_name: str
+        :param select_state: select case for output, defaults to True
+        :type select_state: bool, optional
         """
         handle(self.analysis_results_setup.SetCaseSelectedForOutput(case_name, select_state))
     
     
     def set_combo_selected_for_output(self, combo_name : str, select_state : bool = True) -> None:
-        """Sets a load combo selected for output flag.
+        """Sets a combination selected for output flag.
 
-        Args:
-            combo_name (str): name of existing load combination
-            select_state (bool, optional): selected for output?. Defaults to True.
+        :param combo_name: name of the existing combination
+        :type combo_name: str
+        :param select_state: select combination for output defaults to True
+        :type select_state: bool, optional
         """
         handle(self.analysis_results_setup.SetComboSelectedForOutput(combo_name, select_state))
 
@@ -97,13 +94,10 @@ class AnalysisResults:
     def pier_force(self) -> PierForce:
         """Retrieves pier forces for any defined pier objects in the model.
 
-        Args:
-            number_results (int): The total number of results returned by the program 
-
-        Returns:
-            PierForce: TypedDictionary of pier analysis results
+        :return: Pier force analysis results
+        :rtype: PierForce
         """
-        number_results = 0
+        number_results = int()
         story_name = [str()]
         pier_name = [str()]
         load_case = [str()]

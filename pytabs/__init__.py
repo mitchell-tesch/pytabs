@@ -1,0 +1,1 @@
+from pytabs.model import EtabsModel

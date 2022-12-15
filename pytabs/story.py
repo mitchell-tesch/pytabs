@@ -3,19 +3,16 @@
 __all__ = ['Story']
 
 # import pyTABS error handler
-from pytabs.error_handle import *
+from pytabs.error_handle import handle
 # import ETABS API .dll
 from ETABSv1 import *
+# import typing
+from typing import Union
 
 
 class Story:
     """Story interface"""
     def __init__(self, sap_model : cSapModel) -> None:
-        """Substantiates the cStory interface.
-
-        Args:
-            sap_model (cSapModel): SapModel from EtabsModel.
-        """
         # link of SapModel interface
         self.sap_model = sap_model
         # create PierLabel interface
@@ -23,13 +20,12 @@ class Story:
         
         
     def get_elevation(self, story_name : str) -> float:
-        """Retrieves the elevation of a defined story. 
+        """Retrieves the elevation of a defined story.
 
-        Args:
-            story_name (str): The name of a defined story.
-
-        Returns:
-            float: The elevation of the story. 
+        :param story_name: name of a defined story
+        :type story_name: str
+        :return: elevation of the story
+        :rtype: float
         """
         elevation = float()
         [ret, elevation] = self.story.GetElevation(story_name, elevation)
@@ -40,11 +36,10 @@ class Story:
     def get_height(self, story_name : str) -> float:
         """Retrieves the height of a defined story.
 
-        Args:
-            story_name (str): The name of a defined story.
-
-        Returns:
-            float: The height of the story.
+        :param story_name: name of a defined story
+        :type story_name: str
+        :return: height of the story
+        :rtype: float
         """
         height = float()
         [ret, height] = self.story.GetHeight(story_name, height)
@@ -55,11 +50,10 @@ class Story:
     def get_master_story(self, story_name : str) -> bool:
         """Retrieves whether a defined story is a master story.
 
-        Args:
-            story_name (str): The name of a defined story.
-            
-        Returns:
-            bool: True if the story is a master story, False otherwise. 
+        :param story_name: name of a defined story
+        :type story_name: str
+        :return: True if the story is a master story, False otherwise
+        :rtype: bool
         """
         is_master_story = bool()
         [ret, is_master_story] = self.story.GetMasterStory(story_name, is_master_story)
@@ -70,11 +64,43 @@ class Story:
     def get_name_list(self) -> list[str]:
         """Retrieves the names of all defined stories.
 
-        Returns:
-            list[str]:  All story names
+        :return: all story names
+        :rtype: list[str]
         """
         number_names = int()
         story_names = ['']
         [ret, number_names, story_names] = self.story.GetNameList(number_names, story_names)
         handle(ret)
         return list(story_names)
+    
+    
+    def get_similar_to(self, story_name : str) -> Union[str, None]:
+        """Retrieves whether a defined story is a master story.
+
+        :param story_name: name of a defined story
+        :type story_name: str
+        :return: name of similar story, if story is master returns None
+        :rtype: Union[str, None]
+        """
+        is_master = bool()
+        similar_story = str()
+        [ret, is_master, similar_story] = self.story.GetSimilarTo(story_name, is_master, similar_story)
+        handle(ret)
+        if not is_master:
+            return similar_story
+    
+    
+    def get_splice(self, story_name : str) -> Union[float, None]:
+        """Retrieves the story splice height, if applicable.
+
+        :param story_name: name of a defined story
+        :type story_name: str
+        :return: height of splice, if present otherwise None
+        :rtype: Union[float, None]
+        """
+        splice_above = bool()
+        splice_height = float()
+        [ret, splice_above, splice_height] = self.story.GetSplice(story_name, splice_above, splice_height)
+        handle(ret)
+        if splice_above:
+            return splice_height

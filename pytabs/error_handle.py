@@ -14,13 +14,11 @@ class EtabsError(Error):
 
 
 def handle(ret : int) -> None:
-    """handles ETABS API return errors
-
-    Args:
-        ret (int): return integer from ETABS API function
-
-    Raises:
-        EtabsError: General ETABS API error if return int is != 0 
+    """Handles ETABS API return.
+    
+    :param ret: return integer from ETABS API function
+    :type ret: int
+    :raises EtabsError: general ETABS API error if return int is != 0 
     """
     if ret != 0:
         raise EtabsError(ret=ret)

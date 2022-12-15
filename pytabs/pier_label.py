@@ -3,7 +3,7 @@
 __all__ = ['PierLabel']
 
 # import pyTABS error handler
-from pytabs.error_handle import *
+from pytabs.error_handle import handle
 # import ETABS API .dll
 from ETABSv1 import *
 
@@ -35,11 +35,6 @@ class SectionProperties(TypedDict):
 class PierLabel:
     """PierLabel interface"""
     def __init__(self, sap_model : cSapModel) -> None:
-        """substantiates the cPierLabel interface
-
-        Args:
-            sap_model (cSapModel): SapModel from EtabsModel
-        """
         # link of SapModel interface
         self.sap_model = sap_model
         # create PierLabel interface
@@ -47,45 +42,45 @@ class PierLabel:
 
 
     def change_name(self, pier_name : str, new_pier_name : str) -> None:
-        """Changes the name of a defined Pier Label 
+        """Changes the name of a defined Pier Label.
 
-        Args:
-            pier_name (str): name of defined pier to change
-            new_pier_name (str): new name of pier
+        :param pier_name: name of defined pier to change
+        :type pier_name: str
+        :param new_pier_name: new name of pier
+        :type new_pier_name: str
         """
         handle(self.pier_label.ChangeName(pier_name, new_pier_name))
 
 
     def delete(self, pier_name : str) -> None:
-        """Deletes the specified Pier Label 
+        """Deletes the specified Pier Label.
 
-        Args:
-            pier_name (str): name of defined pier to delete
+        :param pier_name: name of defined pier to delete
+        :type pier_name: str
         """
         handle(self.pier_label.Delete(pier_name))
 
 
     def get_names_list(self) -> list[str]:
-        """Retrieves the names of all defined Pier Labels
+        """Retrieves the names of all defined Pier Labels.
 
-        Returns:
-            List[str]: All Pier Labels
+        :return: All Pier Labels
+        :rtype: list[str]
         """
-        number_names = 0
-        pier_names = ['']
+        number_names = int()
+        pier_names = [str()]
         [ret, number_names, pier_names] = self.pier_label.GetNameList(number_names, pier_names)
         handle(ret)
         return list(pier_names)
     
     
     def get_pier(self, pier_name : str) -> bool:
-        """Checks whether the specified Pier Label exists
+        """Checks whether the specified Pier Label exists.
 
-        Args:
-            pier_name (str): pier name to check
-
-        Returns:
-            bool: pier exists?
+        :param pier_name: pier name to check
+        :type pier_name: str
+        :return: True if the Pier Label exists, False otherwise
+        :rtype: bool
         """
         ret = self.pier_label.GetPier(pier_name)
         if ret == 0:
@@ -94,13 +89,12 @@ class PierLabel:
     
     
     def get_section_properties(self, pier_name : str) -> SectionProperties:
-        """_summary_
+        """Retrieves the section properties for a specified pier.
 
-        Args:
-            pier_name (str): pier name for which to retrieve section properties
-
-        Returns:
-            SectionProperties: TypedDictionary SectionProperties of pier section properties
+        :param pier_name: Pier name for which to retrieve section properties
+        :type pier_name: str
+        :return: section properties of requested Pier
+        :rtype: SectionProperties
         """
         number_stories = int()
         story_name = [str()]
@@ -148,9 +142,9 @@ class PierLabel:
     
     
     def set_pier(self, pier_name : str) -> None:
-        """Adds a new Pier Label 
+        """Adds a new Pier Label. 
 
-        Args:
-            pier_name (str): name of new pier label
+        :param pier_name: name of new pier label
+        :type pier_name: str
         """
         handle(self.pier_label.SetPier(pier_name))

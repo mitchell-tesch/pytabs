@@ -3,7 +3,7 @@
 __all__ = ['RespCombo']
 
 # import pyTABS error handler
-from pytabs.error_handle import *
+from pytabs.error_handle import handle
 # import ETABS API .dll
 from ETABSv1 import *
 
@@ -11,11 +11,6 @@ from ETABSv1 import *
 class RespCombo:
     """Combo interface"""
     def __init__(self, sap_model : cSapModel) -> None:
-        """substantiates the cCombo interface
-
-        Args:
-            sap_model (cSapModel): SapModel from EtabsModel
-        """
         # link of SapModel interface
         self.sap_model = sap_model
         # create RespCombo interface
@@ -23,13 +18,13 @@ class RespCombo:
 
 
     def get_name_list(self) -> list[str]:
-        """Retrieves the names of all defined response combinations. 
+        """Retrieves the names of all defined response combinations.
 
-        Returns:
-            list[str]: List of combination names.
+        :return: list of combination names
+        :rtype: list[str]
         """
-        number_names = 0
-        combo_names = ['']
+        number_names = int()
+        combo_names = [str()]
         [ret, number_names, combo_names] = self.resp_combo.GetNameList(number_names, combo_names)
         handle(ret)
         return list(combo_names)
