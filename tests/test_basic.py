@@ -1,10 +1,11 @@
 from context import pytabs
 
+import pytabs.model
 
 
 
 # substantiate pyTABS EtabsModel
-etabs_model = pytabs.EtabsModel()
+etabs_model = pytabs.model.EtabsModel()
 # set the model units to 
 etabs_model.set_present_units(etabs_model.eUnits.kN_m_C)
 

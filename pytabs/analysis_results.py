@@ -2,10 +2,9 @@
 # AnalysisResults - cAnalysisResults interface 
 __all__ = ['AnalysisResults']
 
-# import pyTABS error handler
+# import etabs namespace and error handler
+from pytabs.etabs import *
 from pytabs.error_handle import *
-# import ETABS API .dll
-from ETABSv1 import *
 
 # import typing
 from typing import TypedDict

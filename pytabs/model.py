@@ -3,25 +3,11 @@
 __all__ = ['EtabsModel']
 
 # general library imports
-import clr # pythonnet clr-loader
-from pathlib import Path
-from typing import Union, TypedDict
-
-
-# pythonnet clr-loader import of Marshal - ETABS API requirement
-clr.AddReference("System.Runtime.InteropServices")
-from System.Runtime.InteropServices import Marshal
-
-# import pyTABS error handler and default settings
+from pytabs.etabs import *
 from pytabs.error_handle import handle, EtabsError
-from pytabs.settings import ETABS_DIR, ETABS_API_DLL, ETABS_EXE
-default_etabs_api_path = Path(ETABS_DIR) / ETABS_API_DLL
-default_etabs_exe_path = Path(ETABS_DIR) / ETABS_EXE
 
-# pythonnet clr-loader import of ETABS API .dll
-# clr.AddReference(str(default_etabs_api_path))
-clr.AddReference('./ETABSv1.dll')
-from ETABSv1 import *
+# import typing
+from typing import Union, TypedDict
 
 # import of ETABS API interface wrappers
 from pytabs.pier_label import PierLabel

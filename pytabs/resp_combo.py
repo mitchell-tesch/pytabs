@@ -2,10 +2,9 @@
 # RespCombo - cCombo interface 
 __all__ = ['RespCombo']
 
-# import pyTABS error handler
-from pytabs.error_handle import handle
-# import ETABS API .dll
-from ETABSv1 import *
+# import etabs namespace and error handler
+from pytabs.etabs import *
+from pytabs.error_handle import *
 
 
 class RespCombo:
