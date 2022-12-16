@@ -38,7 +38,10 @@ class UnitsComponents(TypedDict):
 
 
 class EtabsModel():
-    """pytabs ETABS Model Object (EtabsObject)
+    """pytabs ETABS Model Object `EtabsObject` 🏢. 
+    
+    All interfaces and enumerations to the Etabs model objects are accessed as properties - refer below.
+    
     """
     def __init__(self,
                  attach_to_instance : bool = True,
@@ -47,13 +50,37 @@ class EtabsModel():
                  model_path : Union[str, Path] = '',
                  remote_computer : str = '') -> None:
         
+        # relate ETABS interfaces
+        self.pier_label : PierLabel
+        """EtabsModel `PierLabel` interface."""
+        self.analysis_results : AnalysisResults
+        """EtabsModel `AnalysisResults` interface."""
+        self.load_cases : LoadCases
+        """EtabsModel `LoadCases` interface."""
+        self.resp_combo : RespCombo
+        """EtabsModel `RespCombo` interface."""
+        self.story : Story
+        """EtabsModel `Story` interface."""
+        
+        # relate ETABS fixed enumerations
+        self.eUnits = eUnits
+        """EtabsModel `Units` enumeration."""
+        self.eForce = eForce
+        """EtabsModel `Force` enumeration."""
+        self.eLength = eLength
+        """EtabsModel `Length` enumeration."""
+        self.eTemperature = eTemperature
+        """EtabsModel `Temperature` enumeration."""
+        self.eLoadCaseType = eLoadCaseType
+        """EtabsModel `LoadCaseType` enumeration"""
+        
         # EtabsModel initial properties
         self.active : bool = False
-        """True if EtabsModel is active, otherwise False."""
+        """`True` if EtabsModel is active, otherwise `False`."""
         self.model_open : bool = False
-        """True if model open, otherwise False."""
+        """`True` if model open, otherwise `False`."""
         self.model_path : Union[str, Path] = ''
-        """EtabsModel filepath."""
+        """Etabs model filepath."""
         
         # create ETABS API helper interface and try to initialise EtabsObject
         helper = cHelper(Helper())
@@ -96,33 +123,16 @@ class EtabsModel():
         if self.active:
             # create SapModel interface
             self.sap_model = cSapModel(self.etabs_object.SapModel)
-            """EtabsModel SapModel interface."""
+            """EtabsModel `SapModel` interface."""
             # create File interface
             self.file = cFile(self.sap_model.File)
             
             # relate external pyTABS interfaces
             self.pier_label = PierLabel(self.sap_model)
-            """EtabsModel PierLabel interface."""
             self.analysis_results = AnalysisResults(self.sap_model)
-            """EtabsModel AnalysisResults interface."""
             self.load_cases = LoadCases(self.sap_model)
-            """EtabsModel LoadCases interface."""
             self.resp_combo = RespCombo(self.sap_model)
-            """EtabsModel RespCombo interface."""
             self.story = Story(self.sap_model)
-            """EtabsModel Story interface."""
-            
-            # relate ETABS fixed enumerations
-            self.eLoadCaseType = eLoadCaseType
-            """EtabsModel LoadCaseType enumeration"""
-            self.eUnits = eUnits
-            """EtabsModel Units enumeration."""
-            self.eForce = eForce
-            """EtabsModel Force enumeration."""
-            self.eLength = eLength
-            """EtabsModel Length enumeration."""
-            self.eTemperature = eTemperature
-            """EtabsModel Temperature enumeration."""
             
             # if not attached to instance and model path supplied open model
             if (not attach_to_instance) and model_path:

@@ -1,4 +1,25 @@
-# pyTABS
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/mitchell-tesch/pytabs">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">pyTABS</h3>
+
+  <p align="center">
+    A python wrapper for CSi ETABS .NET API
+    <br />
+    <a href="temp"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/mitchell-tesch/pytabs/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/mitchell-tesch/pytabs/issues">Request Feature</a>
+  </p>
+</div>
+
+
 ## Description
 A Python wrapper for CSi ETABS .NET API - a simple yet robust Python interface to the ETABS .NET API. Not affiliated with Computer and Structures Inc.
 

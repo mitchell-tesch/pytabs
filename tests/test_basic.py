@@ -15,8 +15,8 @@ for story in story_list:
     elevation = etabs_model.story.get_elevation(story_name=story)
     height = etabs_model.story.get_height(story_name=story)
     status = etabs_model.story.get_master_story(story_name=story)
-    is_master, similar_story = etabs_model.story.get_similar_to(story_name=story)
+    similar_story = etabs_model.story.get_similar_to(story_name=story)
     
-    print(f"{story} | {height} | {elevation} |  {status} | {is_master} | {similar_story}")
+    print(f"{story} | {height} | {elevation} |  {status} | {similar_story}")
     
     

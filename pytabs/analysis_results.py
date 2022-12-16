@@ -48,7 +48,7 @@ class AnalysisResults:
 
         :param case_name: name of an existing load case
         :type case_name: str
-        :return: True if the Case selected for output, False otherwise
+        :return: `True` if the Case selected for output, `False` otherwise
         :rtype: bool
         """
         [ret, selected] = self.analysis_results_setup.GetCaseSelectedForOutput(case_name)
@@ -61,7 +61,7 @@ class AnalysisResults:
 
         :param combo_name: name of an existing combination
         :type combo_name: str
-        :return: True if the Combination selected for output, False otherwise
+        :return: `True` if the Combination selected for output, `False` otherwise
         :rtype: bool
         """
         [ret, selected] = self.analysis_results_setup.GetComboSelectedForOutput(combo_name)
@@ -74,7 +74,7 @@ class AnalysisResults:
 
         :param case_name: name of existing load case
         :type case_name: str
-        :param select_state: select case for output, defaults to True
+        :param select_state: select case for output, defaults to `True`
         :type select_state: bool, optional
         """
         handle(self.analysis_results_setup.SetCaseSelectedForOutput(case_name, select_state))
@@ -85,7 +85,7 @@ class AnalysisResults:
 
         :param combo_name: name of the existing combination
         :type combo_name: str
-        :param select_state: select combination for output defaults to True
+        :param select_state: select combination for output defaults to `True`
         :type select_state: bool, optional
         """
         handle(self.analysis_results_setup.SetComboSelectedForOutput(combo_name, select_state))
