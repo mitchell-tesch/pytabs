@@ -28,7 +28,7 @@ jobs:
       - run: pip install pdoc
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: pdoc pytabs -o ./docs  --logo "images/logo.png"
+      - run: pdoc -o docs/ pytabs --logo "/images/logo.png"
 
       - uses: actions/upload-pages-artifact@v1
         with:
