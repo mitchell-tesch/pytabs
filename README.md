@@ -10,7 +10,7 @@
   <p align="center">
     A python wrapper for CSi ETABS .NET API
     <br />
-    <a href="temp"><strong>Explore the docs »</strong></a>
+    <a href="https://mitchell-tesch.github.io/pytabs/pytabs.html"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/mitchell-tesch/pytabs/issues">Report Bug</a>
@@ -34,10 +34,11 @@ $ pip install pytabs
 ## Requirements
  - Python 3.8+
  - pythonnet
+ - pdoc
 
 
 ## Usage
-Documentation is currently work in progress.
+🗒️Documentation can be found at https://mitchell-tesch.github.io/pytabs/pytabs.html
 
 _For examples, please refer to the [examples](./examples/)._
 
@@ -53,6 +54,6 @@ IntelliSense of the ETABSv1 namespace (ETABSv1.dll) can be achieved via the incl
 
 To make use of this stub file in VS Code add the following to your settings.json:
 ```json
-    "python.autoComplete.extraPaths": ["<path_to_stub.min>"],
-    "python.analysis.extraPaths": ["<path_to_stub.min>"]
+    "python.autoComplete.extraPaths": ["<path_to_stub_directory>"],
+    "python.analysis.extraPaths": ["<path_to_stub_directory>"]
 ```

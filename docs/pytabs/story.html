@@ -22,7 +22,6 @@
   <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
 </svg>                &nbsp;pytabs</a>
 
-            <img src="images/logo.png" class="logo" alt="project logo"/>
 
             <input type="search" placeholder="Search..." role="searchbox" aria-label="search"
                    pattern=".+" required>
@@ -83,10 +82,10 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># Story - cStory interface </span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Story&#39;</span><span class="p">]</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># import pyTABS error handler</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span> <span class="nn">pytabs.error_handle</span> <span class="kn">import</span> <span class="n">handle</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="c1"># import ETABS API .dll</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">from</span> <span class="nn">ETABSv1</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># import etabs namespace and error handler</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span> <span class="nn">pytabs.etabs</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="kn">from</span> <span class="nn">pytabs.error_handle</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="c1"># import typing</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
