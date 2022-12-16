@@ -1,5 +1,5 @@
 """
 .. include:: ../README.md
 """
-# from pytabs.model import EtabsModel
 
+import pytabs.model
