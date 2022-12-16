@@ -19,7 +19,7 @@ default_etabs_api_path = Path(ETABS_DIR) / ETABS_API_DLL
 default_etabs_exe_path = Path(ETABS_DIR) / ETABS_EXE
 
 # pythonnet clr-loader import of ETABS API .dll
-clr.AddReference(str(default_etabs_api_path))
+# clr.AddReference(str(default_etabs_api_path))
 from ETABSv1 import *
 
 # import of ETABS API interface wrappers
