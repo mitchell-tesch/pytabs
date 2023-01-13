@@ -15,9 +15,9 @@ from pytabs.analysis_results import AnalysisResults
 from pytabs.load_cases import LoadCases
 from pytabs.resp_combo import RespCombo
 from pytabs.story import Story
-from pytabs.frame import Frame
 from pytabs.group import Group
-from pytabs.area import Area
+from pytabs.frame_obj import FrameObj
+from pytabs.area_obj import AreaObj
 
 
 class UnitsComponents(TypedDict):
@@ -51,12 +51,13 @@ class EtabsModel():
         """EtabsModel `RespCombo` interface."""
         self.story : Story
         """EtabsModel `Story` interface."""
-        self.frame : Frame
-        """EtabsModel `Frame` interface."""
         self.group : Group
         """EtabsModel `Group` interface."""
-        self.area : Area
-        """EtabsModel `Group` interface.""" 
+        self.frame_obj : FrameObj
+        """EtabsModel `FrameObj` interface."""
+        self.area_obj : AreaObj
+        """EtabsModel `AreaObj` interface."""
+        
         # relate ETABS fixed enumerations
         self.eUnits = eUnits
         """EtabsModel `Units` enumeration."""
@@ -66,9 +67,9 @@ class EtabsModel():
         """EtabsModel `Length` enumeration."""
         self.eTemperature = eTemperature
         """EtabsModel `Temperature` enumeration."""
-        self.eLoadCaseType = eLoadCaseType
-        """EtabsModel `LoadCaseType` enumeration"""
         self.eItemType = eItemType
+        """EtabsModel `ItemType` enumeration"""
+        self.eLoadCaseType = eLoadCaseType
         """EtabsModel `LoadCaseType` enumeration"""
         
         # EtabsModel initial properties
