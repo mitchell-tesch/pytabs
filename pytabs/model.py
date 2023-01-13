@@ -15,6 +15,9 @@ from pytabs.analysis_results import AnalysisResults
 from pytabs.load_cases import LoadCases
 from pytabs.resp_combo import RespCombo
 from pytabs.story import Story
+from pytabs.group import Group
+from pytabs.frame_obj import FrameObj
+from pytabs.area_obj import AreaObj
 
 
 class UnitsComponents(TypedDict):
@@ -48,6 +51,12 @@ class EtabsModel():
         """EtabsModel `RespCombo` interface."""
         self.story : Story
         """EtabsModel `Story` interface."""
+        self.group : Group
+        """EtabsModel `Group` interface."""
+        self.frame_obj : FrameObj
+        """EtabsModel `FrameObj` interface."""
+        self.area_obj : AreaObj
+        """EtabsModel `AreaObj` interface."""
         
         # relate ETABS fixed enumerations
         self.eUnits = eUnits
@@ -58,6 +67,8 @@ class EtabsModel():
         """EtabsModel `Length` enumeration."""
         self.eTemperature = eTemperature
         """EtabsModel `Temperature` enumeration."""
+        self.eItemType = eItemType
+        """EtabsModel `ItemType` enumeration"""
         self.eLoadCaseType = eLoadCaseType
         """EtabsModel `LoadCaseType` enumeration"""
         
@@ -120,6 +131,10 @@ class EtabsModel():
             self.load_cases = LoadCases(self.sap_model)
             self.resp_combo = RespCombo(self.sap_model)
             self.story = Story(self.sap_model)
+            self.frame = Frame(self.sap_model)
+            self.group = Group(self.sap_model)
+            self.area = Area(self.sap_model)
+
             
             # if not attached to instance and model path supplied open model
             if (not attach_to_instance) and model_path:
