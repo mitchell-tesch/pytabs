@@ -7,7 +7,13 @@ from pytabs.etabs import *
 from pytabs.error_handle import *
 
 # import typing
+from typing import TypedDict
 
+class FrameObjectLabelData(TypedDict):
+    """TypedDict class for Frame object label data return"""
+    frame_name : str
+    frame_label : str
+    frame_story : str
 
 class FrameObj:
     """FrameObj interface"""
@@ -46,3 +52,19 @@ class FrameObj:
         :type item_type: eItemType, optional
         """
         handle(self.frame_obj.SetGroupAssign(name, group_name, remove, item_type))
+
+    def get_label_from_name(self, frame_name : str) -> FrameObjectLabelData:
+        """Retrieves the label and story for a unique frame object name.
+
+        :param frame_name: name of the frame object
+        :type frame_name: str
+        :return: label and story of frame object name
+        :rtype: `FrameObjectLabelData`
+        """
+        frame_label = str()
+        frame_story = str()
+        [ret, frame_label, frame_story] = self.frame_obj.GetLabelFromName(frame_name, frame_label, frame_story)
+        handle(ret)
+        return {'frame_name': frame_name,
+                'frame_label': frame_label,
+                'frame_story': frame_story}
