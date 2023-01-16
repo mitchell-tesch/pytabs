@@ -131,9 +131,9 @@ class EtabsModel():
             self.load_cases = LoadCases(self.sap_model)
             self.resp_combo = RespCombo(self.sap_model)
             self.story = Story(self.sap_model)
-            self.frame = FrameObj(self.sap_model)
+            self.frame_obj = FrameObj(self.sap_model)
             self.group = Group(self.sap_model)
-            self.area = AreaObj(self.sap_model)
+            self.area_obj = AreaObj(self.sap_model)
 
             
             # if not attached to instance and model path supplied open model
