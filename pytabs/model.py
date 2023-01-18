@@ -12,6 +12,7 @@ from typing import Union, TypedDict
 # import of ETABS API interface wrappers
 from pytabs.pier_label import PierLabel
 from pytabs.analysis_results import AnalysisResults
+from pytabs.load_patterns import LoadPatterns
 from pytabs.load_cases import LoadCases
 from pytabs.resp_combo import RespCombo
 from pytabs.story import Story
@@ -45,6 +46,8 @@ class EtabsModel():
         """EtabsModel `PierLabel` interface."""
         self.analysis_results : AnalysisResults
         """EtabsModel `AnalysisResults` interface."""
+        self.load_patterns : LoadPatterns
+        """EtabsModel `LoadPatterns` interface."""
         self.load_cases : LoadCases
         """EtabsModel `LoadCases` interface."""
         self.resp_combo : RespCombo
@@ -71,6 +74,8 @@ class EtabsModel():
         """EtabsModel `ItemType` enumeration"""
         self.eLoadCaseType = eLoadCaseType
         """EtabsModel `LoadCaseType` enumeration"""
+        self.eLoadPatternType = eLoadPatternType
+        """EtabsModel `LoadPatternType` enumeration"""
         
         # EtabsModel initial properties
         self.active : bool = False
@@ -128,14 +133,14 @@ class EtabsModel():
             # relate external pyTABS interfaces
             self.pier_label = PierLabel(self.sap_model)
             self.analysis_results = AnalysisResults(self.sap_model)
+            self.load_patterns = LoadPatterns(self.sap_model)
             self.load_cases = LoadCases(self.sap_model)
             self.resp_combo = RespCombo(self.sap_model)
             self.story = Story(self.sap_model)
-            self.frame = Frame(self.sap_model)
+            self.frame_obj = FrameObj(self.sap_model)
             self.group = Group(self.sap_model)
-            self.area = Area(self.sap_model)
+            self.area_obj = AreaObj(self.sap_model)
 
-            
             # if not attached to instance and model path supplied open model
             if (not attach_to_instance) and model_path:
                 self.open_model(model_path)

@@ -10,7 +10,7 @@ from pytabs.error_handle import *
 from typing import TypedDict
 
 
-class SectionProperties(TypedDict):
+class PierSectionProperties(TypedDict):
     """TypedDict class for Pier section properties return"""
     pier_name : str
     number_stories : int
@@ -87,13 +87,13 @@ class PierLabel:
         return False
     
     
-    def get_section_properties(self, pier_name : str) -> SectionProperties:
+    def get_section_properties(self, pier_name : str) -> PierSectionProperties:
         """Retrieves the section properties for a specified pier.
 
         :param pier_name: Pier name for which to retrieve section properties
         :type pier_name: str
         :return: section properties of requested Pier
-        :rtype: SectionProperties
+        :rtype: PierSectionProperties
         """
         number_stories = int()
         story_name = [str()]
