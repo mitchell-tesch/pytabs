@@ -3,7 +3,10 @@
 VERSION = '221204'
 
 # Development Environment Configuration 
-# Location of workbook for mock caller
+# (for those working directly from the pytabs repo)
+# import of context files to find pytabs package
+from context import pytabs
+# location of workbook for mock caller
 WB_FN = './examples/pyTABS_PierForceExtractor.xlsm'
 
 # Library imports
