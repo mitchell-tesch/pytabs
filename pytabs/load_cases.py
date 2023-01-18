@@ -5,7 +5,13 @@ __all__ = ['LoadCases']
 # import etabs namespace and error handler
 from pytabs.etabs import *
 from pytabs.error_handle import *
+
+# import of interfaces of load case types
+from pytabs.case_static_nonlinear import *
 from pytabs.case_static_nonlinear_staged import *
+
+# import custom enumerations
+from pytabs.enumerations import eGeometryNonlinearityTypes
 
 # import typing
 from typing import Union
@@ -29,8 +35,13 @@ class LoadCases:
         self.sap_model = sap_model
         # create LoadCases interface
         self.load_cases = cLoadCases(sap_model.LoadCases)
+        # create interface for static nonlinear load cases
+        self.static_nonlinear = CaseStaticNonlinear(sap_model)
         # create interface for static nonlinear staged load cases
         self.static_nonlinear_staged = CaseStaticNonlinearStaged(sap_model)
+        
+        # relate custom enumerations
+        self.eGeometryNonlinearityTypes = eGeometryNonlinearityTypes
 
 
     def change_name(self, case_name : str, new_case_name :str) -> None:

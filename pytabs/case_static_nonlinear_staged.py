@@ -17,9 +17,9 @@ class CaseStaticNonlinearStaged:
     
     
     def set_case(self, name : str) -> None:
-        """Sets and existing load case to type Static Nonlinear Staged.
+        """Initializes a static nonlinear staged load case.
 
-        :param name: name of new load case
+        :param name:  name of an existing or new load case
         :type name: str
         """
         handle(self.static_nonlinear_staged.SetCase(name))

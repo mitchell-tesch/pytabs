@@ -6,10 +6,6 @@ __all__ = ['LoadPatterns']
 from pytabs.etabs import *
 from pytabs.error_handle import *
 
-# import typing
-from typing import Union
-from typing import TypedDict
-
 
 class LoadPatterns:
     """LoadPatterns interface"""
@@ -109,7 +105,7 @@ class LoadPatterns:
 
         :param load_pattern_name: name of an existing load pattern
         :type load_pattern_name: str
-        :param self_weight_multiplier: self weight multiplier for the specified load pattern. 
+        :param self_weight_multiplier: self weight multiplier for the specified load pattern 
         :type self_weight_multiplier: float
         """
         handle(self.load_patterns.SetSelfWTMultiplier(load_pattern_name, self_weight_multiplier))
