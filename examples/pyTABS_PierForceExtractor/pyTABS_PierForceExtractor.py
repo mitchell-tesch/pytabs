@@ -1,13 +1,15 @@
-# pyTABS Pier Force Extractor
+# pyTABS Example: Pier Force Extractor
 # Mitchell Tesch
 VERSION = '221204'
 
-# Development Environment Configuration 
-# (for those working directly from the pytabs repo)
-# import of context files to find pytabs package
+# Development Environment Configuration
+# required for those working within the development repository
+import sys, os
+# import of pytabs package via examples context
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from context import pytabs
-# location of workbook for mock caller
-WB_FN = './examples/pyTABS_PierForceExtractor.xlsm'
+# workbook mock caller
+WB_FN = os.path.join(os.path.dirname(__file__), 'pyTABS_PierForceExtractor.xlsm')
 
 # Library imports
 import xlwings as xw
