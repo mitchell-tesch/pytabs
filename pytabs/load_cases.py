@@ -7,11 +7,9 @@ from pytabs.etabs import *
 from pytabs.error_handle import *
 
 # import of interfaces of load case types
+from pytabs.case_static_linear import *
 from pytabs.case_static_nonlinear import *
 from pytabs.case_static_nonlinear_staged import *
-
-# import custom enumerations
-from pytabs.enumerations import eGeometryNonlinearityTypes
 
 # import typing
 from typing import Union
@@ -36,12 +34,11 @@ class LoadCases:
         # create LoadCases interface
         self.load_cases = cLoadCases(sap_model.LoadCases)
         # create interface for static nonlinear load cases
+        self.static_linear = CaseStaticLinear(sap_model)
+        # create interface for static nonlinear load cases
         self.static_nonlinear = CaseStaticNonlinear(sap_model)
         # create interface for static nonlinear staged load cases
         self.static_nonlinear_staged = CaseStaticNonlinearStaged(sap_model)
-        
-        # relate custom enumerations
-        self.eGeometryNonlinearityTypes = eGeometryNonlinearityTypes
 
 
     def change_name(self, case_name : str, new_case_name :str) -> None:
@@ -101,7 +98,7 @@ class LoadCases:
 
         :param case_name: name of existing load case
         :type case_name: str
-        :return: load case type, sub type and 
+        :return: load case type details
         :rtype: LoadCaseType
         """
         case_type = eLoadCaseType.Buckling
@@ -140,13 +137,6 @@ class LoadCases:
 
     def __determine_sub_type(self, case_type : eLoadCaseType, sub_type : int) -> Union[None, str]:
         """Private method to determine string of load case sub type.
-
-        :param case_type: load case type
-        :type case_type: eLoadCaseType
-        :param sub_type: load case sub type integer
-        :type sub_type: int
-        :return: load case sub type description, if applicable
-        :rtype: Union[None, str]
         """
         if int(case_type) in [int(eLoadCaseType.NonlinearStatic), int(eLoadCaseType.Modal), int(eLoadCaseType.LinearHistory)]:
             if int(case_type) == int(eLoadCaseType.NonlinearStatic):
