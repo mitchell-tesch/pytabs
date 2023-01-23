@@ -137,18 +137,17 @@ class CaseStaticNonlinearStaged:
         operation_types = [operation_type.value for operation_type in operation_types]
         object_types = [object_type.value for object_type in object_types]
         my_types = [my_type.value for my_type in my_types]
-        [ret, ret_operation_types,
-         ret_object_types, ret_object_names,
-         ages, my_types, my_names, scaling_factors] = self.static_nonlinear_staged.SetStageData_2(name,
-                                                                                                  stage,
-                                                                                                  number_operations,
-                                                                                                  operation_types,
-                                                                                                  object_types,
-                                                                                                  object_names,
-                                                                                                  ages,
-                                                                                                  my_types,
-                                                                                                  my_names,
-                                                                                                  scaling_factors)
+        [ret, ret_operation_types, ret_object_types,
+         ret_object_names, ages, my_types, my_names, scaling_factors] = self.static_nonlinear_staged.SetStageData_2(name,
+                                                                                                                    stage,
+                                                                                                                    number_operations,
+                                                                                                                    operation_types,
+                                                                                                                    object_types,
+                                                                                                                    object_names,
+                                                                                                                    ages,
+                                                                                                                    my_types,
+                                                                                                                    my_names,
+                                                                                                                    scaling_factors)
         handle(ret)
 
 
@@ -172,10 +171,14 @@ class CaseStaticNonlinearStaged:
         :param comments: user comment for each stage, may be a blank string
         :type comments: list[str]
         """
-        [ret, ret_durations, ret_output_statuses,
-         ret_output_names, comments] = self.static_nonlinear_staged.SetStageDefinitions_2(name, number_stages,
-                                                                                          durations, output_statuses,
-                                                                                          output_names, comments)
+        self.__verify_stage_definitions(number_stages, durations, output_statuses, output_names, comments)
+        [ret, ret_durations,
+         ret_output_statuses, ret_output_names, comments] = self.static_nonlinear_staged.SetStageDefinitions_2(name,
+                                                                                                               number_stages,
+                                                                                                               durations,
+                                                                                                               output_statuses,
+                                                                                                               output_names,
+                                                                                                               comments)
         handle(ret)
 
 
@@ -188,7 +191,33 @@ class CaseStaticNonlinearStaged:
         input_lists = [operation_types, object_types, object_names, ages, my_types, my_names, scaling_factors]
         if any(len(input_list) != number_operations for input_list in input_lists):
             raise ValueError('length of all input lists must must be equal to input number_operations')
-        # TODO add detailed validation of operation requirements
+        for _o, operation in enumerate(operation_types):
+            # verify object type assignment for operation
+            object_type = object_types[_o]
+            if operation in [eStageOperationType.CHANGE_PROPERTY, eStageOperationType.CHANGE_PROPERTY_MODIFIERS, eStageOperationType.CHANGE_PROPERTY_AGE]:
+                if object_type is eStageObjectType.POINT:
+                    raise ValueError(f'a change property operation can not be applied to a point object - check operation at index {_o+1}')
+                elif (operation is eStageOperationType.CHANGE_PROPERTY_MODIFIERS) and (object_type not in [eStageObjectType.GROUP, eStageObjectType.FRAME,
+                                                                                                           eStageObjectType.CABLE, eStageObjectType.AREA]):
+                    raise ValueError(f'the change property modifiers operation can only be used with group, frame, cable and area objects - check operation at index {_o+1}')
+            elif (operation is eStageOperationType.CHANGE_RELEASES) and (object_type not in [eStageObjectType.GROUP, eStageObjectType.FRAME]):
+                raise ValueError(f'the change releases operation can only be used with group and frame objects - check operation at index {_o+1}')
+            # verify my_type assignments for operation
+            my_type = my_types[_o]
+            my_name = my_names[_o]
+            if operation in [eStageOperationType.LOAD_NEW, eStageOperationType.LOAD_ALL]:
+                if my_type not in [eStageMyType.LOAD, eStageMyType.ACCELERATION]:
+                    raise ValueError(f'my_type must be load or acceleration for the a load operation (new and all) - check operation at index {_o+1}')
+                elif (my_type is eStageMyType.ACCELERATION) and (my_name not in ['UX', 'UY', 'UZ', 'RX', 'RY', 'RZ']):
+                    raise ValueError(f'where load type is acceleration, my name must be UX, UY, UZ, RX, RY or RZ, indicating the direction - check operation at index {_o+1}')
+            elif operation not in [eStageOperationType.ADD_STRUCTURE, eStageOperationType.REMOVE_STRUCTURE]:
+                if object_type is eStageObjectType.GROUP:
+                    if (operation in [eStageOperationType.CHANGE_PROPERTY, eStageOperationType.CHANGE_PROPERTY_AGE]) and (my_type in [eStageMyType.LOAD, eStageMyType.ACCELERATION]):
+                        raise ValueError(f'my_type must be frame, cable, tendon, area, solid or link for a change section property operation (w/wo age) applied to a group - check operation at index {_o+1}')
+                    elif (operation is eStageOperationType.CHANGE_PROPERTY_MODIFIERS) and (my_type not in [eStageMyType.FRAME, eStageMyType.CABLE, eStageMyType.AREA]):
+                        raise ValueError(f'my_type must be frame, cable, or area for a change section property modifiers operation applied to a group - check operation at index {_o+1}')
+                    elif (operation is eStageOperationType.CHANGE_RELEASES) and (my_type is not eStageMyType.FRAME):
+                        raise ValueError(f'my_type must be frame for a change releases operation applied to a group - check operation at index {_o+1}')
 
 
     def __verify_stage_definitions(self, number_stages : int, durations : list[float], output_statuses : list[bool],
