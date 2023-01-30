@@ -137,17 +137,11 @@ class CaseStaticNonlinearStaged:
         operation_types = [operation_type.value for operation_type in operation_types]
         object_types = [object_type.value for object_type in object_types]
         my_types = [my_type.value for my_type in my_types]
-        [ret, ret_operation_types, ret_object_types,
-         ret_object_names, ages, my_types, my_names, scaling_factors] = self.static_nonlinear_staged.SetStageData_2(name,
-                                                                                                                    stage,
-                                                                                                                    number_operations,
-                                                                                                                    operation_types,
-                                                                                                                    object_types,
-                                                                                                                    object_names,
-                                                                                                                    ages,
-                                                                                                                    my_types,
-                                                                                                                    my_names,
-                                                                                                                    scaling_factors)
+        [ret, ret_operation_types, ret_object_types, ret_object_names,
+         ret_ages, ret_my_types, ret_my_names, ret_scaling_factors] = self.static_nonlinear_staged.SetStageData_2(name, stage, number_operations,
+                                                                                                                  operation_types, object_types,
+                                                                                                                  object_names, ages, my_types,
+                                                                                                                  my_names, scaling_factors)
         handle(ret)
 
 
@@ -172,13 +166,9 @@ class CaseStaticNonlinearStaged:
         :type comments: list[str]
         """
         self.__verify_stage_definitions(number_stages, durations, output_statuses, output_names, comments)
-        [ret, ret_durations,
-         ret_output_statuses, ret_output_names, comments] = self.static_nonlinear_staged.SetStageDefinitions_2(name,
-                                                                                                               number_stages,
-                                                                                                               durations,
-                                                                                                               output_statuses,
-                                                                                                               output_names,
-                                                                                                               comments)
+        [ret, ret_durations, ret_output_statuses, 
+         ret_output_names, ret_comments] = self.static_nonlinear_staged.SetStageDefinitions_2(name, number_stages, durations,
+                                                                                              output_statuses, output_names, comments)
         handle(ret)
 
 
