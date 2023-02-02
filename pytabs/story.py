@@ -2,8 +2,8 @@
 # Story - cStory interface 
 __all__ = ['Story']
 
-# import etabs namespace and error handler
-from pytabs.etabs import *
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import typing
@@ -265,4 +265,4 @@ class Story:
          ret_splice_above, ret_splice_height, ret_colour] = self.story.SetStories_2(base_elevation, number_stories, story_names,
                                                                                     story_heights, is_master_story, similar_to_story,
                                                                                     splice_above, splice_height, colour)
-         handle(ret)
+        handle(ret)
