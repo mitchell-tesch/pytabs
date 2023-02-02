@@ -2,9 +2,11 @@
 # ErrorHandling - for pyTABS exceptions
 __all__ = ['handle']
 
+
 class Error(Exception):
     """Error base class for non-exit exceptions"""
     pass
+
 
 class EtabsError(Error):
     """General ETABS API Error Class"""

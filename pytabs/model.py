@@ -3,7 +3,10 @@
 __all__ = ['EtabsModel']
 
 # general library imports
-from pytabs.etabs import *
+from pathlib import Path
+
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import handle, EtabsError
 
 # import typing
@@ -36,8 +39,8 @@ class EtabsModel():
     """
     def __init__(self,
                  attach_to_instance : bool = True,
-                 specific_etabs : bool = True,
-                 specific_etabs_path : Union[str, Path] = default_etabs_exe_path,
+                 specific_etabs : bool = False,
+                 specific_etabs_path : Union[str, Path] = '',
                  model_path : Union[str, Path] = '',
                  remote_computer : str = '') -> None:
         
@@ -78,6 +81,8 @@ class EtabsModel():
         """EtabsModel `LoadPatternType` enumeration"""
         
         # EtabsModel initial properties
+        self.pytabs_config = pytabs_config
+        """pyTABS config file (pytabs_config.ini)"""
         self.active : bool = False
         """`True` if EtabsModel is active, otherwise `False`."""
         self.model_open : bool = False
@@ -88,9 +93,9 @@ class EtabsModel():
         # create ETABS API helper interface and try to initialise EtabsObject
         helper = cHelper(Helper())
         if attach_to_instance:
-            #attach to a running instance of ETABS
+            # attach to a running instance of ETABS
             try:
-                #get the active ETABS object        
+                # get the active ETABS object        
                 if remote_computer:
                     self.etabs_object = cOAPI(helper.GetObjectHost(remote_computer, "CSI.ETABS.API.ETABSObject"))
                 else:
@@ -101,7 +106,7 @@ class EtabsModel():
         else:
             if specific_etabs:
                 try:
-                    #'create an instance of the ETABS object from the specified path
+                    # create an instance of the ETABS object from the specified path
                     if remote_computer:
                         self.etabs_object = cOAPI(helper.CreateObjectHost(remote_computer, str(specific_etabs_path)))
                     else:
@@ -111,7 +116,7 @@ class EtabsModel():
                     raise EtabsError(-1, f"Cannot start a new instance of the ETABS from {str(specific_etabs_path)}")
             else:
                 try: 
-                    #create an instance of the ETABS object from the latest installed ETABS
+                    # create an instance of the ETABS object from the latest installed ETABS
                     if remote_computer:
                         self.etabs_object = cOAPI(helper.CreateObjectProgIDHost(remote_computer, "CSI.ETABS.API.ETABSObject"))
                     else:
