@@ -82,15 +82,15 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a><span class="c1"># PierLabel - cPierLabel interface </span>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PierLabel&#39;</span><span class="p">]</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># import etabs namespace and error handler</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span> <span class="nn">pytabs.etabs</span> <span class="kn">import</span> <span class="o">*</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="c1"># import ETABS namespace and pyTABS error handler</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span> <span class="nn">pytabs.etabs_config</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="kn">from</span> <span class="nn">pytabs.error_handle</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a>
 </span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="c1"># import typing</span>
 </span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="k">class</span> <span class="nc">SectionProperties</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="k">class</span> <span class="nc">PierSectionProperties</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>    <span class="sd">&quot;&quot;&quot;TypedDict class for Pier section properties return&quot;&quot;&quot;</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a>    <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>    <span class="n">number_stories</span> <span class="p">:</span> <span class="nb">int</span>
@@ -113,11 +113,11 @@
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="k">class</span> <span class="nc">PierLabel</span><span class="p">:</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>    <span class="sd">&quot;&quot;&quot;PierLabel interface&quot;&quot;&quot;</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="c1"># link of SapModel interface</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="c1"># create PierLabel interface</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">cPierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">PierLabel</span><span class="p">)</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cPierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">PierLabel</span><span class="p">)</span>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>
 </span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>    <span class="k">def</span> <span class="nf">change_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -167,13 +167,13 @@
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>        <span class="k">return</span> <span class="kc">False</span>
 </span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SectionProperties</span><span class="p">:</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PierSectionProperties</span><span class="p">:</span>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves the section properties for a specified pier.</span>
 </span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>
 </span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">        :param pier_name: Pier name for which to retrieve section properties</span>
 </span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">        :type pier_name: str</span>
 </span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">        :return: section properties of requested Pier</span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">        :rtype: SectionProperties</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">        :rtype: PierSectionProperties</span>
 </span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>        <span class="n">number_stories</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
 </span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a>        <span class="n">story_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
@@ -244,11 +244,11 @@
     <a class="headerlink" href="#PierLabel"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="PierLabel-35"><a href="#PierLabel-35"><span class="linenos"> 35</span></a><span class="k">class</span> <span class="nc">PierLabel</span><span class="p">:</span>
 </span><span id="PierLabel-36"><a href="#PierLabel-36"><span class="linenos"> 36</span></a>    <span class="sd">&quot;&quot;&quot;PierLabel interface&quot;&quot;&quot;</span>
-</span><span id="PierLabel-37"><a href="#PierLabel-37"><span class="linenos"> 37</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="PierLabel-37"><a href="#PierLabel-37"><span class="linenos"> 37</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="PierLabel-38"><a href="#PierLabel-38"><span class="linenos"> 38</span></a>        <span class="c1"># link of SapModel interface</span>
 </span><span id="PierLabel-39"><a href="#PierLabel-39"><span class="linenos"> 39</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
 </span><span id="PierLabel-40"><a href="#PierLabel-40"><span class="linenos"> 40</span></a>        <span class="c1"># create PierLabel interface</span>
-</span><span id="PierLabel-41"><a href="#PierLabel-41"><span class="linenos"> 41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">cPierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">PierLabel</span><span class="p">)</span>
+</span><span id="PierLabel-41"><a href="#PierLabel-41"><span class="linenos"> 41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cPierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">PierLabel</span><span class="p">)</span>
 </span><span id="PierLabel-42"><a href="#PierLabel-42"><span class="linenos"> 42</span></a>
 </span><span id="PierLabel-43"><a href="#PierLabel-43"><span class="linenos"> 43</span></a>
 </span><span id="PierLabel-44"><a href="#PierLabel-44"><span class="linenos"> 44</span></a>    <span class="k">def</span> <span class="nf">change_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -298,13 +298,13 @@
 </span><span id="PierLabel-88"><a href="#PierLabel-88"><span class="linenos"> 88</span></a>        <span class="k">return</span> <span class="kc">False</span>
 </span><span id="PierLabel-89"><a href="#PierLabel-89"><span class="linenos"> 89</span></a>    
 </span><span id="PierLabel-90"><a href="#PierLabel-90"><span class="linenos"> 90</span></a>    
-</span><span id="PierLabel-91"><a href="#PierLabel-91"><span class="linenos"> 91</span></a>    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SectionProperties</span><span class="p">:</span>
+</span><span id="PierLabel-91"><a href="#PierLabel-91"><span class="linenos"> 91</span></a>    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PierSectionProperties</span><span class="p">:</span>
 </span><span id="PierLabel-92"><a href="#PierLabel-92"><span class="linenos"> 92</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves the section properties for a specified pier.</span>
 </span><span id="PierLabel-93"><a href="#PierLabel-93"><span class="linenos"> 93</span></a>
 </span><span id="PierLabel-94"><a href="#PierLabel-94"><span class="linenos"> 94</span></a><span class="sd">        :param pier_name: Pier name for which to retrieve section properties</span>
 </span><span id="PierLabel-95"><a href="#PierLabel-95"><span class="linenos"> 95</span></a><span class="sd">        :type pier_name: str</span>
 </span><span id="PierLabel-96"><a href="#PierLabel-96"><span class="linenos"> 96</span></a><span class="sd">        :return: section properties of requested Pier</span>
-</span><span id="PierLabel-97"><a href="#PierLabel-97"><span class="linenos"> 97</span></a><span class="sd">        :rtype: SectionProperties</span>
+</span><span id="PierLabel-97"><a href="#PierLabel-97"><span class="linenos"> 97</span></a><span class="sd">        :rtype: PierSectionProperties</span>
 </span><span id="PierLabel-98"><a href="#PierLabel-98"><span class="linenos"> 98</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="PierLabel-99"><a href="#PierLabel-99"><span class="linenos"> 99</span></a>        <span class="n">number_stories</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
 </span><span id="PierLabel-100"><a href="#PierLabel-100"><span class="linenos">100</span></a>        <span class="n">story_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
@@ -375,11 +375,11 @@
 
     </div>
     <a class="headerlink" href="#PierLabel.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PierLabel.__init__-37"><a href="#PierLabel.__init__-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PierLabel.__init__-37"><a href="#PierLabel.__init__-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="PierLabel.__init__-38"><a href="#PierLabel.__init__-38"><span class="linenos">38</span></a>        <span class="c1"># link of SapModel interface</span>
 </span><span id="PierLabel.__init__-39"><a href="#PierLabel.__init__-39"><span class="linenos">39</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
 </span><span id="PierLabel.__init__-40"><a href="#PierLabel.__init__-40"><span class="linenos">40</span></a>        <span class="c1"># create PierLabel interface</span>
-</span><span id="PierLabel.__init__-41"><a href="#PierLabel.__init__-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">cPierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">PierLabel</span><span class="p">)</span>
+</span><span id="PierLabel.__init__-41"><a href="#PierLabel.__init__-41"><span class="linenos">41</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cPierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">PierLabel</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -537,19 +537,19 @@
 <div class="attr function">
             
         <span class="def">def</span>
-        <span class="name">get_section_properties</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">pier_name</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">pytabs</span><span class="o">.</span><span class="n">pier_label</span><span class="o">.</span><span class="n">SectionProperties</span>:</span></span>
+        <span class="name">get_section_properties</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">pier_name</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="n">pytabs</span><span class="o">.</span><span class="n">pier_label</span><span class="o">.</span><span class="n">PierSectionProperties</span>:</span></span>
 
                 <label class="view-source-button" for="PierLabel.get_section_properties-view-source"><span>View Source</span></label>
 
     </div>
     <a class="headerlink" href="#PierLabel.get_section_properties"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PierLabel.get_section_properties-91"><a href="#PierLabel.get_section_properties-91"><span class="linenos"> 91</span></a>    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SectionProperties</span><span class="p">:</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PierLabel.get_section_properties-91"><a href="#PierLabel.get_section_properties-91"><span class="linenos"> 91</span></a>    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pier_name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PierSectionProperties</span><span class="p">:</span>
 </span><span id="PierLabel.get_section_properties-92"><a href="#PierLabel.get_section_properties-92"><span class="linenos"> 92</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves the section properties for a specified pier.</span>
 </span><span id="PierLabel.get_section_properties-93"><a href="#PierLabel.get_section_properties-93"><span class="linenos"> 93</span></a>
 </span><span id="PierLabel.get_section_properties-94"><a href="#PierLabel.get_section_properties-94"><span class="linenos"> 94</span></a><span class="sd">        :param pier_name: Pier name for which to retrieve section properties</span>
 </span><span id="PierLabel.get_section_properties-95"><a href="#PierLabel.get_section_properties-95"><span class="linenos"> 95</span></a><span class="sd">        :type pier_name: str</span>
 </span><span id="PierLabel.get_section_properties-96"><a href="#PierLabel.get_section_properties-96"><span class="linenos"> 96</span></a><span class="sd">        :return: section properties of requested Pier</span>
-</span><span id="PierLabel.get_section_properties-97"><a href="#PierLabel.get_section_properties-97"><span class="linenos"> 97</span></a><span class="sd">        :rtype: SectionProperties</span>
+</span><span id="PierLabel.get_section_properties-97"><a href="#PierLabel.get_section_properties-97"><span class="linenos"> 97</span></a><span class="sd">        :rtype: PierSectionProperties</span>
 </span><span id="PierLabel.get_section_properties-98"><a href="#PierLabel.get_section_properties-98"><span class="linenos"> 98</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="PierLabel.get_section_properties-99"><a href="#PierLabel.get_section_properties-99"><span class="linenos"> 99</span></a>        <span class="n">number_stories</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
 </span><span id="PierLabel.get_section_properties-100"><a href="#PierLabel.get_section_properties-100"><span class="linenos">100</span></a>        <span class="n">story_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
