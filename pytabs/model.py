@@ -13,15 +13,18 @@ from pytabs.error_handle import handle, EtabsError
 from typing import Union, TypedDict
 
 # import of ETABS API interface wrappers
-from pytabs.pier_label import PierLabel
+from pytabs.area_obj import AreaObj
 from pytabs.analysis_results import AnalysisResults
+from pytabs.case_static_linear import CaseStaticLinear
+from pytabs.case_static_nonlinear import CaseStaticNonlinear
+from pytabs.case_static_nonlinear_staged import CaseStaticNonlinearStaged
+from pytabs.frame_obj import FrameObj
+from pytabs.group import Group
 from pytabs.load_patterns import LoadPatterns
 from pytabs.load_cases import LoadCases
+from pytabs.pier_label import PierLabel
 from pytabs.resp_combo import RespCombo
 from pytabs.story import Story
-from pytabs.group import Group
-from pytabs.frame_obj import FrameObj
-from pytabs.area_obj import AreaObj
 
 
 class UnitsComponents(TypedDict):
@@ -45,24 +48,30 @@ class EtabsModel():
                  remote_computer : str = '') -> None:
         
         # relate ETABS interfaces
-        self.pier_label : PierLabel
-        """EtabsModel `PierLabel` interface."""
         self.analysis_results : AnalysisResults
         """EtabsModel `AnalysisResults` interface."""
-        self.load_patterns : LoadPatterns
-        """EtabsModel `LoadPatterns` interface."""
+        self.area_obj : AreaObj
+        """EtabsModel `AreaObj` interface."""
+        self.case_static_linear : CaseStaticLinear
+        """EtabsModel `CaseStaticLinear` interface."""
+        self.case_static_nonlinear : CaseStaticNonlinear
+        """EtabsModel `CaseStaticNonlinear` interface."""
+        self.case_static_nonlinear_staged : CaseStaticNonlinearStaged
+        """EtabsModel `CaseStaticNonlinear` interface."""
+        self.frame_obj : FrameObj
+        """EtabsModel `FrameObj` interface."""
+        self.group : Group
+        """EtabsModel `Group` interface."""
         self.load_cases : LoadCases
         """EtabsModel `LoadCases` interface."""
+        self.load_patterns : LoadPatterns
+        """EtabsModel `LoadPatterns` interface."""
+        self.pier_label : PierLabel
+        """EtabsModel `PierLabel` interface."""
         self.resp_combo : RespCombo
         """EtabsModel `RespCombo` interface."""
         self.story : Story
         """EtabsModel `Story` interface."""
-        self.group : Group
-        """EtabsModel `Group` interface."""
-        self.frame_obj : FrameObj
-        """EtabsModel `FrameObj` interface."""
-        self.area_obj : AreaObj
-        """EtabsModel `AreaObj` interface."""
         
         # relate ETABS fixed enumerations
         self.eUnits = etabs.eUnits
@@ -136,15 +145,18 @@ class EtabsModel():
             self.file = etabs.cFile(self.sap_model.File)
             
             # relate external pyTABS interfaces
-            self.pier_label = PierLabel(self.sap_model)
             self.analysis_results = AnalysisResults(self.sap_model)
-            self.load_patterns = LoadPatterns(self.sap_model)
-            self.load_cases = LoadCases(self.sap_model)
-            self.resp_combo = RespCombo(self.sap_model)
-            self.story = Story(self.sap_model)
+            self.area_obj = AreaObj(self.sap_model)
+            self.case_static_linear = CaseStaticLinear(self.sap_model)
+            self.case_static_nonlinear = CaseStaticNonlinear(self.sap_model)
+            self.case_static_nonlinear_staged = CaseStaticNonlinearStaged(self.sap_model)
             self.frame_obj = FrameObj(self.sap_model)
             self.group = Group(self.sap_model)
-            self.area_obj = AreaObj(self.sap_model)
+            self.load_patterns = LoadPatterns(self.sap_model)
+            self.load_cases = LoadCases(self.sap_model)
+            self.pier_label = PierLabel(self.sap_model)
+            self.resp_combo = RespCombo(self.sap_model)
+            self.story = Story(self.sap_model)
 
             # if not attached to instance and model path supplied open model
             if (not attach_to_instance) and model_path:
