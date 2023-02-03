@@ -20,11 +20,11 @@ from pytabs.enumerations import (eGeometryNonlinearityType,
 
 class CaseStaticNonlinearStaged:
     """CaseStaticNonlinearStaged interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create interface for static nonlinear staged load cases
-        self.static_nonlinear_staged = cCaseStaticNonlinearStaged(sap_model.LoadCases.StaticNonlinearStaged)
+        self.static_nonlinear_staged = etabs.cCaseStaticNonlinearStaged(sap_model.LoadCases.StaticNonlinearStaged)
         
         # relate custom enumerations
         self.eGeometryNonlinearityTypes = eGeometryNonlinearityType
