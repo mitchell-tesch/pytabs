@@ -17,11 +17,11 @@ class FrameObjectLabelData(TypedDict):
 
 class FrameObj:
     """FrameObj interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create FrameObj interface
-        self.frame_obj = cFrameObj(self.sap_model.FrameObj)
+        self.frame_obj = etabs.cFrameObj(self.sap_model.FrameObj)
 
 
     def get_label_from_name(self, frame_name : str) -> FrameObjectLabelData:
@@ -55,7 +55,7 @@ class FrameObj:
         return list(frame_names)
 
 
-    def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: eItemType = eItemType.Objects) -> None:
+    def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
         """Adds or removes frame objects from a specified group.
 
         :param name: name of an existing frame object or group depending on the value of item_type

@@ -9,11 +9,11 @@ from pytabs.error_handle import *
 
 class RespCombo:
     """Combo interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create RespCombo interface
-        self.resp_combo = cCombo(sap_model.RespCombo)
+        self.resp_combo = etabs.cCombo(sap_model.RespCombo)
 
 
     def get_name_list(self) -> list[str]:

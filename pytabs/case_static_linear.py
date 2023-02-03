@@ -25,11 +25,11 @@ class StaticLinearLoadData(TypedDict):
 
 class CaseStaticLinear:
     """CaseStaticLinearStaged interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create interface for static linear load cases
-        self.static_linear = cCaseStaticLinear(sap_model.LoadCases.StaticLinear)
+        self.static_linear = etabs.cCaseStaticLinear(sap_model.LoadCases.StaticLinear)
         
         # relate custom enumerations
         self.eLinearStaticCaseLoadType = eLinearStaticCaseLoadType
