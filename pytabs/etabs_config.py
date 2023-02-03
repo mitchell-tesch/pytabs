@@ -14,6 +14,8 @@ import clr
 # reference: https://blog.rtwilson.com/how-to-make-your-sphinx-documentation-compile-with-readthedocs-when-youre-using-numpy-and-scipy/
 MOCK_MODULES = ['ETABSv1']
 class Mock(object):
+    __qualname__ = 'mock'
+    
     def __init__(self, *args, **kwargs):
         pass
 
@@ -25,7 +27,8 @@ class Mock(object):
         if name in ('__file__', '__path__'):
             return '/dev/null'
         elif name[0] == name[0].upper():
-            return type(name, (), {})
+            # return type(name, (), {})
+            return None
         else:
             return Mock()
 
