@@ -79,3 +79,15 @@ class eStageMyType(str, Enum):
     AREA = 'Area'
     SOLID = 'Solid'
     LINK = 'Link'
+    NONE = ''
+
+
+class eResultsSetupStepOutOption(IntEnum):
+    ENVELOPES = 1
+    STEP_BY_STEP = 2
+    LAST_STEP = 3
+
+
+class eResultsSetupComboOutOption(IntEnum):
+    ENVELOPES = 1
+    MULTIPLE = 2

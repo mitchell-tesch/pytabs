@@ -224,6 +224,6 @@ class CaseStaticNonlinearStaged:
                                    output_names : list[str], comments : list[str]) -> None:
         """Private method for verifying stage definitions used by method `.set_stage_definitions`
         """
-        input_lists = [number_stages, durations, output_statuses, output_names, comments]
+        input_lists = [durations, output_statuses, output_names, comments]
         if any(len(input_list) != number_stages for input_list in input_lists):
             raise ValueError('length of all input lists must must be equal to input number_stages')
