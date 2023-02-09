@@ -2,8 +2,8 @@
 # LoadCases - cLoadCases interface 
 __all__ = ['LoadCases']
 
-# import etabs namespace and error handler
-from pytabs.etabs import *
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import of interfaces of load case types
@@ -19,20 +19,20 @@ from typing import TypedDict
 class LoadCaseType(TypedDict):
     """TypedDict class for load case type return"""
     case_name : str
-    case_type : eLoadCaseType
+    case_type : etabs.eLoadCaseType
     sub_type : Union[None, str]
-    design_type : eLoadPatternType
+    design_type : etabs.eLoadPatternType
     design_type_option : str
     is_automatic : bool
 
 
 class LoadCases:
     """LoadCases interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create LoadCases interface
-        self.load_cases = cLoadCases(sap_model.LoadCases)
+        self.load_cases = etabs.cLoadCases(sap_model.LoadCases)
         # create interface for static nonlinear load cases
         self.static_linear = CaseStaticLinear(sap_model)
         # create interface for static nonlinear load cases
@@ -52,7 +52,7 @@ class LoadCases:
         handle(self.load_cases.ChangeName(case_name, new_case_name))
 
 
-    def count(self, case_type : Union[None, eLoadCaseType] = None) -> int:
+    def count(self, case_type : Union[None, etabs.eLoadCaseType] = None) -> int:
         """Count of load cases of type if specified.
 
         :param case_type: load case type enumeration, defaults to None
@@ -75,7 +75,7 @@ class LoadCases:
         handle(self.load_cases.Delete(case_name))
 
 
-    def get_name_list(self, case_type : Union[None, eLoadCaseType] = None) -> list[str]:
+    def get_name_list(self, case_type : Union[None, etabs.eLoadCaseType] = None) -> list[str]:
         """Retrieves the names of all defined load cases of the specified type.
 
         :param case_type: load case type enumeration, defaults to None
@@ -101,9 +101,9 @@ class LoadCases:
         :return: load case type details
         :rtype: LoadCaseType
         """
-        case_type = eLoadCaseType.Buckling
+        case_type = etabs.eLoadCaseType.Buckling
         sub_type = int()
-        design_type = eLoadPatternType.Notional
+        design_type = etabs.eLoadPatternType.Notional
         design_type_option = int()
         is_automatic = int()
         design_type_options_desc = {0: 'Program determined', 1: 'User specified'}
@@ -122,7 +122,7 @@ class LoadCases:
                 'is_automatic': is_automatic_desc[is_automatic]}
 
 
-    def set_design_type(self, case_name : str, design_type_option : int, design_type : eLoadPatternType = eLoadPatternType.Dead) -> None:
+    def set_design_type(self, case_name : str, design_type_option : int, design_type : etabs.eLoadPatternType = etabs.eLoadPatternType.Dead) -> None:
         """Set design type of existing load case.
 
         :param case_name: name of existing load case
@@ -135,13 +135,13 @@ class LoadCases:
         handle(self.load_cases.SetDesignType(case_name, design_type_option, design_type))
         
 
-    def __determine_sub_type(self, case_type : eLoadCaseType, sub_type : int) -> Union[None, str]:
+    def __determine_sub_type(self, case_type : etabs.eLoadCaseType, sub_type : int) -> Union[None, str]:
         """Private method to determine string of load case sub type.
         """
-        if int(case_type) in [int(eLoadCaseType.NonlinearStatic), int(eLoadCaseType.Modal), int(eLoadCaseType.LinearHistory)]:
-            if int(case_type) == int(eLoadCaseType.NonlinearStatic):
+        if int(case_type) in [int(etabs.eLoadCaseType.NonlinearStatic), int(etabs.eLoadCaseType.Modal), int(etabs.eLoadCaseType.LinearHistory)]:
+            if int(case_type) == int(etabs.eLoadCaseType.NonlinearStatic):
                 sub_types_dict = {1: 'Nonlinear', 2: 'Nonlinear staged construction'}
-            elif int(case_type) == int(eLoadCaseType.Modal):
+            elif int(case_type) == int(etabs.eLoadCaseType.Modal):
                 sub_types_dict = {1: 'Eigen', 2: 'Ritz'}
             else:
                 sub_types_dict = {1: 'Transient', 2: 'Periodic'}

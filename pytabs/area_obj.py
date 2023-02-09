@@ -2,8 +2,8 @@
 # AreaObj - cAreaObj interface 
 __all__ = ['AreaObj']
 
-# import etabs namespace and error handler
-from pytabs.etabs import *
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import typing
@@ -19,11 +19,11 @@ class AreaObjectLabelData(TypedDict):
 
 class AreaObj:
     """AreaObj interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create AreaObj interface
-        self.area_obj = cAreaObj(self.sap_model.AreaObj)
+        self.area_obj = etabs.cAreaObj(self.sap_model.AreaObj)
 
 
     def get_label_from_name(self, area_name : str) -> AreaObjectLabelData:
@@ -58,7 +58,7 @@ class AreaObj:
         return list(area_names)
 
 
-    def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: eItemType = eItemType.Objects) -> None:
+    def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
         """Adds or removes area objects from a specified group.
 
         :param name: name of an existing area object or group depending on the value of item_type 

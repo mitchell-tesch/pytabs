@@ -2,8 +2,8 @@
 # CaseStaticNonlinear - cCaseStaticNonlinear
 __all__ = ['CaseStaticNonlinear']
 
-# import etabs namespace and error handler
-from pytabs.etabs import *
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import custom enumerations
@@ -17,11 +17,11 @@ from pytabs.enumerations import (eGeometryNonlinearityType,
 
 class CaseStaticNonlinear:
     """CaseStaticNonlinearStaged interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create interface for static nonlinear load cases
-        self.static_nonlinear = cCaseStaticNonlinear(sap_model.LoadCases.StaticNonlinear)
+        self.static_nonlinear = etabs.cCaseStaticNonlinear(sap_model.LoadCases.StaticNonlinear)
         
         # relate custom enumerations
         self.eGeometryNonlinearityTypes = eGeometryNonlinearityType

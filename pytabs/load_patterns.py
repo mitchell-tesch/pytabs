@@ -2,21 +2,21 @@
 # LoadPatterns- cLoadPatterns interface 
 __all__ = ['LoadPatterns']
 
-# import etabs namespace and error handler
-from pytabs.etabs import *
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 
 class LoadPatterns:
     """LoadPatterns interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create LoadPatterns interface
-        self.load_patterns = cLoadPatterns(sap_model.LoadPatterns)
+        self.load_patterns = etabs.cLoadPatterns(sap_model.LoadPatterns)
 
 
-    def add(self, load_pattern_name : str, load_pattern_type : eLoadPatternType, self_weight_multiplier : float = 0, add_analysis_case : bool = True):
+    def add(self, load_pattern_name : str, load_pattern_type : etabs.eLoadPatternType, self_weight_multiplier : float = 0, add_analysis_case : bool = True):
         """Adds a new load pattern.
 
         :param load_pattern_name: name for the new load pattern
@@ -48,7 +48,7 @@ class LoadPatterns:
     #TODO GetAutoWindCode method
 
 
-    def get_type(self, load_pattern_name : str) -> eLoadPatternType:
+    def get_type(self, load_pattern_name : str) -> etabs.eLoadPatternType:
         """Retrieves the load type for a specified load pattern.
 
         :param load_pattern_name: name of an existing load pattern
@@ -56,7 +56,7 @@ class LoadPatterns:
         :return: one of the items in the eLoadPatternType enumeration
         :rtype: eLoadPatternType
         """
-        load_pattern_type = eLoadPatternType.ActiveEarthPressure
+        load_pattern_type = etabs.eLoadPatternType.ActiveEarthPressure
         [ret, load_pattern_type] = handle(self.load_patterns.GetLoadType(load_pattern_name, load_pattern_type))
         handle(ret)
         return load_pattern_type
@@ -89,7 +89,7 @@ class LoadPatterns:
         return self_weight_multiplier
 
 
-    def set_load_type(self, load_pattern_name : str, load_pattern_type : eLoadPatternType) -> None:
+    def set_load_type(self, load_pattern_name : str, load_pattern_type : etabs.eLoadPatternType) -> None:
         """Assigns a load type to a load pattern.
 
         :param load_pattern_name: name of an existing load pattern

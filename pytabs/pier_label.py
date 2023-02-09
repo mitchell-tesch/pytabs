@@ -2,8 +2,8 @@
 # PierLabel - cPierLabel interface 
 __all__ = ['PierLabel']
 
-# import etabs namespace and error handler
-from pytabs.etabs import *
+# import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import typing
@@ -33,11 +33,11 @@ class PierSectionProperties(TypedDict):
 
 class PierLabel:
     """PierLabel interface"""
-    def __init__(self, sap_model : cSapModel) -> None:
+    def __init__(self, sap_model : etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create PierLabel interface
-        self.pier_label = cPierLabel(self.sap_model.PierLabel)
+        self.pier_label = etabs.cPierLabel(self.sap_model.PierLabel)
 
 
     def change_name(self, pier_name : str, new_pier_name : str) -> None:
