@@ -79,6 +79,7 @@ class eStageMyType(str, Enum):
     AREA = 'Area'
     SOLID = 'Solid'
     LINK = 'Link'
+    NONE = ''
 
 
 class eResultsSetupStepOutOption(IntEnum):
