@@ -27,7 +27,7 @@ jobs:
       - run: pip install -r requirements.txt
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: pdoc -o docs/ pytabs
+      - run: pdoc -o docs/ pytabs --logo "https://github.com/mitchell-tesch/pytabs/blob/main/images/logo.png?raw=true"
 
       - uses: actions/upload-pages-artifact@v1
         with:
