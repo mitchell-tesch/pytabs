@@ -81,6 +81,21 @@ class FrameObj:
         return str(frame_name)
 
 
+    def get_group_assign(self, name : str) -> list[str]:
+        """Retrieves the groups to which a frame object is assigned.
+
+        :param name: name of an existing frame object
+        :type name: str
+        :return: names of the groups to which the frame object is assigned
+        :rtype: list[str]
+        """
+        number_groups = int()
+        groups = [str()]
+        [ret, number_groups, groups] = self.frame_obj.GetGroupAssign(name, number_groups, groups)
+        handle(ret)
+        return list(groups)
+
+
     def get_label_from_name(self, frame_name : str) -> FrameObjectLabelData:
         """Retrieves the label and story for a unique frame object name.
         :param frame_name: name of the frame object
@@ -95,6 +110,24 @@ class FrameObj:
         return {'frame_name': frame_name,
                 'frame_label': frame_label,
                 'frame_story': frame_story}
+
+
+    def get_name_list(self) -> list[str]:
+        """Retrieves the names of all defined frame objects.
+
+        :return: frame object names
+        :rtype: list[str]
+        """
+        number_names = int()
+        frame_names = [str()]
+        [ret, number_names, frame_names] = self.frame_obj.GetNameList(number_names, frame_names)
+        handle(ret)
+        return list(frame_names)
+
+
+    #TODO def get_modifiers(self, name : str)
+    
+    
 
 
     def get_name_list_on_story(self, story_name : str) -> list[str]:
