@@ -68,7 +68,7 @@ class FrameObj:
         return list(frame_names)
 
 
-    def get_modifiers(self, name : str) -> 
+    #TODO def get_modifiers(self, name : str)
     
     
 
