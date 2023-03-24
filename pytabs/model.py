@@ -18,6 +18,7 @@ from pytabs.analysis_results import AnalysisResults
 from pytabs.case_static_linear import CaseStaticLinear
 from pytabs.case_static_nonlinear import CaseStaticNonlinear
 from pytabs.case_static_nonlinear_staged import CaseStaticNonlinearStaged
+from pytabs.combo import Combo
 from pytabs.frame_obj import FrameObj
 from pytabs.group import Group
 from pytabs.load_patterns import LoadPatterns
@@ -58,6 +59,8 @@ class EtabsModel():
         """EtabsModel `CaseStaticNonlinear` interface."""
         self.case_static_nonlinear_staged : CaseStaticNonlinearStaged
         """EtabsModel `CaseStaticNonlinear` interface."""
+        self.combo : Combo
+        """EtabsModel `Combo` interface."""
         self.frame_obj : FrameObj
         """EtabsModel `FrameObj` interface."""
         self.group : Group
@@ -150,6 +153,7 @@ class EtabsModel():
             self.case_static_linear = CaseStaticLinear(self.sap_model)
             self.case_static_nonlinear = CaseStaticNonlinear(self.sap_model)
             self.case_static_nonlinear_staged = CaseStaticNonlinearStaged(self.sap_model)
+            self.combo = Combo(self.sap_model)
             self.frame_obj = FrameObj(self.sap_model)
             self.group = Group(self.sap_model)
             self.load_patterns = LoadPatterns(self.sap_model)
