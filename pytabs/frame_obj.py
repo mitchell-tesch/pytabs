@@ -81,99 +81,6 @@ class FrameObj:
         return str(frame_name)
 
 
-    def get_group_assign(self, name : str) -> list[str]:
-        """Retrieves the groups to which a frame object is assigned.
-
-        :param name: name of an existing frame object
-        :type name: str
-        :return: names of the groups to which the frame object is assigned
-        :rtype: list[str]
-        """
-        number_groups = int()
-        groups = [str()]
-        [ret, number_groups, groups] = self.frame_obj.GetGroupAssign(name, number_groups, groups)
-        handle(ret)
-        return list(groups)
-
-
-    def get_label_from_name(self, frame_name : str) -> FrameObjectLabelData:
-        """Retrieves the label and story for a unique frame object name.
-        :param frame_name: name of the frame object
-        :type frame_name: str
-        :return: label and story of frame object name
-        :rtype: `FrameObjectLabelData`
-        """
-        frame_label = str()
-        frame_story = str()
-        [ret, frame_label, frame_story] = self.frame_obj.GetLabelFromName(frame_name, frame_label, frame_story)
-        handle(ret)
-        return {'frame_name': frame_name,
-                'frame_label': frame_label,
-                'frame_story': frame_story}
-
-
-    def get_name_list(self) -> list[str]:
-        """Retrieves the names of all defined frame objects.
-
-        :return: frame object names
-        :rtype: list[str]
-        """
-        number_names = int()
-        frame_names = [str()]
-        [ret, number_names, frame_names] = self.frame_obj.GetNameList(number_names, frame_names)
-        handle(ret)
-        return list(frame_names)
-
-
-    #TODO def get_modifiers(self, name : str)
-    
-    
-
-
-    def get_name_list_on_story(self, story_name : str) -> list[str]:
-        """Retrieves the names of the defined frame objects on a given story.
-
-        :param story_name: name of an existing story
-        :type story_name: str
-        :return: frame object names on existing story
-        :rtype: list[str]
-        """
-        number_names = int()
-        frame_names = [str()]
-        [ret, number_names, frame_names] = self.frame_obj.GetNameListOnStory(story_name, number_names, frame_names)
-        handle(ret)
-        return list(frame_names)
-
-
-    def get_group_assign(self, frame_name : str) -> list[str]:
-        """Retrieves the groups to which a frame object is assigned.
-        
-        :param frame_name: name of the frame object
-        :type frame_name: str
-        :return: group names of assigned frame object
-        :rtype: list[str]
-        """
-        number_names = int()
-        group_names = [str()]
-        [ret, number_names, group_names] = self.frame_obj.GetGroupAssign(frame_name, number_names, group_names)
-        handle(ret)
-        return list(group_names)
-
-
-    def get_GUID(self, frame_name : str) -> str:
-        """Retrieves the GUID(Global Unique ID) for the specified frame object.
-        
-        :param frame_name: name of the frame object
-        :type frame_name: str
-        :return: the GUID of the specified frame object
-        :rtype: str
-        """
-        guid = str()
-        [ret, guid] = self.frame_obj.GetGUID(frame_name, guid)
-        handle(ret)
-        return guid
-
-
     def get_design_orientation(self, frame_name : str) -> etabs.eFrameDesignOrientation:
         """Retrieves the design orientation for a frame object.
 
@@ -200,6 +107,82 @@ class FrameObj:
         [ret, procedure_type] = self.frame_obj.GetDesignProcedure(frame_name, procedure_type)
         handle(ret)
         return eFrameDesignProcedure(procedure_type)
+
+
+    def get_group_assign(self, name : str) -> list[str]:
+        """Retrieves the groups to which a frame object is assigned.
+
+        :param name: name of an existing frame object
+        :type name: str
+        :return: names of the groups to which the frame object is assigned
+        :rtype: list[str]
+        """
+        number_groups = int()
+        groups = [str()]
+        [ret, number_groups, groups] = self.frame_obj.GetGroupAssign(name, number_groups, groups)
+        handle(ret)
+        return list(groups)
+
+    
+    def get_GUID(self, frame_name : str) -> str:
+        """Retrieves the GUID(Global Unique ID) for the specified frame object.
+        
+        :param frame_name: name of the frame object
+        :type frame_name: str
+        :return: the GUID of the specified frame object
+        :rtype: str
+        """
+        guid = str()
+        [ret, guid] = self.frame_obj.GetGUID(frame_name, guid)
+        handle(ret)
+        return guid
+
+    
+    def get_label_from_name(self, frame_name : str) -> FrameObjectLabelData:
+        """Retrieves the label and story for a unique frame object name.
+        :param frame_name: name of the frame object
+        :type frame_name: str
+        :return: label and story of frame object name
+        :rtype: `FrameObjectLabelData`
+        """
+        frame_label = str()
+        frame_story = str()
+        [ret, frame_label, frame_story] = self.frame_obj.GetLabelFromName(frame_name, frame_label, frame_story)
+        handle(ret)
+        return {'frame_name': frame_name,
+                'frame_label': frame_label,
+                'frame_story': frame_story}
+
+
+    #TODO def get_modifiers(self, name : str)
+    
+    
+    def get_name_list(self) -> list[str]:
+        """Retrieves the names of all defined frame objects.
+
+        :return: frame object names
+        :rtype: list[str]
+        """
+        number_names = int()
+        frame_names = [str()]
+        [ret, number_names, frame_names] = self.frame_obj.GetNameList(number_names, frame_names)
+        handle(ret)
+        return list(frame_names)
+
+
+    def get_name_list_on_story(self, story_name : str) -> list[str]:
+        """Retrieves the names of the defined frame objects on a given story.
+
+        :param story_name: name of an existing story
+        :type story_name: str
+        :return: frame object names on existing story
+        :rtype: list[str]
+        """
+        number_names = int()
+        frame_names = [str()]
+        [ret, number_names, frame_names] = self.frame_obj.GetNameListOnStory(story_name, number_names, frame_names)
+        handle(ret)
+        return list(frame_names)
 
 
     def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
