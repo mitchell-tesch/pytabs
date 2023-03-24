@@ -9,6 +9,10 @@ from pathlib import Path
 from pytabs.etabs_config import *
 from pytabs.error_handle import handle, EtabsError
 
+# import pyTABS custom enumerations
+from pytabs.enumerations import eFrameDesignProcedure
+
+
 # import typing
 from typing import Union, TypedDict
 
@@ -77,20 +81,25 @@ class EtabsModel():
         """EtabsModel `Story` interface."""
         
         # relate ETABS fixed enumerations
-        self.eUnits = etabs.eUnits
-        """EtabsModel `Units` enumeration."""
         self.eForce = etabs.eForce
         """EtabsModel `Force` enumeration."""
-        self.eLength = etabs.eLength
-        """EtabsModel `Length` enumeration."""
-        self.eTemperature = etabs.eTemperature
-        """EtabsModel `Temperature` enumeration."""
+        self.eFrameDesignOrientation = etabs.eFrameDesignOrientation
+        """EtabsModel `FrameDesignOrientation` enumeration."""
         self.eItemType = etabs.eItemType
         """EtabsModel `ItemType` enumeration"""
+        self.eLength = etabs.eLength
+        """EtabsModel `Length` enumeration."""
         self.eLoadCaseType = etabs.eLoadCaseType
         """EtabsModel `LoadCaseType` enumeration"""
         self.eLoadPatternType = etabs.eLoadPatternType
         """EtabsModel `LoadPatternType` enumeration"""
+        self.eTemperature = etabs.eTemperature
+        """EtabsModel `Temperature` enumeration."""
+        self.eUnits = etabs.eUnits
+        """EtabsModel `Units` enumeration."""
+        
+        # relate pyTABS custom enumerations
+        self.eFrameDesignProcedure = eFrameDesignProcedure
         
         # EtabsModel initial properties
         self.pytabs_config = pytabs_config
