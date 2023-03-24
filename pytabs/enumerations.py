@@ -91,3 +91,13 @@ class eResultsSetupStepOutOption(IntEnum):
 class eResultsSetupComboOutOption(IntEnum):
     ENVELOPES = 1
     MULTIPLE = 2
+    
+    
+class eFrameDesignProcedure(IntEnum):
+    PROGRAM = 0
+    STEEL_FRAME = 1
+    CONCRETE_FRAME = 2
+    COMPOSITE_BEAM = 3
+    STEEL_JOIST = 4
+    NULL = 7
+    COMPOSITE_COLUMN = 13

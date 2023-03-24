@@ -9,15 +9,20 @@ etabs_model = pytabs.model.EtabsModel()
 # set the model units to 
 etabs_model.set_present_units(etabs_model.eUnits.kN_m_C)
 
+# frame_added = etabs_model.frame_obj.add_by_coord(0.0, 8.0, 3.0, 8.0, 0.0, 3.0)
+# print(frame_added)
 
-story_list = etabs_model.story.get_name_list()
+# frame_added = etabs_model.frame_obj.add_by_point("65", "53")
+# print(frame_added)
 
-for story in story_list:
-    elevation = etabs_model.story.get_elevation(story_name=story)
-    height = etabs_model.story.get_height(story_name=story)
-    status = etabs_model.story.get_master_story(story_name=story)
-    similar_story = etabs_model.story.get_similar_to(story_name=story)
-    
-    print(f"{story} | {height} | {elevation} |  {status} | {similar_story}")
-    
-    
+frame_groups = etabs_model.frame_obj.get_group_assign("37")
+print(frame_groups)
+
+frame_GUID = etabs_model.frame_obj.get_GUID("37")
+print(frame_GUID)
+
+frame_design_procedure = etabs_model.frame_obj.get_design_procedure("37")
+print(frame_design_procedure)
+
+frame_design_orientation = etabs_model.frame_obj.get_design_orientation("37")
+print(frame_design_orientation)
