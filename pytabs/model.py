@@ -17,19 +17,31 @@ from pytabs.enumerations import eFrameDesignProcedure
 from typing import Union, TypedDict
 
 # import of ETABS API interface wrappers
-from pytabs.area_obj import AreaObj
+from pytabs.analyse import Analyse
 from pytabs.analysis_results import AnalysisResults
-from pytabs.case_static_linear import CaseStaticLinear
-from pytabs.case_static_nonlinear import CaseStaticNonlinear
-from pytabs.case_static_nonlinear_staged import CaseStaticNonlinearStaged
+from pytabs.area_elm import AreaElm
+from pytabs.area_obj import AreaObj
 from pytabs.combo import Combo
+from pytabs.constraint import Constraint
+from pytabs.database_tables import DatabaseTables
+from pytabs.diaphragm import Diaphragm
 from pytabs.frame_obj import FrameObj
+from pytabs.grid_sys import GridSys
 from pytabs.group import Group
-from pytabs.load_patterns import LoadPatterns
+from pytabs.line_elm import LineElm
+from pytabs.link_obj import LinkObj
 from pytabs.load_cases import LoadCases
+from pytabs.load_patterns import LoadPatterns
 from pytabs.pier_label import PierLabel
-from pytabs.resp_combo import RespCombo
+from pytabs.point_elm import PointElm
+from pytabs.point_obj import PointObj
+from pytabs.property import Property
+from pytabs.select import Select
+from pytabs.spandrel_label import SpandrelLabel
 from pytabs.story import Story
+from pytabs.tendon_obj import TendonObj
+from pytabs.tower import Tower
+from pytabs.view import View
 
 
 class UnitsComponents(TypedDict):
@@ -53,46 +65,76 @@ class EtabsModel():
                  remote_computer : str = '') -> None:
         
         # relate ETABS interfaces
+        self.analyse : Analyse
+        """EtabsModel `Analyse` interface."""
         self.analysis_results : AnalysisResults
         """EtabsModel `AnalysisResults` interface."""
+        self.area_elm : AreaElm
+        """EtabsModel `AreaElm` interface."""
         self.area_obj : AreaObj
         """EtabsModel `AreaObj` interface."""
-        self.case_static_linear : CaseStaticLinear
-        """EtabsModel `CaseStaticLinear` interface."""
-        self.case_static_nonlinear : CaseStaticNonlinear
-        """EtabsModel `CaseStaticNonlinear` interface."""
-        self.case_static_nonlinear_staged : CaseStaticNonlinearStaged
-        """EtabsModel `CaseStaticNonlinear` interface."""
+        # individual case interfaces to be accessed via LoadCase interface
         self.combo : Combo
         """EtabsModel `Combo` interface."""
+        self.constraint : Constraint
+        """EtabsModel `Constraint` interface."""
+        self.database_tables : DatabaseTables
+        """EtabsModel `DatabaseTables` interface."""
+        self.diaphragm : Diaphragm
+        """EtabsModel `Diaphragm` interface."""
         self.frame_obj : FrameObj
         """EtabsModel `FrameObj` interface."""
+        self.grid_sys : GridSys
+        """EtabsModel `GridSys` interface."""
         self.group : Group
         """EtabsModel `Group` interface."""
+        self.line_elm : LineElm
+        """EtabsModel `LineElm` interface."""
+        self.link_obj : LinkObj
+        """EtabsModel `LinkObj` interface."""
         self.load_cases : LoadCases
         """EtabsModel `LoadCases` interface."""
         self.load_patterns : LoadPatterns
         """EtabsModel `LoadPatterns` interface."""
+        self.point_elm : PointElm
+        """EtabsModel `PointElm` interface."""
+        self.point_obj : PointObj
+        """EtabsModel `PointObj` interface."""
         self.pier_label : PierLabel
         """EtabsModel `PierLabel` interface."""
-        self.resp_combo : RespCombo
-        """EtabsModel `RespCombo` interface."""
+        # individual prop interfaces to be accessed via Property interface
+        self.property : Property
+        """EtabsModel `Property` interface."""
+        self.select : Select
+        """EtabsModel `Select` interface."""
+        self.spandrel_label : SpandrelLabel
+        """EtabsModel `SpandrelLabel` interface."""
         self.story : Story
         """EtabsModel `Story` interface."""
+        self.tendon_obj : TendonObj
+        """EtabsModel `TendonObj` interface."""
+        self.tower : Tower
+        """EtabsModel `Tower` interface."""
+        self.view : View
+        """EtabsModel `View` interface."""
         
-        # relate ETABS fixed enumerations
+        # relate ETABS cross interface enumerations
+        self.eAreaDesignOrientation = etabs.eAreaDesignOrientation
+        """EtabsModel `AreaDesignOrientation` enumeration."""
         self.eForce = etabs.eForce
         """EtabsModel `Force` enumeration."""
         self.eFrameDesignOrientation = etabs.eFrameDesignOrientation
         """EtabsModel `FrameDesignOrientation` enumeration."""
         self.eItemType = etabs.eItemType
         """EtabsModel `ItemType` enumeration"""
+        self.eItemTypeElm = etabs.eItemTypeElm
+        """EtabsModel `ItemTypeElm` enumeration"""
         self.eLength = etabs.eLength
         """EtabsModel `Length` enumeration."""
-        self.eLoadCaseType = etabs.eLoadCaseType
-        """EtabsModel `LoadCaseType` enumeration"""
         self.eLoadPatternType = etabs.eLoadPatternType
         """EtabsModel `LoadPatternType` enumeration"""
+        self.eObjType = etabs.eObjType
+        """EtabsModel `ObjType` enumeration"""
         self.eTemperature = etabs.eTemperature
         """EtabsModel `Temperature` enumeration."""
         self.eUnits = etabs.eUnits
@@ -157,19 +199,31 @@ class EtabsModel():
             self.file = etabs.cFile(self.sap_model.File)
             
             # relate external pyTABS interfaces
+            self.analyse = Analyse(self.sap_model)
             self.analysis_results = AnalysisResults(self.sap_model)
+            self.area_elm = AreaElm(self.sap_model)
             self.area_obj = AreaObj(self.sap_model)
-            self.case_static_linear = CaseStaticLinear(self.sap_model)
-            self.case_static_nonlinear = CaseStaticNonlinear(self.sap_model)
-            self.case_static_nonlinear_staged = CaseStaticNonlinearStaged(self.sap_model)
+            # individual case interfaces to be accessed via LoadCase interface
             self.combo = Combo(self.sap_model)
+            self.constraint = Constraint(self.sap_model)
+            self.database_tables = DatabaseTables(self.sap_model)
+            self.diaphragm = Diaphragm(self.sap_model)
             self.frame_obj = FrameObj(self.sap_model)
+            self.grid_sys = GridSys(self.sap_model)
             self.group = Group(self.sap_model)
-            self.load_patterns = LoadPatterns(self.sap_model)
+            self.line_elm = LineElm(self.sap_model)
+            self.link_obj = LinkObj(self.sap_model)
             self.load_cases = LoadCases(self.sap_model)
+            self.load_patterns = LoadPatterns(self.sap_model)
             self.pier_label = PierLabel(self.sap_model)
-            self.resp_combo = RespCombo(self.sap_model)
+            # individual property interfaces to be accessed via Property interface
+            self.property = Property(self.sap_model)
+            self.select = Select(self.sap_model)
+            self.spandrel_label = SpandrelLabel(self.sap_model)
             self.story = Story(self.sap_model)
+            self.tendon_obj = TendonObj(self.sap_model)
+            self.tower = Tower(self.sap_model)
+            self.view = View(self.sap_model)
 
             # if not attached to instance and model path supplied open model
             if (not attach_to_instance) and model_path:
