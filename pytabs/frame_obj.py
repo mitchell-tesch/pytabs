@@ -26,6 +26,10 @@ class FrameObj:
         self.sap_model = sap_model
         # create FrameObj interface
         self.frame_obj = etabs.cFrameObj(self.sap_model.FrameObj)
+        
+        # relate relevant ETABS enumerations
+        self.eHingeLocationType = etabs.eHingeLocationType
+        """EtabsModel `HingeLocationType` enumeration"""
 
 
     def add_by_coord(self, xi_coordinate : float, yi_coordinate : float, zi_coordinate : float,

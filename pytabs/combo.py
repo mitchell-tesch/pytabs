@@ -28,8 +28,10 @@ class Combo:
         self.sap_model = sap_model
         # create interface for static nonlinear staged load cases
         self.combo = etabs.cCombo(sap_model.RespCombo)
-        # relate etabs enumerations
+        
+        # relate relevant ETABS enumerations
         self.eCNameType = etabs.eCNameType
+        """EtabsModel `CNameType` enumeration"""
         
         # relate custom enumerations
 
@@ -56,3 +58,16 @@ class Combo:
                 'cnames': list(cnames),
                 'mode_numbers': list(mode_numbers),
                 'scaling_factors': list(scaling_factors)}
+
+
+    def get_name_list(self) -> list[str]:
+        """Retrieves the names of all defined response combinations.
+
+        :return: list of combination names
+        :rtype: list[str]
+        """
+        number_names = int()
+        combo_names = [str()]
+        [ret, number_names, combo_names] = self.combo.GetNameList(number_names, combo_names)
+        handle(ret)
+        return list(combo_names)

@@ -24,6 +24,12 @@ class AreaObj:
         self.sap_model = sap_model
         # create AreaObj interface
         self.area_obj = etabs.cAreaObj(self.sap_model.AreaObj)
+        
+        # relate relevant ETABS enumerations
+        self.eWallPierRebarLayerType = etabs.eWallPierRebarLayerType
+        """EtabsModel `WallPierRebarLayerType` enumeration"""
+        self.eWallSpandrelRebarLayerType = etabs.eWallSpandrelRebarLayerType
+        """EtabsModel `WallSpandrelRebarLayerType` enumeration"""
 
 
     def get_label_from_name(self, area_name : str) -> AreaObjectLabelData:
