@@ -9,13 +9,9 @@ etabs_model = pytabs.model.EtabsModel()
 # set the model units to 
 etabs_model.set_present_units(etabs_model.eUnits.kN_m_C)
 
-# frame_added = etabs_model.frame_obj.add_by_coord(0.0, 8.0, 3.0, 8.0, 0.0, 3.0)
-# print(frame_added)
+etabs_model.select.all()
 
-# frame_added = etabs_model.frame_obj.add_by_point("65", "53")
-# print(frame_added)
-
-handle(0)
+selected = etabs_model.select.get_selected()
 
 frame_groups = etabs_model.frame_obj.get_group_assign("37")
 print(frame_groups)
@@ -31,3 +27,5 @@ print(frame_design_orientation)
 
 
 frame_design_orientation = etabs_model.frame_obj.add_by_coord(1,2,3,10,20,30)
+
+etabs_model.view.refresh_view()
