@@ -101,3 +101,13 @@ class eFrameDesignProcedure(IntEnum):
     STEEL_JOIST = 4
     NULL = 7
     COMPOSITE_COLUMN = 13
+
+
+class eSelectObjectType(IntEnum):
+    POINT = 1
+    FRAME = 2
+    CABLE = 3
+    TENDON = 4
+    AREA = 5
+    SOLID = 6
+    LINK = 7
