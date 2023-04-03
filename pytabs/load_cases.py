@@ -7,9 +7,17 @@ from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import of interfaces of load case types
-from pytabs.case_static_linear import *
-from pytabs.case_static_nonlinear import *
-from pytabs.case_static_nonlinear_staged import *
+from pytabs.case_direct_history_linear import CaseDirectHistoryLinear
+from pytabs.case_direct_history_nonlinear import CaseDirectHistoryNonlinear
+from pytabs.case_hyperstatic import CaseHyperStatic
+from pytabs.case_modal_eigen import CaseModalEigen
+from pytabs.case_modal_history_linear import CaseModalHistoryLinear
+from pytabs.case_modal_history_nonlinear import CaseModalHistoryNonlinear
+from pytabs.case_modal_ritz import CaseModalRitz
+from pytabs.case_response_spectrum import CaseResponseSpectrum
+from pytabs.case_static_linear import CaseStaticLinear
+from pytabs.case_static_nonlinear import CaseStaticNonlinear
+from pytabs.case_static_nonlinear_staged import CaseStaticNonlinearStaged
 
 # import typing
 from typing import Union
@@ -33,12 +41,23 @@ class LoadCases:
         self.sap_model = sap_model
         # create LoadCases interface
         self.load_cases = etabs.cLoadCases(sap_model.LoadCases)
-        # create interface for static nonlinear load cases
+        
+        # create interface for individual case types
+        self.direct_history_linear = CaseDirectHistoryLinear(sap_model)
+        self.direct_history_nonlinear = CaseDirectHistoryNonlinear(sap_model)
+        self.hyperstatic = CaseHyperStatic(sap_model)
+        self.modal_eigen = CaseModalEigen(sap_model)
+        self.modal_history_linear = CaseModalHistoryLinear(sap_model)
+        self.modal_history_nonlinear = CaseModalHistoryNonlinear(sap_model)
+        self.modal_ritz = CaseModalRitz(sap_model)
+        self.response_spectrum = CaseResponseSpectrum(sap_model)
         self.static_linear = CaseStaticLinear(sap_model)
-        # create interface for static nonlinear load cases
         self.static_nonlinear = CaseStaticNonlinear(sap_model)
-        # create interface for static nonlinear staged load cases
         self.static_nonlinear_staged = CaseStaticNonlinearStaged(sap_model)
+        
+        # relate relevant ETABS enumerations
+        self.eLoadCaseType = etabs.eLoadCaseType
+        """EtabsModel `LoadCaseType` enumeration"""
 
 
     def change_name(self, case_name : str, new_case_name :str) -> None:

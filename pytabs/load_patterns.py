@@ -57,7 +57,7 @@ class LoadPatterns:
         :rtype: eLoadPatternType
         """
         load_pattern_type = etabs.eLoadPatternType.ActiveEarthPressure
-        [ret, load_pattern_type] = handle(self.load_patterns.GetLoadType(load_pattern_name, load_pattern_type))
+        [ret, load_pattern_type] = self.load_patterns.GetLoadType(load_pattern_name, load_pattern_type)
         handle(ret)
         return load_pattern_type
 

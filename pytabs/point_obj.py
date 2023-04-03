@@ -24,6 +24,7 @@ class PointObj:
         self.eDiaphragmOption = etabs.eDiaphragmOption
         """EtabsModel `DiaphragmOption` enumeration"""
         
+
         # relate custom enumerations
         
         
