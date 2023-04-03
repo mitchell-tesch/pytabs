@@ -24,4 +24,23 @@ class PointObj:
         self.eDiaphragmOption = etabs.eDiaphragmOption
         """EtabsModel `DiaphragmOption` enumeration"""
         
+
         # relate custom enumerations
+        
+        
+        
+    def get_name_from_label (self, label : str, story : str) -> str:
+        """Retrieves the unique name of a point object, given the label and story level.
+
+        :param label: The point object label 
+        :type label: str
+        :param story: The point object story level  
+        :type label: str
+        :return point_name: The unique name of the point object
+        :rtype: str
+        """
+
+        point_name = str()
+        [ret, point_name] = self.point_obj.GetNameFromLabel(label, story, point_name) 
+        handle(ret)
+        return point_name
