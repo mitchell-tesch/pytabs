@@ -37,6 +37,9 @@
                         <li>
                                 <a class="function" href="#View.__init__">View</a>
                         </li>
+                        <li>
+                                <a class="function" href="#View.refresh_view">refresh_view</a>
+                        </li>
                 </ul>
 
             </li>
@@ -69,21 +72,28 @@
 </span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">pytabs.etabs_config</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">pytabs.error_handle</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="c1"># import custom enumerations</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1"># import typing</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="k">class</span> <span class="nc">View</span><span class="p">:</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="sd">&quot;&quot;&quot;View interface&quot;&quot;&quot;</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="c1"># link of SapModel interface</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="c1"># create View interface</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cView</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">View</span><span class="p">)</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="k">class</span> <span class="nc">View</span><span class="p">:</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>    <span class="sd">&quot;&quot;&quot;View interface&quot;&quot;&quot;</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>        <span class="c1"># link of SapModel interface</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>        <span class="c1"># create View interface</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cView</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">View</span><span class="p">)</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="k">def</span> <span class="nf">refresh_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">zoom</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="sd">&quot;&quot;&quot;Refreshes the view for the specified window(s).</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">        :param window: window number, with 0 for all windows, defaults to 0</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">        :type window: int, optional</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">        :param zoom: `True` to maintain window current zoom level, `False` to reset window zoom level to default, defaults to True</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">        :type zoom: bool, optional</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">RefreshView</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">zoom</span><span class="p">))</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>    
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="c1"># RefreshWindow method redundant with the above.</span>
 </span></pre></div>
 
 
@@ -99,15 +109,27 @@
 
     </div>
     <a class="headerlink" href="#View"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="View-16"><a href="#View-16"><span class="linenos">16</span></a><span class="k">class</span> <span class="nc">View</span><span class="p">:</span>
-</span><span id="View-17"><a href="#View-17"><span class="linenos">17</span></a>    <span class="sd">&quot;&quot;&quot;View interface&quot;&quot;&quot;</span>
-</span><span id="View-18"><a href="#View-18"><span class="linenos">18</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="View-19"><a href="#View-19"><span class="linenos">19</span></a>        <span class="c1"># link of SapModel interface</span>
-</span><span id="View-20"><a href="#View-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-</span><span id="View-21"><a href="#View-21"><span class="linenos">21</span></a>        <span class="c1"># create View interface</span>
-</span><span id="View-22"><a href="#View-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cView</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">View</span><span class="p">)</span>
-</span><span id="View-23"><a href="#View-23"><span class="linenos">23</span></a>        
-</span><span id="View-24"><a href="#View-24"><span class="linenos">24</span></a>        <span class="c1"># relate custom enumerations</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="View-11"><a href="#View-11"><span class="linenos">11</span></a><span class="k">class</span> <span class="nc">View</span><span class="p">:</span>
+</span><span id="View-12"><a href="#View-12"><span class="linenos">12</span></a>    <span class="sd">&quot;&quot;&quot;View interface&quot;&quot;&quot;</span>
+</span><span id="View-13"><a href="#View-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="View-14"><a href="#View-14"><span class="linenos">14</span></a>        <span class="c1"># link of SapModel interface</span>
+</span><span id="View-15"><a href="#View-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+</span><span id="View-16"><a href="#View-16"><span class="linenos">16</span></a>        <span class="c1"># create View interface</span>
+</span><span id="View-17"><a href="#View-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cView</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">View</span><span class="p">)</span>
+</span><span id="View-18"><a href="#View-18"><span class="linenos">18</span></a>    
+</span><span id="View-19"><a href="#View-19"><span class="linenos">19</span></a>    
+</span><span id="View-20"><a href="#View-20"><span class="linenos">20</span></a>    <span class="k">def</span> <span class="nf">refresh_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">zoom</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="View-21"><a href="#View-21"><span class="linenos">21</span></a>        <span class="sd">&quot;&quot;&quot;Refreshes the view for the specified window(s).</span>
+</span><span id="View-22"><a href="#View-22"><span class="linenos">22</span></a>
+</span><span id="View-23"><a href="#View-23"><span class="linenos">23</span></a><span class="sd">        :param window: window number, with 0 for all windows, defaults to 0</span>
+</span><span id="View-24"><a href="#View-24"><span class="linenos">24</span></a><span class="sd">        :type window: int, optional</span>
+</span><span id="View-25"><a href="#View-25"><span class="linenos">25</span></a><span class="sd">        :param zoom: `True` to maintain window current zoom level, `False` to reset window zoom level to default, defaults to True</span>
+</span><span id="View-26"><a href="#View-26"><span class="linenos">26</span></a><span class="sd">        :type zoom: bool, optional</span>
+</span><span id="View-27"><a href="#View-27"><span class="linenos">27</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="View-28"><a href="#View-28"><span class="linenos">28</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">RefreshView</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">zoom</span><span class="p">))</span>
+</span><span id="View-29"><a href="#View-29"><span class="linenos">29</span></a>    
+</span><span id="View-30"><a href="#View-30"><span class="linenos">30</span></a>    
+</span><span id="View-31"><a href="#View-31"><span class="linenos">31</span></a>    <span class="c1"># RefreshWindow method redundant with the above.</span>
 </span></pre></div>
 
 
@@ -125,17 +147,50 @@
 
     </div>
     <a class="headerlink" href="#View.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="View.__init__-18"><a href="#View.__init__-18"><span class="linenos">18</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="View.__init__-19"><a href="#View.__init__-19"><span class="linenos">19</span></a>        <span class="c1"># link of SapModel interface</span>
-</span><span id="View.__init__-20"><a href="#View.__init__-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-</span><span id="View.__init__-21"><a href="#View.__init__-21"><span class="linenos">21</span></a>        <span class="c1"># create View interface</span>
-</span><span id="View.__init__-22"><a href="#View.__init__-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cView</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">View</span><span class="p">)</span>
-</span><span id="View.__init__-23"><a href="#View.__init__-23"><span class="linenos">23</span></a>        
-</span><span id="View.__init__-24"><a href="#View.__init__-24"><span class="linenos">24</span></a>        <span class="c1"># relate custom enumerations</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="View.__init__-13"><a href="#View.__init__-13"><span class="linenos">13</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="View.__init__-14"><a href="#View.__init__-14"><span class="linenos">14</span></a>        <span class="c1"># link of SapModel interface</span>
+</span><span id="View.__init__-15"><a href="#View.__init__-15"><span class="linenos">15</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+</span><span id="View.__init__-16"><a href="#View.__init__-16"><span class="linenos">16</span></a>        <span class="c1"># create View interface</span>
+</span><span id="View.__init__-17"><a href="#View.__init__-17"><span class="linenos">17</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cView</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">View</span><span class="p">)</span>
 </span></pre></div>
 
 
     
+
+                            </div>
+                            <div id="View.refresh_view" class="classattr">
+                                        <input id="View.refresh_view-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">refresh_view</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>, </span><span class="param"><span class="n">zoom</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="View.refresh_view-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#View.refresh_view"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="View.refresh_view-20"><a href="#View.refresh_view-20"><span class="linenos">20</span></a>    <span class="k">def</span> <span class="nf">refresh_view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window</span> <span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">zoom</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="View.refresh_view-21"><a href="#View.refresh_view-21"><span class="linenos">21</span></a>        <span class="sd">&quot;&quot;&quot;Refreshes the view for the specified window(s).</span>
+</span><span id="View.refresh_view-22"><a href="#View.refresh_view-22"><span class="linenos">22</span></a>
+</span><span id="View.refresh_view-23"><a href="#View.refresh_view-23"><span class="linenos">23</span></a><span class="sd">        :param window: window number, with 0 for all windows, defaults to 0</span>
+</span><span id="View.refresh_view-24"><a href="#View.refresh_view-24"><span class="linenos">24</span></a><span class="sd">        :type window: int, optional</span>
+</span><span id="View.refresh_view-25"><a href="#View.refresh_view-25"><span class="linenos">25</span></a><span class="sd">        :param zoom: `True` to maintain window current zoom level, `False` to reset window zoom level to default, defaults to True</span>
+</span><span id="View.refresh_view-26"><a href="#View.refresh_view-26"><span class="linenos">26</span></a><span class="sd">        :type zoom: bool, optional</span>
+</span><span id="View.refresh_view-27"><a href="#View.refresh_view-27"><span class="linenos">27</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="View.refresh_view-28"><a href="#View.refresh_view-28"><span class="linenos">28</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">RefreshView</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">zoom</span><span class="p">))</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Refreshes the view for the specified window(s).</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>window</strong>:  window number, with 0 for all windows, defaults to 0</li>
+<li><strong>zoom</strong>:  <code>True</code> to maintain window current zoom level, <code>False</code> to reset window zoom level to default, defaults to True</li>
+</ul>
+</div>
+
 
                             </div>
                 </section>

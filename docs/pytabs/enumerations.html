@@ -283,6 +283,33 @@
                 </ul>
 
             </li>
+            <li>
+                    <a class="class" href="#eSelectObjectType">eSelectObjectType</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.POINT">POINT</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.FRAME">FRAME</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.CABLE">CABLE</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.TENDON">TENDON</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.AREA">AREA</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.SOLID">SOLID</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#eSelectObjectType.LINK">LINK</a>
+                        </li>
+                </ul>
+
+            </li>
     </ul>
 
 
@@ -407,6 +434,16 @@
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>    <span class="n">STEEL_JOIST</span> <span class="o">=</span> <span class="mi">4</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>    <span class="n">NULL</span> <span class="o">=</span> <span class="mi">7</span>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="n">COMPOSITE_COLUMN</span> <span class="o">=</span> <span class="mi">13</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="k">class</span> <span class="nc">eSelectObjectType</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>    <span class="n">POINT</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>    <span class="n">FRAME</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>    <span class="n">CABLE</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>    <span class="n">TENDON</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="n">AREA</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>    <span class="n">SOLID</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="n">LINK</span> <span class="o">=</span> <span class="mi">7</span>
 </span></pre></div>
 
 
@@ -1809,6 +1846,133 @@
                 <dd id="eFrameDesignProcedure.imag" class="variable">imag</dd>
                 <dd id="eFrameDesignProcedure.numerator" class="variable">numerator</dd>
                 <dd id="eFrameDesignProcedure.denominator" class="variable">denominator</dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="eSelectObjectType">
+                            <input id="eSelectObjectType-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">eSelectObjectType</span><wbr>(<span class="base">enum.IntEnum</span>):
+
+                <label class="view-source-button" for="eSelectObjectType-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#eSelectObjectType"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="eSelectObjectType-107"><a href="#eSelectObjectType-107"><span class="linenos">107</span></a><span class="k">class</span> <span class="nc">eSelectObjectType</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+</span><span id="eSelectObjectType-108"><a href="#eSelectObjectType-108"><span class="linenos">108</span></a>    <span class="n">POINT</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="eSelectObjectType-109"><a href="#eSelectObjectType-109"><span class="linenos">109</span></a>    <span class="n">FRAME</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="eSelectObjectType-110"><a href="#eSelectObjectType-110"><span class="linenos">110</span></a>    <span class="n">CABLE</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span id="eSelectObjectType-111"><a href="#eSelectObjectType-111"><span class="linenos">111</span></a>    <span class="n">TENDON</span> <span class="o">=</span> <span class="mi">4</span>
+</span><span id="eSelectObjectType-112"><a href="#eSelectObjectType-112"><span class="linenos">112</span></a>    <span class="n">AREA</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="eSelectObjectType-113"><a href="#eSelectObjectType-113"><span class="linenos">113</span></a>    <span class="n">SOLID</span> <span class="o">=</span> <span class="mi">6</span>
+</span><span id="eSelectObjectType-114"><a href="#eSelectObjectType-114"><span class="linenos">114</span></a>    <span class="n">LINK</span> <span class="o">=</span> <span class="mi">7</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>An enumeration.</p>
+</div>
+
+
+                            <div id="eSelectObjectType.POINT" class="classattr">
+                                <div class="attr variable">
+            <span class="name">POINT</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.POINT">eSelectObjectType.POINT</a>: 1&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.POINT"></a>
+    
+    
+
+                            </div>
+                            <div id="eSelectObjectType.FRAME" class="classattr">
+                                <div class="attr variable">
+            <span class="name">FRAME</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.FRAME">eSelectObjectType.FRAME</a>: 2&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.FRAME"></a>
+    
+    
+
+                            </div>
+                            <div id="eSelectObjectType.CABLE" class="classattr">
+                                <div class="attr variable">
+            <span class="name">CABLE</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.CABLE">eSelectObjectType.CABLE</a>: 3&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.CABLE"></a>
+    
+    
+
+                            </div>
+                            <div id="eSelectObjectType.TENDON" class="classattr">
+                                <div class="attr variable">
+            <span class="name">TENDON</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.TENDON">eSelectObjectType.TENDON</a>: 4&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.TENDON"></a>
+    
+    
+
+                            </div>
+                            <div id="eSelectObjectType.AREA" class="classattr">
+                                <div class="attr variable">
+            <span class="name">AREA</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.AREA">eSelectObjectType.AREA</a>: 5&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.AREA"></a>
+    
+    
+
+                            </div>
+                            <div id="eSelectObjectType.SOLID" class="classattr">
+                                <div class="attr variable">
+            <span class="name">SOLID</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.SOLID">eSelectObjectType.SOLID</a>: 6&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.SOLID"></a>
+    
+    
+
+                            </div>
+                            <div id="eSelectObjectType.LINK" class="classattr">
+                                <div class="attr variable">
+            <span class="name">LINK</span><span class="default_value"> = &lt;<a href="#eSelectObjectType.LINK">eSelectObjectType.LINK</a>: 7&gt;</span>
+
+        
+    </div>
+    <a class="headerlink" href="#eSelectObjectType.LINK"></a>
+    
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt>enum.Enum</dt>
+                                <dd id="eSelectObjectType.name" class="variable">name</dd>
+                <dd id="eSelectObjectType.value" class="variable">value</dd>
+
+            </div>
+            <div><dt>builtins.int</dt>
+                                <dd id="eSelectObjectType.conjugate" class="function">conjugate</dd>
+                <dd id="eSelectObjectType.bit_length" class="function">bit_length</dd>
+                <dd id="eSelectObjectType.bit_count" class="function">bit_count</dd>
+                <dd id="eSelectObjectType.to_bytes" class="function">to_bytes</dd>
+                <dd id="eSelectObjectType.from_bytes" class="function">from_bytes</dd>
+                <dd id="eSelectObjectType.as_integer_ratio" class="function">as_integer_ratio</dd>
+                <dd id="eSelectObjectType.real" class="variable">real</dd>
+                <dd id="eSelectObjectType.imag" class="variable">imag</dd>
+                <dd id="eSelectObjectType.numerator" class="variable">numerator</dd>
+                <dd id="eSelectObjectType.denominator" class="variable">denominator</dd>
 
             </div>
                                 </dl>

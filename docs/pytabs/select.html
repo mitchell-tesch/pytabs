@@ -37,6 +37,24 @@
                         <li>
                                 <a class="function" href="#Select.__init__">Select</a>
                         </li>
+                        <li>
+                                <a class="function" href="#Select.all">all</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Select.clear_selection">clear_selection</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Select.get_selected">get_selected</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Select.group">group</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Select.invert_selection">invert_selection</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Select.previous_selection">previous_selection</a>
+                        </li>
                 </ul>
 
             </li>
@@ -70,20 +88,83 @@
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">pytabs.error_handle</span> <span class="kn">import</span> <span class="o">*</span>
 </span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
 </span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="c1"># import custom enumerations</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">pytabs.enumerations</span> <span class="kn">import</span> <span class="n">eSelectObjectType</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1"># import typing</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="k">class</span> <span class="nc">Select</span><span class="p">:</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>    <span class="sd">&quot;&quot;&quot;Select interface&quot;&quot;&quot;</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>        <span class="c1"># link of SapModel interface</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="c1"># create SelectObj interface</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSelect</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SelectObj</span><span class="p">)</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a>
+</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="c1"># import typing</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="k">class</span> <span class="nc">SelectedObjects</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="sd">&quot;&quot;&quot;TypedDict class for get_selected return&quot;&quot;&quot;</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="n">number_items</span> <span class="p">:</span> <span class="nb">int</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>    <span class="n">object_types</span> <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">eSelectObjectType</span><span class="p">]</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="n">object_names</span> <span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="k">class</span> <span class="nc">Select</span><span class="p">:</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="sd">&quot;&quot;&quot;Select interface&quot;&quot;&quot;</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="c1"># link of SapModel interface</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="c1"># create SelectObj interface</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSelect</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SelectObj</span><span class="p">)</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eSelectObjectType</span> <span class="o">=</span> <span class="n">eSelectObjectType</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deselect</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="sd">&quot;&quot;&quot;Selects or deselects all objects in the model.</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">        :param deselect: `False` if objects are to be selected and `True` if they are to be deselected, defaults to False</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">        :type deselect: bool, optional</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">All</span><span class="p">(</span><span class="n">deselect</span><span class="p">))</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>    <span class="k">def</span> <span class="nf">clear_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>        <span class="sd">&quot;&quot;&quot;Deselects all objects in the model.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">ClearSelection</span><span class="p">())</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="k">def</span> <span class="nf">get_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectedObjects</span><span class="p">:</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves a list of selected objects.</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">        :return: Quantity, Type and Names of the selected objects</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">        :rtype: `SelectedObjects`</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>        <span class="n">number_items</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>        <span class="n">object_types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">()]</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>        <span class="n">object_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_items</span><span class="p">,</span> <span class="n">object_types</span><span class="p">,</span> <span class="n">object_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">GetSelected</span><span class="p">(</span><span class="n">number_items</span><span class="p">,</span> <span class="n">object_types</span><span class="p">,</span> <span class="n">object_names</span><span class="p">)</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_items&#39;</span><span class="p">:</span> <span class="n">number_items</span><span class="p">,</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>                <span class="s1">&#39;object_types&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">eSelectObjectType</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">object_types</span><span class="p">],</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>                <span class="s1">&#39;object_names&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">object_names</span><span class="p">)}</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deselect</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>        <span class="sd">&quot;&quot;&quot;Selects or deselects all objects in the specified group.</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">        :param name: The name of an existing group</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">        :type name: str</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="sd">        :param deselect: `False` if objects are to be selected and `True` if they are to be deselected, defaults to False</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="sd">        :type deselect: bool, optional</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">Group</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">deselect</span><span class="p">))</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>    <span class="k">def</span> <span class="nf">invert_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>        <span class="sd">&quot;&quot;&quot;Deselects all selected objects and selects all unselected objects; that is, it inverts the selection.</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">InvertSelection</span><span class="p">())</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a>
+</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>    <span class="k">def</span> <span class="nf">previous_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>        <span class="sd">&quot;&quot;&quot;Restores the previous selection.</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">PreviousSelection</span><span class="p">())</span>
 </span></pre></div>
 
 
@@ -99,15 +180,70 @@
 
     </div>
     <a class="headerlink" href="#Select"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Select-16"><a href="#Select-16"><span class="linenos">16</span></a><span class="k">class</span> <span class="nc">Select</span><span class="p">:</span>
-</span><span id="Select-17"><a href="#Select-17"><span class="linenos">17</span></a>    <span class="sd">&quot;&quot;&quot;Select interface&quot;&quot;&quot;</span>
-</span><span id="Select-18"><a href="#Select-18"><span class="linenos">18</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Select-19"><a href="#Select-19"><span class="linenos">19</span></a>        <span class="c1"># link of SapModel interface</span>
-</span><span id="Select-20"><a href="#Select-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-</span><span id="Select-21"><a href="#Select-21"><span class="linenos">21</span></a>        <span class="c1"># create SelectObj interface</span>
-</span><span id="Select-22"><a href="#Select-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSelect</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SelectObj</span><span class="p">)</span>
-</span><span id="Select-23"><a href="#Select-23"><span class="linenos">23</span></a>        
-</span><span id="Select-24"><a href="#Select-24"><span class="linenos">24</span></a>        <span class="c1"># relate custom enumerations</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select-24"><a href="#Select-24"><span class="linenos">24</span></a><span class="k">class</span> <span class="nc">Select</span><span class="p">:</span>
+</span><span id="Select-25"><a href="#Select-25"><span class="linenos">25</span></a>    <span class="sd">&quot;&quot;&quot;Select interface&quot;&quot;&quot;</span>
+</span><span id="Select-26"><a href="#Select-26"><span class="linenos">26</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select-27"><a href="#Select-27"><span class="linenos">27</span></a>        <span class="c1"># link of SapModel interface</span>
+</span><span id="Select-28"><a href="#Select-28"><span class="linenos">28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+</span><span id="Select-29"><a href="#Select-29"><span class="linenos">29</span></a>        <span class="c1"># create SelectObj interface</span>
+</span><span id="Select-30"><a href="#Select-30"><span class="linenos">30</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSelect</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SelectObj</span><span class="p">)</span>
+</span><span id="Select-31"><a href="#Select-31"><span class="linenos">31</span></a>        
+</span><span id="Select-32"><a href="#Select-32"><span class="linenos">32</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="Select-33"><a href="#Select-33"><span class="linenos">33</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eSelectObjectType</span> <span class="o">=</span> <span class="n">eSelectObjectType</span>
+</span><span id="Select-34"><a href="#Select-34"><span class="linenos">34</span></a>
+</span><span id="Select-35"><a href="#Select-35"><span class="linenos">35</span></a>
+</span><span id="Select-36"><a href="#Select-36"><span class="linenos">36</span></a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deselect</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select-37"><a href="#Select-37"><span class="linenos">37</span></a>        <span class="sd">&quot;&quot;&quot;Selects or deselects all objects in the model.</span>
+</span><span id="Select-38"><a href="#Select-38"><span class="linenos">38</span></a>
+</span><span id="Select-39"><a href="#Select-39"><span class="linenos">39</span></a><span class="sd">        :param deselect: `False` if objects are to be selected and `True` if they are to be deselected, defaults to False</span>
+</span><span id="Select-40"><a href="#Select-40"><span class="linenos">40</span></a><span class="sd">        :type deselect: bool, optional</span>
+</span><span id="Select-41"><a href="#Select-41"><span class="linenos">41</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select-42"><a href="#Select-42"><span class="linenos">42</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">All</span><span class="p">(</span><span class="n">deselect</span><span class="p">))</span>
+</span><span id="Select-43"><a href="#Select-43"><span class="linenos">43</span></a>
+</span><span id="Select-44"><a href="#Select-44"><span class="linenos">44</span></a>
+</span><span id="Select-45"><a href="#Select-45"><span class="linenos">45</span></a>    <span class="k">def</span> <span class="nf">clear_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select-46"><a href="#Select-46"><span class="linenos">46</span></a>        <span class="sd">&quot;&quot;&quot;Deselects all objects in the model.</span>
+</span><span id="Select-47"><a href="#Select-47"><span class="linenos">47</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select-48"><a href="#Select-48"><span class="linenos">48</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">ClearSelection</span><span class="p">())</span>
+</span><span id="Select-49"><a href="#Select-49"><span class="linenos">49</span></a>
+</span><span id="Select-50"><a href="#Select-50"><span class="linenos">50</span></a>
+</span><span id="Select-51"><a href="#Select-51"><span class="linenos">51</span></a>    <span class="k">def</span> <span class="nf">get_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectedObjects</span><span class="p">:</span>
+</span><span id="Select-52"><a href="#Select-52"><span class="linenos">52</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves a list of selected objects.</span>
+</span><span id="Select-53"><a href="#Select-53"><span class="linenos">53</span></a>
+</span><span id="Select-54"><a href="#Select-54"><span class="linenos">54</span></a><span class="sd">        :return: Quantity, Type and Names of the selected objects</span>
+</span><span id="Select-55"><a href="#Select-55"><span class="linenos">55</span></a><span class="sd">        :rtype: `SelectedObjects`</span>
+</span><span id="Select-56"><a href="#Select-56"><span class="linenos">56</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select-57"><a href="#Select-57"><span class="linenos">57</span></a>        <span class="n">number_items</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+</span><span id="Select-58"><a href="#Select-58"><span class="linenos">58</span></a>        <span class="n">object_types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">()]</span>
+</span><span id="Select-59"><a href="#Select-59"><span class="linenos">59</span></a>        <span class="n">object_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+</span><span id="Select-60"><a href="#Select-60"><span class="linenos">60</span></a>        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_items</span><span class="p">,</span> <span class="n">object_types</span><span class="p">,</span> <span class="n">object_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">GetSelected</span><span class="p">(</span><span class="n">number_items</span><span class="p">,</span> <span class="n">object_types</span><span class="p">,</span> <span class="n">object_names</span><span class="p">)</span>
+</span><span id="Select-61"><a href="#Select-61"><span class="linenos">61</span></a>        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+</span><span id="Select-62"><a href="#Select-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_items&#39;</span><span class="p">:</span> <span class="n">number_items</span><span class="p">,</span>
+</span><span id="Select-63"><a href="#Select-63"><span class="linenos">63</span></a>                <span class="s1">&#39;object_types&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">eSelectObjectType</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">object_types</span><span class="p">],</span>
+</span><span id="Select-64"><a href="#Select-64"><span class="linenos">64</span></a>                <span class="s1">&#39;object_names&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">object_names</span><span class="p">)}</span>
+</span><span id="Select-65"><a href="#Select-65"><span class="linenos">65</span></a>
+</span><span id="Select-66"><a href="#Select-66"><span class="linenos">66</span></a>
+</span><span id="Select-67"><a href="#Select-67"><span class="linenos">67</span></a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deselect</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select-68"><a href="#Select-68"><span class="linenos">68</span></a>        <span class="sd">&quot;&quot;&quot;Selects or deselects all objects in the specified group.</span>
+</span><span id="Select-69"><a href="#Select-69"><span class="linenos">69</span></a>
+</span><span id="Select-70"><a href="#Select-70"><span class="linenos">70</span></a><span class="sd">        :param name: The name of an existing group</span>
+</span><span id="Select-71"><a href="#Select-71"><span class="linenos">71</span></a><span class="sd">        :type name: str</span>
+</span><span id="Select-72"><a href="#Select-72"><span class="linenos">72</span></a><span class="sd">        :param deselect: `False` if objects are to be selected and `True` if they are to be deselected, defaults to False</span>
+</span><span id="Select-73"><a href="#Select-73"><span class="linenos">73</span></a><span class="sd">        :type deselect: bool, optional</span>
+</span><span id="Select-74"><a href="#Select-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select-75"><a href="#Select-75"><span class="linenos">75</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">Group</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">deselect</span><span class="p">))</span>
+</span><span id="Select-76"><a href="#Select-76"><span class="linenos">76</span></a>
+</span><span id="Select-77"><a href="#Select-77"><span class="linenos">77</span></a>
+</span><span id="Select-78"><a href="#Select-78"><span class="linenos">78</span></a>    <span class="k">def</span> <span class="nf">invert_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select-79"><a href="#Select-79"><span class="linenos">79</span></a>        <span class="sd">&quot;&quot;&quot;Deselects all selected objects and selects all unselected objects; that is, it inverts the selection.</span>
+</span><span id="Select-80"><a href="#Select-80"><span class="linenos">80</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select-81"><a href="#Select-81"><span class="linenos">81</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">InvertSelection</span><span class="p">())</span>
+</span><span id="Select-82"><a href="#Select-82"><span class="linenos">82</span></a>
+</span><span id="Select-83"><a href="#Select-83"><span class="linenos">83</span></a>
+</span><span id="Select-84"><a href="#Select-84"><span class="linenos">84</span></a>    <span class="k">def</span> <span class="nf">previous_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select-85"><a href="#Select-85"><span class="linenos">85</span></a>        <span class="sd">&quot;&quot;&quot;Restores the previous selection.</span>
+</span><span id="Select-86"><a href="#Select-86"><span class="linenos">86</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select-87"><a href="#Select-87"><span class="linenos">87</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">PreviousSelection</span><span class="p">())</span>
 </span></pre></div>
 
 
@@ -125,17 +261,193 @@
 
     </div>
     <a class="headerlink" href="#Select.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.__init__-18"><a href="#Select.__init__-18"><span class="linenos">18</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="Select.__init__-19"><a href="#Select.__init__-19"><span class="linenos">19</span></a>        <span class="c1"># link of SapModel interface</span>
-</span><span id="Select.__init__-20"><a href="#Select.__init__-20"><span class="linenos">20</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-</span><span id="Select.__init__-21"><a href="#Select.__init__-21"><span class="linenos">21</span></a>        <span class="c1"># create SelectObj interface</span>
-</span><span id="Select.__init__-22"><a href="#Select.__init__-22"><span class="linenos">22</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSelect</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SelectObj</span><span class="p">)</span>
-</span><span id="Select.__init__-23"><a href="#Select.__init__-23"><span class="linenos">23</span></a>        
-</span><span id="Select.__init__-24"><a href="#Select.__init__-24"><span class="linenos">24</span></a>        <span class="c1"># relate custom enumerations</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.__init__-26"><a href="#Select.__init__-26"><span class="linenos">26</span></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span> <span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select.__init__-27"><a href="#Select.__init__-27"><span class="linenos">27</span></a>        <span class="c1"># link of SapModel interface</span>
+</span><span id="Select.__init__-28"><a href="#Select.__init__-28"><span class="linenos">28</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+</span><span id="Select.__init__-29"><a href="#Select.__init__-29"><span class="linenos">29</span></a>        <span class="c1"># create SelectObj interface</span>
+</span><span id="Select.__init__-30"><a href="#Select.__init__-30"><span class="linenos">30</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSelect</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SelectObj</span><span class="p">)</span>
+</span><span id="Select.__init__-31"><a href="#Select.__init__-31"><span class="linenos">31</span></a>        
+</span><span id="Select.__init__-32"><a href="#Select.__init__-32"><span class="linenos">32</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="Select.__init__-33"><a href="#Select.__init__-33"><span class="linenos">33</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eSelectObjectType</span> <span class="o">=</span> <span class="n">eSelectObjectType</span>
 </span></pre></div>
 
 
     
+
+                            </div>
+                            <div id="Select.all" class="classattr">
+                                        <input id="Select.all-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">all</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">deselect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Select.all-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Select.all"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.all-36"><a href="#Select.all-36"><span class="linenos">36</span></a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deselect</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select.all-37"><a href="#Select.all-37"><span class="linenos">37</span></a>        <span class="sd">&quot;&quot;&quot;Selects or deselects all objects in the model.</span>
+</span><span id="Select.all-38"><a href="#Select.all-38"><span class="linenos">38</span></a>
+</span><span id="Select.all-39"><a href="#Select.all-39"><span class="linenos">39</span></a><span class="sd">        :param deselect: `False` if objects are to be selected and `True` if they are to be deselected, defaults to False</span>
+</span><span id="Select.all-40"><a href="#Select.all-40"><span class="linenos">40</span></a><span class="sd">        :type deselect: bool, optional</span>
+</span><span id="Select.all-41"><a href="#Select.all-41"><span class="linenos">41</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select.all-42"><a href="#Select.all-42"><span class="linenos">42</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">All</span><span class="p">(</span><span class="n">deselect</span><span class="p">))</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Selects or deselects all objects in the model.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>deselect</strong>:  <code>False</code> if objects are to be selected and <code>True</code> if they are to be deselected, defaults to False</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Select.clear_selection" class="classattr">
+                                        <input id="Select.clear_selection-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">clear_selection</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Select.clear_selection-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Select.clear_selection"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.clear_selection-45"><a href="#Select.clear_selection-45"><span class="linenos">45</span></a>    <span class="k">def</span> <span class="nf">clear_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select.clear_selection-46"><a href="#Select.clear_selection-46"><span class="linenos">46</span></a>        <span class="sd">&quot;&quot;&quot;Deselects all objects in the model.</span>
+</span><span id="Select.clear_selection-47"><a href="#Select.clear_selection-47"><span class="linenos">47</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select.clear_selection-48"><a href="#Select.clear_selection-48"><span class="linenos">48</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">ClearSelection</span><span class="p">())</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Deselects all objects in the model.</p>
+</div>
+
+
+                            </div>
+                            <div id="Select.get_selected" class="classattr">
+                                        <input id="Select.get_selected-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_selected</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="n">pytabs</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">SelectedObjects</span>:</span></span>
+
+                <label class="view-source-button" for="Select.get_selected-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Select.get_selected"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.get_selected-51"><a href="#Select.get_selected-51"><span class="linenos">51</span></a>    <span class="k">def</span> <span class="nf">get_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SelectedObjects</span><span class="p">:</span>
+</span><span id="Select.get_selected-52"><a href="#Select.get_selected-52"><span class="linenos">52</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves a list of selected objects.</span>
+</span><span id="Select.get_selected-53"><a href="#Select.get_selected-53"><span class="linenos">53</span></a>
+</span><span id="Select.get_selected-54"><a href="#Select.get_selected-54"><span class="linenos">54</span></a><span class="sd">        :return: Quantity, Type and Names of the selected objects</span>
+</span><span id="Select.get_selected-55"><a href="#Select.get_selected-55"><span class="linenos">55</span></a><span class="sd">        :rtype: `SelectedObjects`</span>
+</span><span id="Select.get_selected-56"><a href="#Select.get_selected-56"><span class="linenos">56</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select.get_selected-57"><a href="#Select.get_selected-57"><span class="linenos">57</span></a>        <span class="n">number_items</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+</span><span id="Select.get_selected-58"><a href="#Select.get_selected-58"><span class="linenos">58</span></a>        <span class="n">object_types</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">()]</span>
+</span><span id="Select.get_selected-59"><a href="#Select.get_selected-59"><span class="linenos">59</span></a>        <span class="n">object_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+</span><span id="Select.get_selected-60"><a href="#Select.get_selected-60"><span class="linenos">60</span></a>        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_items</span><span class="p">,</span> <span class="n">object_types</span><span class="p">,</span> <span class="n">object_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">GetSelected</span><span class="p">(</span><span class="n">number_items</span><span class="p">,</span> <span class="n">object_types</span><span class="p">,</span> <span class="n">object_names</span><span class="p">)</span>
+</span><span id="Select.get_selected-61"><a href="#Select.get_selected-61"><span class="linenos">61</span></a>        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+</span><span id="Select.get_selected-62"><a href="#Select.get_selected-62"><span class="linenos">62</span></a>        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_items&#39;</span><span class="p">:</span> <span class="n">number_items</span><span class="p">,</span>
+</span><span id="Select.get_selected-63"><a href="#Select.get_selected-63"><span class="linenos">63</span></a>                <span class="s1">&#39;object_types&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">eSelectObjectType</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">object_types</span><span class="p">],</span>
+</span><span id="Select.get_selected-64"><a href="#Select.get_selected-64"><span class="linenos">64</span></a>                <span class="s1">&#39;object_names&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">object_names</span><span class="p">)}</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Retrieves a list of selected objects.</p>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>Quantity, Type and Names of the selected objects</p>
+</blockquote>
+</div>
+
+
+                            </div>
+                            <div id="Select.group" class="classattr">
+                                        <input id="Select.group-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">group</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">name</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">deselect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Select.group-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Select.group"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.group-67"><a href="#Select.group-67"><span class="linenos">67</span></a>    <span class="k">def</span> <span class="nf">group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">deselect</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select.group-68"><a href="#Select.group-68"><span class="linenos">68</span></a>        <span class="sd">&quot;&quot;&quot;Selects or deselects all objects in the specified group.</span>
+</span><span id="Select.group-69"><a href="#Select.group-69"><span class="linenos">69</span></a>
+</span><span id="Select.group-70"><a href="#Select.group-70"><span class="linenos">70</span></a><span class="sd">        :param name: The name of an existing group</span>
+</span><span id="Select.group-71"><a href="#Select.group-71"><span class="linenos">71</span></a><span class="sd">        :type name: str</span>
+</span><span id="Select.group-72"><a href="#Select.group-72"><span class="linenos">72</span></a><span class="sd">        :param deselect: `False` if objects are to be selected and `True` if they are to be deselected, defaults to False</span>
+</span><span id="Select.group-73"><a href="#Select.group-73"><span class="linenos">73</span></a><span class="sd">        :type deselect: bool, optional</span>
+</span><span id="Select.group-74"><a href="#Select.group-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select.group-75"><a href="#Select.group-75"><span class="linenos">75</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">Group</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">deselect</span><span class="p">))</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Selects or deselects all objects in the specified group.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>name</strong>:  The name of an existing group</li>
+<li><strong>deselect</strong>:  <code>False</code> if objects are to be selected and <code>True</code> if they are to be deselected, defaults to False</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="Select.invert_selection" class="classattr">
+                                        <input id="Select.invert_selection-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">invert_selection</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Select.invert_selection-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Select.invert_selection"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.invert_selection-78"><a href="#Select.invert_selection-78"><span class="linenos">78</span></a>    <span class="k">def</span> <span class="nf">invert_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select.invert_selection-79"><a href="#Select.invert_selection-79"><span class="linenos">79</span></a>        <span class="sd">&quot;&quot;&quot;Deselects all selected objects and selects all unselected objects; that is, it inverts the selection.</span>
+</span><span id="Select.invert_selection-80"><a href="#Select.invert_selection-80"><span class="linenos">80</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select.invert_selection-81"><a href="#Select.invert_selection-81"><span class="linenos">81</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">InvertSelection</span><span class="p">())</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Deselects all selected objects and selects all unselected objects; that is, it inverts the selection.</p>
+</div>
+
+
+                            </div>
+                            <div id="Select.previous_selection" class="classattr">
+                                        <input id="Select.previous_selection-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">previous_selection</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="Select.previous_selection-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#Select.previous_selection"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Select.previous_selection-84"><a href="#Select.previous_selection-84"><span class="linenos">84</span></a>    <span class="k">def</span> <span class="nf">previous_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Select.previous_selection-85"><a href="#Select.previous_selection-85"><span class="linenos">85</span></a>        <span class="sd">&quot;&quot;&quot;Restores the previous selection.</span>
+</span><span id="Select.previous_selection-86"><a href="#Select.previous_selection-86"><span class="linenos">86</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Select.previous_selection-87"><a href="#Select.previous_selection-87"><span class="linenos">87</span></a>        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="o">.</span><span class="n">PreviousSelection</span><span class="p">())</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Restores the previous selection.</p>
+</div>
+
 
                             </div>
                 </section>
