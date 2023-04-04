@@ -1,5 +1,5 @@
 # pyTABS - ETABS .NET API python wrapper
-# AnalysisResults - cAnalysisResults interface 
+# AnalysisResults - cAnalysisResults interface
 __all__ = ['AnalysisResults']
 
 # import ETABS namespace and pyTABS error handler
@@ -218,7 +218,6 @@ class StoryDrift(TypedDict):
     delta_z : list[float]
 
 
-
 class AnalysisResults:
     """AnalysisResults interface"""
     def __init__(self, sap_model : etabs.cSapModel) -> None:
@@ -234,230 +233,7 @@ class AnalysisResults:
         self.eResultsSetupComboOutOption =  eResultsSetupComboOutOption
 
 
-    # Analysis Results Setup Methods
-    def deselect_all_cases_combos_for_output(self) -> None:
-        """Deselects all load cases and response combinations for output."""
-        handle(self.analysis_results_setup.DeselectAllCasesAndCombosForOutput())
-
-
-    def get_case_selected_for_output(self, case_name : str) -> bool:
-        """Checks if a load case is selected for output.
-
-        :param case_name: name of an existing load case
-        :type case_name: str
-        :return: `True` if the Case selected for output, `False` otherwise
-        :rtype: bool
-        """
-        [ret, selected] = self.analysis_results_setup.GetCaseSelectedForOutput(case_name)
-        handle(ret)
-        return selected
-
-
-    def get_combo_selected_for_output(self, combo_name : str) -> bool:
-        """Checks if a load combination is selected for output.
-
-        :param combo_name: name of an existing combination
-        :type combo_name: str
-        :return: `True` if the Combination selected for output, `False` otherwise
-        :rtype: bool
-        """
-        [ret, selected] = self.analysis_results_setup.GetComboSelectedForOutput(combo_name)
-        handle(ret)
-        return selected
-    
-    
-    def get_base_reaction_location(self) -> tuple[float, float, float]:
-        """Retrieves the global coordinates of the location at which the base reactions are reported.
-
-        :return: global coordinate of 3d point where base reactions are reported (gx, gy, gz)
-        :rtype: tuple[float, float, float]
-        """
-        gx = float()
-        gy = float()
-        gz = float()
-        [ret, gx, gy, gz] = self.analysis_results_setup.GetOptionBaseReactLoc(gx, gy, gz)
-        handle(ret)
-        return (gx, gy, gz)
-    
-
-    def get_buckling_mode_setup(self) -> tuple[int, int, bool]:
-        """Retrieves the mode buckling range for output. 
-        
-        :return: return[0] - first buckling mode, return[1] - last buckling mode, return[2] - all buckling modes
-        :rtype: tuple[int, int, bool]"""
-
-        start_buckling_mode = int()
-        end_buckling_mode = int()
-        all_buckling_modes = bool()
-        [ret, start_buckling_mode,
-        end_buckling_mode, all_buckling_modes] = self.analysis_results_setup.GetOptionBucklingMode(start_buckling_mode,
-                                                                                                   end_buckling_mode,
-                                                                                                   all_buckling_modes)
-        handle(ret)
-        return (start_buckling_mode, end_buckling_mode, all_buckling_modes)
-
-
-    def get_direct_history_setup(self) -> eResultsSetupStepOutOption:
-        """Retrieves the output option for direct history results.
-
-        :return: one of step out options (envelopes, step-by-step or last-step)
-        :rtype: eResultsSetupStepOutOption
-        """
-        option = int()
-        [ret, option] = self.analysis_results_setup.GetOptionDirectHist(option)
-        handle(ret)
-        return eResultsSetupStepOutOption(option)
-
-
-    def get_modal_history_setup(self) -> eResultsSetupStepOutOption:
-        """Retrieves the output option for modal history results. 
-
-        :return: one of step out options (envelopes, step-by-step or last-step)
-        :rtype: eResultsSetupStepOutOption
-        """
-        option = int()
-        [ret, option] = self.analysis_results_setup.GetOptionModalHist(option)
-        handle(ret)
-        return eResultsSetupStepOutOption(option)
-
-
-    def get_mode_shape_setup(self) -> tuple[bool, int, int]:
-        """Retrieves the mode shape range for output.
-
-        :return: return[0] - all modes, return[1] - first mode, return[2] - last mode
-        :rtype: tuple[bool, int, int]
-        """
-        start_mode = int()
-        end_mode = int()
-        all_modes = bool()
-        [ret, start_mode, end_mode, all_modes] = self.analysis_results_setup.GetOptionModeShape(start_mode, end_mode, all_modes)
-        handle(ret)
-        return (all_modes, start_mode, end_mode)
-    
-    
-    # TODO GetOptionMultiStepStatic - setup options within ETABS unknown
-    
-
-    def get_combination_setup(self) -> eResultsSetupComboOutOption:
-        """Retrieves the combination option setup.
-
-        :return: one of combo options (envelopes or multiple)
-        :rtype: eResultsSetupComboOutOption
-        """
-        option = int()
-        [ret, option] = self.analysis_results_setup.GetOptionMultiValuedCombo(option)
-        handle(ret)
-        return eResultsSetupComboOutOption(option)
-    
-    
-    def get_nonlinear_setup(self) -> eResultsSetupStepOutOption:
-        """Retrieves the non-linear static results option.
-
-        :return: one of step out options (envelopes, step-by-step or last-step)
-        :rtype: eResultsSetupStepOutOption
-        """
-        option = int()
-        [ret, option] = self.analysis_results_setup.GetOptionNLStatic(option)
-        handle(ret)
-        return eResultsSetupStepOutOption(option)
-    
-    
-    def set_case_selected_for_output(self, case_name : str, select_state : bool = True) -> None:
-        """Sets a load case selected for output flag.
-
-        :param case_name: name of existing load case
-        :type case_name: str
-        :param select_state: select case for output, defaults to `True`
-        :type select_state: bool, optional
-        """
-        handle(self.analysis_results_setup.SetCaseSelectedForOutput(case_name, select_state))
-    
-    
-    def set_combo_selected_for_output(self, combo_name : str, select_state : bool = True) -> None:
-        """Sets a combination selected for output flag.
-
-        :param combo_name: name of the existing combination
-        :type combo_name: str
-        :param select_state: select combination for output defaults to `True`
-        :type select_state: bool, optional
-        """
-        handle(self.analysis_results_setup.SetComboSelectedForOutput(combo_name, select_state))
-
-
-    def set_base_reaction_location(self, point : tuple[float, float, float]) -> None:
-        """Sets the global coordinates of the location at which the base reactions are reported.
-
-        :param point: global coordinate of 3d point where base reactions are to be reported (gx, gy, gz)
-        :type point: tuple[float, float, float]
-        """
-        handle(self.analysis_results_setup.SetOptionBaseReactLoc(point[0], point[1], point[2]))
-    
-    
-    def set_buckling_mode_setup(self, start_buckling_mode : int, end_buckling_mode : int, all_buckling_modes : bool = False) -> None: 
-        """Sets the buckling mode range for output. 
-        
-        :param start_buckling_mode: first buckling mode number 
-        :type start_buckling_mode: int
-        :param end_buckling_mode: last buckling mode number 
-        :type start_buckling_mode: int
-        :param all_buckling_modes: all buckling modes, defaults to `False` 
-        :type start_buckling_mode: bool, optional 
-        """
-        handle(self.analysis_results_setup.SetOptionBucklingMode(start_buckling_mode, end_buckling_mode, all_buckling_modes))
-        
-        
-    def set_direct_history_setup(self, option : eResultsSetupStepOutOption) -> None: 
-        """Sets the direct history results option.
-        
-        :param option: one of step out options (envelopes, step-by-step or last-step)
-        :type option:  eResultsSetupStepOutOption
-        """
-        handle(self.analysis_results_setup.SetOptionDirectHist(option.value))
-
-
-    def set_modal_history_setup(self, option : eResultsSetupStepOutOption) -> None: 
-        """Sets the modal history results option.
-        
-        :param option: one of step out options (envelopes, step-by-step or last-step)
-        :type option:  eResultsSetupStepOutOption
-        """
-        handle(self.analysis_results_setup.SetOptionModalHist(option.value))
-        
-        
-    def set_mode_shape_setup(self, start_mode : int, end_mode : int, all_modes : bool = False) -> None:
-        """Sets the mode shape range for output.
-
-        :param start_mode: first mode number
-        :type start_mode: int
-        :param end_mode: last mode number
-        :type end_mode: int
-        :param all_modes: all modes, defaults to False
-        :type all_modes: bool, optional
-        """
-        handle(self.analysis_results_setup.SetOptionModeShape(start_mode, end_mode, all_modes))
-
-
-    # TODO SetOptionMultiStepStatic - setup options within ETABS unknown
-    
-
-    def set_combination_setup(self, option : eResultsSetupComboOutOption) -> None:
-        """Sets the non-linear static results option.
-        
-        :param option: one of combo options (envelopes or multiple)
-        :type option: eResultsSetupComboOutOption
-        """
-        handle(self.analysis_results_setup.SetOptionMultiValuedCombo(option.value))
-
-
-    def set_nonlinear_setup(self, option : eResultsSetupStepOutOption) -> None:
-        """Sets the non-linear static results option.
-        
-        :param option: one of step out options (envelopes, step-by-step or last-step)
-        :type option: eResultsSetupStepOutOption
-        """
-        handle(self.analysis_results_setup.SetOptionNLStatic(option.value))
-
-
+    # Analysis Results Methods
     # TODO: AreaForceShell
     # TODO: AreaJointForceShell
     # TODO: AreaStrainShell
@@ -466,133 +242,133 @@ class AnalysisResults:
     # TODO: AreaStressShellLayered,
     # TODO: AssembledJoinMass
     
-
+    
     def base_react(self) -> BaseReact:
-            """Reports the structure total base reactions.
-            
-            :return: total base reactions analysis results 
-            :rtype: BaseReact
-            """
-            number_results = int()
-            load_case = [str()]
-            step_type = [str()]
-            step_number = [float()]
-            force_x = [float()]
-            force_y = [float()]
-            force_z = [float()]
-            moment_x = [float()]
-            moment_y = [float()]
-            moment_z = [float()]
-            x_coordinate = [float()]
-            y_coordinate = [float()]
-            z_coordinate = [float()]
-            
-            [ret, number_results, load_case, step_type, step_number, force_x,
-            force_y, force_z, moment_x, moment_y,
-            moment_z, x_coordinate, y_coordinate, z_coordinate] = self.analysis_results.BaseReact(number_results, load_case, step_type, step_number, force_x, force_y, 
-                                                                                                force_z, moment_x, moment_y, moment_z, x_coordinate, y_coordinate, z_coordinate)
-            handle(ret)
-            return{'number_results': number_results,
-                   'load_case': list(load_case),
-                   'step_type': list(step_type),
-                   'step_number': list(step_number),
-                   'force_x': list(force_x),
-                   'force_y': list(force_y),
-                   'force_z': list(force_z),
-                   'moment_x': list(moment_x),
-                   'moment_y': list(moment_y),
-                   'moment_z': list(moment_z),
-                   'x_coordinate': list(x_coordinate),
-                   'y_coordinate': list(y_coordinate),
-                   'z_coordinate': list(z_coordinate)}
+        """Reports the structure total base reactions.
+        
+        :return: total base reactions analysis results 
+        :rtype: BaseReact
+        """
+        number_results = int()
+        load_case = [str()]
+        step_type = [str()]
+        step_number = [float()]
+        force_x = [float()]
+        force_y = [float()]
+        force_z = [float()]
+        moment_x = [float()]
+        moment_y = [float()]
+        moment_z = [float()]
+        x_coordinate = float()
+        y_coordinate = float()
+        z_coordinate = float()
+        
+        [ret, number_results, load_case, step_type, step_number, force_x,
+        force_y, force_z, moment_x, moment_y,
+        moment_z, x_coordinate, y_coordinate, z_coordinate] = self.analysis_results.BaseReact(number_results, load_case, step_type, step_number, force_x, force_y, 
+                                                                                            force_z, moment_x, moment_y, moment_z, x_coordinate, y_coordinate, z_coordinate)
+        handle(ret)
+        return{'number_results': number_results,
+                'load_case': list(load_case),
+                'step_type': list(step_type),
+                'step_number': list(step_number),
+                'force_x': list(force_x),
+                'force_y': list(force_y),
+                'force_z': list(force_z),
+                'moment_x': list(moment_x),
+                'moment_y': list(moment_y),
+                'moment_z': list(moment_z),
+                'x_coordinate': x_coordinate,
+                'y_coordinate': y_coordinate,
+                'z_coordinate': z_coordinate}
 
 
     def base_react_with_centroid(self) -> BaseReactWithCentroid:
-            """Reports the structure total base reactions and includes information on the centroid of the translational reaction forces.
-            
-            :return: Base reaction with centriod analysis results 
-            :rtype: BaseReactWithCentroid
-            """
-            number_results = int()
-            load_case = [str()]
-            step_type = [str()]
-            step_number = [float()]
-            force_x = [float()]
-            force_y = [float()]
-            force_z = [float()]
-            moment_x = [float()]
-            moment_y = [float()]
-            moment_z = [float()]
-            x_coordinate = [float()]
-            y_coordinate = [float()]
-            z_coordinate = [float()]
-            x_centroid_for_force_x = [float()]
-            y_centroid_for_force_y = [float()]
-            z_centroid_for_force_x = [float()]
-            x_centroid_for_force_y = [float()]
-            y_centroid_for_force_y = [float()]
-            z_centroid_for_force_y = [float()]
-            x_centroid_for_force_z = [float()]
-            y_centroid_for_force_z = [float()]
-            z_centroid_for_force_z = [float()]
-            
-            [ret, number_results, load_case, step_type, step_number,
-             force_x, force_y, force_z, moment_x, moment_y, moment_z,
-             x_coordinate, y_coordinate, z_coordinate,
-             x_centroid_for_force_x, y_centroid_for_force_y, z_centroid_for_force_x,
-             x_centroid_for_force_y, y_centroid_for_force_y, z_centroid_for_force_y,
-             x_centroid_for_force_z, y_centroid_for_force_z, z_centroid_for_force_z] = self.analysis_results.BaseReactWithCentroid(number_results, load_case, step_type, step_number,
-                                                                                                                                   force_x, force_y, force_z, moment_x, moment_y, moment_z,
-                                                                                                                                   x_coordinate, y_coordinate, z_coordinate,
-                                                                                                                                   x_centroid_for_force_x, y_centroid_for_force_y, z_centroid_for_force_x,
-                                                                                                                                   x_centroid_for_force_y, y_centroid_for_force_y, z_centroid_for_force_y,
-                                                                                                                                   x_centroid_for_force_z, y_centroid_for_force_z, z_centroid_for_force_z)
-            handle(ret)
-            return {'number_results': number_results,
-                    'load_case': list(load_case),
-                    'step_type': list(step_type),
-                    'step_number': list(step_number),
-                    'force_x': list(force_x),
-                    'force_y': list(force_y),
-                    'force_z': list(force_z),
-                    'moment_x': list(moment_x),
-                    'moment_y': list(moment_y),
-                    'moment_z': list(moment_z),
-                    'x_coordinate': list(x_coordinate),
-                    'y_coordinate': list(y_coordinate),
-                    'z_coordinate': list(z_coordinate), 
-                    'x_centroid_for_force_x': list(x_centroid_for_force_x),
-                    'y_centroid_for_force_x': list(y_centroid_for_force_y),
-                    'z_centroid_for_force_x': list(z_centroid_for_force_x),
-                    'x_centroid_for_force_y': list(x_centroid_for_force_y),
-                    'y_centroid_for_force_y': list(y_centroid_for_force_y),
-                    'z_centroid_for_force_y': list(z_centroid_for_force_y),
-                    'x_centroid_for_force_z': list(x_centroid_for_force_z),
-                    'y_centroid_for_force_z': list(y_centroid_for_force_z),
-                    'z_centroid_for_force_z': list(z_centroid_for_force_z)}
+        """Reports the structure total base reactions and includes information on the centroid of the translational reaction forces.
+        
+        :return: Base reaction with centriod analysis results 
+        :rtype: BaseReactWithCentroid
+        """
+        number_results = int()
+        load_case = [str()]
+        step_type = [str()]
+        step_number = [float()]
+        force_x = [float()]
+        force_y = [float()]
+        force_z = [float()]
+        moment_x = [float()]
+        moment_y = [float()]
+        moment_z = [float()]
+        x_coordinate = float()
+        y_coordinate = float()
+        z_coordinate = float()
+        x_centroid_for_force_x = [float()]
+        y_centroid_for_force_y = [float()]
+        z_centroid_for_force_x = [float()]
+        x_centroid_for_force_y = [float()]
+        y_centroid_for_force_y = [float()]
+        z_centroid_for_force_y = [float()]
+        x_centroid_for_force_z = [float()]
+        y_centroid_for_force_z = [float()]
+        z_centroid_for_force_z = [float()]
+        
+        [ret, number_results, load_case, step_type, step_number,
+            force_x, force_y, force_z, moment_x, moment_y, moment_z,
+            x_coordinate, y_coordinate, z_coordinate,
+            x_centroid_for_force_x, y_centroid_for_force_y, z_centroid_for_force_x,
+            x_centroid_for_force_y, y_centroid_for_force_y, z_centroid_for_force_y,
+            x_centroid_for_force_z, y_centroid_for_force_z, z_centroid_for_force_z] = self.analysis_results.BaseReactWithCentroid(number_results, load_case, step_type, step_number,
+                                                                                                                                force_x, force_y, force_z, moment_x, moment_y, moment_z,
+                                                                                                                                x_coordinate, y_coordinate, z_coordinate,
+                                                                                                                                x_centroid_for_force_x, y_centroid_for_force_y, z_centroid_for_force_x,
+                                                                                                                                x_centroid_for_force_y, y_centroid_for_force_y, z_centroid_for_force_y,
+                                                                                                                                x_centroid_for_force_z, y_centroid_for_force_z, z_centroid_for_force_z)
+        handle(ret)
+        return {'number_results': number_results,
+                'load_case': list(load_case),
+                'step_type': list(step_type),
+                'step_number': list(step_number),
+                'force_x': list(force_x),
+                'force_y': list(force_y),
+                'force_z': list(force_z),
+                'moment_x': list(moment_x),
+                'moment_y': list(moment_y),
+                'moment_z': list(moment_z),
+                'x_coordinate': x_coordinate,
+                'y_coordinate': y_coordinate,
+                'z_coordinate': z_coordinate, 
+                'x_centroid_for_force_x': list(x_centroid_for_force_x),
+                'y_centroid_for_force_x': list(y_centroid_for_force_y),
+                'z_centroid_for_force_x': list(z_centroid_for_force_x),
+                'x_centroid_for_force_y': list(x_centroid_for_force_y),
+                'y_centroid_for_force_y': list(y_centroid_for_force_y),
+                'z_centroid_for_force_y': list(z_centroid_for_force_y),
+                'x_centroid_for_force_z': list(x_centroid_for_force_z),
+                'y_centroid_for_force_z': list(y_centroid_for_force_z),
+                'z_centroid_for_force_z': list(z_centroid_for_force_z)}
 
 
     def buckling_factor(self) -> BucklingFactor:
-            """Reports buckling factors obtained from buckling load cases. 
-            
-            :return: Buckling factors analysis results 
-            :rtype: BucklingFactor
-            """
-            number_results = int()
-            load_case = [str()]
-            step_type = [str()]
-            step_number = [float()]
-            factor = [float()]
-            
-            [ret, number_results, load_case,
-             step_type, step_number, factor] = self.analysis_results.BucklingFactor(number_results, load_case,
-                                                                                    step_type, step_number, factor)
-            handle(ret)
-            return {'number_results': number_results,
-                    'load_case': list(load_case),
-                    'step_type': list(step_type),
-                    'step_number': list(step_number),
-                    'factor': list(factor)}
+        """Reports buckling factors obtained from buckling load cases. 
+        
+        :return: Buckling factors analysis results 
+        :rtype: BucklingFactor
+        """
+        number_results = int()
+        load_case = [str()]
+        step_type = [str()]
+        step_number = [float()]
+        factor = [float()]
+        
+        [ret, number_results, load_case,
+            step_type, step_number, factor] = self.analysis_results.BucklingFactor(number_results, load_case,
+                                                                                step_type, step_number, factor)
+        handle(ret)
+        return {'number_results': number_results,
+                'load_case': list(load_case),
+                'step_type': list(step_type),
+                'step_number': list(step_number),
+                'factor': list(factor)}
 
 
     # TODO: FrameForce
@@ -746,48 +522,48 @@ class AnalysisResults:
 
 
     def modal_participation_factors(self) -> ModalParticipationFactors:
-            """Reports the modal participation factors for each mode of each selected modal analysis case.
-            
-            :return: Modal participation factors analysis results
-            :rtype: ModalParticipationFactors
-            """
-            number_results = int()
-            load_case = [str()]
-            step_type = [str()]
-            step_number = [float()]
-            period = [float()]
-            delta_x = [float()]
-            delta_y = [float()]
-            delta_z = [float()]
-            rotation_x = [float()]
-            rotation_y = [float()]
-            rotation_z = [float()]
-            modal_mass = [float()]
-            modal_stiff = [float()]
+        """Reports the modal participation factors for each mode of each selected modal analysis case.
+        
+        :return: Modal participation factors analysis results
+        :rtype: ModalParticipationFactors
+        """
+        number_results = int()
+        load_case = [str()]
+        step_type = [str()]
+        step_number = [float()]
+        period = [float()]
+        delta_x = [float()]
+        delta_y = [float()]
+        delta_z = [float()]
+        rotation_x = [float()]
+        rotation_y = [float()]
+        rotation_z = [float()]
+        modal_mass = [float()]
+        modal_stiff = [float()]
 
-            [ret, number_results, load_case,
-             step_type, step_number, period,
-             delta_x, delta_y, delta_z,
-             rotation_x, rotation_y, rotation_z,
-             modal_mass, modal_stiff] = self.analysis_results.ModalParticipationFactors(number_results, load_case,
-                                                                                        step_type, step_number, period,
-                                                                                        delta_x, delta_y, delta_z,
-                                                                                        rotation_x, rotation_y, rotation_z,
-                                                                                        modal_mass, modal_stiff)
-            handle(ret)
-            return {'number_results': number_results,
-                    'load_case': list(load_case),
-                    'step_type': list(step_type),
-                    'step_number': list(step_number),
-                    'period': list(period),
-                    'delta_x': list(delta_x),
-                    'delta_y': list(delta_y),
-                    'delta_z': list(delta_z),
-                    'rotation_x': list(rotation_x),
-                    'rotation_y': list(rotation_y),
-                    'rotation_z': list(rotation_z),
-                    'modal_mass': list(modal_mass),
-                    'modal_stiff': list(modal_stiff)}
+        [ret, number_results, load_case,
+            step_type, step_number, period,
+            delta_x, delta_y, delta_z,
+            rotation_x, rotation_y, rotation_z,
+            modal_mass, modal_stiff] = self.analysis_results.ModalParticipationFactors(number_results, load_case,
+                                                                                    step_type, step_number, period,
+                                                                                    delta_x, delta_y, delta_z,
+                                                                                    rotation_x, rotation_y, rotation_z,
+                                                                                    modal_mass, modal_stiff)
+        handle(ret)
+        return {'number_results': number_results,
+                'load_case': list(load_case),
+                'step_type': list(step_type),
+                'step_number': list(step_number),
+                'period': list(period),
+                'delta_x': list(delta_x),
+                'delta_y': list(delta_y),
+                'delta_z': list(delta_z),
+                'rotation_x': list(rotation_x),
+                'rotation_y': list(rotation_y),
+                'rotation_z': list(rotation_z),
+                'modal_mass': list(modal_mass),
+                'modal_stiff': list(modal_stiff)}
 
 
     def modal_period(self) -> ModalPeriod:
@@ -900,82 +676,82 @@ class AnalysisResults:
 
 
     def section_cut_design(self) -> SectionCutDesign:
-            """Report the section cut force for sections cuts that are specified to have a design 
-            (axial force, shear force 2, shear force 3, torsion, moment 2, moment 3) result type.
-            
-            :return: Section cut design results 
-            :rtype: SectionCutDesign
-            """
-            number_results = int()
-            section_cut = [str()]
-            load_case = [str()]
-            step_type = [str()]
-            step_number = [float()]
-            axial = [float()]
-            shear_2 = [float()]
-            shear_3 = [float()]
-            torsion = [float()]
-            moment_2 = [float()]
-            moment_3 = [float()]
+        """Report the section cut force for sections cuts that are specified to have a design 
+        (axial force, shear force 2, shear force 3, torsion, moment 2, moment 3) result type.
+        
+        :return: Section cut design results 
+        :rtype: SectionCutDesign
+        """
+        number_results = int()
+        section_cut = [str()]
+        load_case = [str()]
+        step_type = [str()]
+        step_number = [float()]
+        axial = [float()]
+        shear_2 = [float()]
+        shear_3 = [float()]
+        torsion = [float()]
+        moment_2 = [float()]
+        moment_3 = [float()]
 
-            [ret, number_results, section_cut,
-            load_case, step_type, step_number,
-            axial, shear_2, shear_3,
-            torsion, moment_2, moment_3] = self.analysis_results.SectionCutAnalysis(number_results, section_cut,
-                                                                                    load_case, step_type, step_number,
-                                                                                    axial, shear_2, shear_3,
-                                                                                    torsion, moment_2, moment_3)
-            handle(ret)
-            return {'number_results' : number_results, 
-                    'section_cut' : list(section_cut),
-                    'load_case' : list(load_case),
-                    'step_type' : list(step_type),
-                    'step_number' : list(step_number),
-                    'axial' : list(axial), 
-                    'shear_2' : list(shear_2),
-                    'shear_3' : list(shear_3),
-                    'torsion' : list(torsion),
-                    'moment_2' : list(moment_2), 
-                    'moment_3' : list(moment_3)}
+        [ret, number_results, section_cut,
+        load_case, step_type, step_number,
+        axial, shear_2, shear_3,
+        torsion, moment_2, moment_3] = self.analysis_results.SectionCutAnalysis(number_results, section_cut,
+                                                                                load_case, step_type, step_number,
+                                                                                axial, shear_2, shear_3,
+                                                                                torsion, moment_2, moment_3)
+        handle(ret)
+        return {'number_results' : number_results, 
+                'section_cut' : list(section_cut),
+                'load_case' : list(load_case),
+                'step_type' : list(step_type),
+                'step_number' : list(step_number),
+                'axial' : list(axial), 
+                'shear_2' : list(shear_2),
+                'shear_3' : list(shear_3),
+                'torsion' : list(torsion),
+                'moment_2' : list(moment_2), 
+                'moment_3' : list(moment_3)}
 
 
     def spandrel_force(self) -> SpandrelForce:
-            """Retrieves spandrel forces for any defined spandrel objects in the model.
-            
-            :return: Spandrel force analysis results 
-            :rtype: SpandrelForce
-            """
-            number_results = int()
-            story_name = [str()]
-            spandrel_name = [str()]
-            load_case = [str()]
-            location = [str()]
-            axial = [float()]
-            shear_2 = [float()]
-            shear_3 = [float()]
-            torsion = [float()]
-            moment_2 = [float()]
-            moment_3 = [float()]
+        """Retrieves spandrel forces for any defined spandrel objects in the model.
+        
+        :return: Spandrel force analysis results 
+        :rtype: SpandrelForce
+        """
+        number_results = int()
+        story_name = [str()]
+        spandrel_name = [str()]
+        load_case = [str()]
+        location = [str()]
+        axial = [float()]
+        shear_2 = [float()]
+        shear_3 = [float()]
+        torsion = [float()]
+        moment_2 = [float()]
+        moment_3 = [float()]
 
-            [ret, number_results, story_name,
-             spandrel_name, load_case, location,
-             axial, shear_2, shear_3,
-             torsion, moment_2, moment_3] = self.analysis_results.SpandrelForce(number_results, story_name,
-                                                                                spandrel_name, load_case, location,
-                                                                                axial, shear_2, shear_3,
-                                                                                torsion, moment_2, moment_3)
-            handle(ret)
-            return {'number_results': number_results,
-                    'story_name': list(story_name),
-                    'spandrel_name': list(spandrel_name),
-                    'load_case': list(load_case),
-                    'location': list(location),
-                    'axial': list(axial), 
-                    'shear_2': list(shear_2),
-                    'shear_3': list(shear_3),
-                    'torsion': list(torsion),
-                    'moment_2': list(moment_2), 
-                    'moment_3': list(moment_3)}
+        [ret, number_results, story_name,
+            spandrel_name, load_case, location,
+            axial, shear_2, shear_3,
+            torsion, moment_2, moment_3] = self.analysis_results.SpandrelForce(number_results, story_name,
+                                                                            spandrel_name, load_case, location,
+                                                                            axial, shear_2, shear_3,
+                                                                            torsion, moment_2, moment_3)
+        handle(ret)
+        return {'number_results': number_results,
+                'story_name': list(story_name),
+                'spandrel_name': list(spandrel_name),
+                'load_case': list(load_case),
+                'location': list(location),
+                'axial': list(axial), 
+                'shear_2': list(shear_2),
+                'shear_3': list(shear_3),
+                'torsion': list(torsion),
+                'moment_2': list(moment_2), 
+                'moment_3': list(moment_3)}
 
 
     def story_drifts(self) -> StoryDrift:

@@ -19,6 +19,7 @@ from typing import Union, TypedDict
 # import of ETABS API interface wrappers
 from pytabs.analyse import Analyse
 from pytabs.analysis_results import AnalysisResults
+from pytabs.analysis_results_setup import AnalysisResultsSetup
 from pytabs.area_elm import AreaElm
 from pytabs.area_obj import AreaObj
 from pytabs.combo import Combo
@@ -67,6 +68,8 @@ class EtabsModel():
         # relate ETABS interfaces
         self.analyse : Analyse
         """EtabsModel `Analyse` interface."""
+        self.analysis_results_setup : AnalysisResultsSetup
+        """EtabsModel `AnalysisResultsSetup` interface."""
         self.analysis_results : AnalysisResults
         """EtabsModel `AnalysisResults` interface."""
         self.area_elm : AreaElm
@@ -200,6 +203,7 @@ class EtabsModel():
             
             # relate external pyTABS interfaces
             self.analyse = Analyse(self.sap_model)
+            self.analysis_results_setup = AnalysisResultsSetup(self.sap_model)
             self.analysis_results = AnalysisResults(self.sap_model)
             self.area_elm = AreaElm(self.sap_model)
             self.area_obj = AreaObj(self.sap_model)
@@ -270,13 +274,13 @@ class EtabsModel():
         :return: Units enumeration
         :rtype: eUnits
         """
-        ret = self.sap_model.GetDatabaseUnits()
+        self.sap_model.GetDatabaseUnits()
         if ret == 0:
             raise EtabsError(0, "Database units could not be returned.")
         else:
             return ret
-    
-    
+
+
     def get_database_units_components(self) -> UnitsComponents:
         """Retrieves the database units for the model.
         All data is internally stored in the model in these units and converted to the present units as needed.
@@ -310,8 +314,8 @@ class EtabsModel():
         :rtype: str
         """
         return self.sap_model.GetPresentCoordSystem()
-    
-    
+
+
     def get_present_units(self) -> etabs.eUnits:
         """Returns a value from the eUnits enumeration indicating the units presently specified for the model.
 
@@ -340,8 +344,8 @@ class EtabsModel():
         return {'force_units': force_units,
                 'length_units': length_units,
                 'temperature_units': temperature_units}
-        
-        
+
+
     def set_model_is_locked(self, lock_it : bool = True):
         """Locks or unlocks the model.
 
@@ -358,8 +362,8 @@ class EtabsModel():
         :type units: eUnits
         """
         handle(self.sap_model.SetPresentUnits(units))
-        
-        
+
+
     def set_present_units_components(self, force_units : etabs.eForce, length_units : etabs.eLength, temperature_units : etabs.eTemperature):
         """Specifies the units for the model.
 

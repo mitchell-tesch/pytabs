@@ -40,6 +40,9 @@
                         <li>
                                 <a class="variable" href="#PointObj.eDiaphragmOption">eDiaphragmOption</a>
                         </li>
+                        <li>
+                                <a class="function" href="#PointObj.get_name_from_label">get_name_from_label</a>
+                        </li>
                 </ul>
 
             </li>
@@ -90,7 +93,26 @@
 </span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eDiaphragmOption</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eDiaphragmOption</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="sd">&quot;&quot;&quot;EtabsModel `DiaphragmOption` enumeration&quot;&quot;&quot;</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>        
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>    <span class="k">def</span> <span class="nf">get_name_from_label</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">story</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves the unique name of a point object, given the label and story level.</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">        :param label: The point object label </span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">        :type label: str</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">        :param story: The point object story level  </span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">        :type label: str</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">        :return point_name: The unique name of the point object</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">        :rtype: str</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>        <span class="n">point_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">point_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_obj</span><span class="o">.</span><span class="n">GetNameFromLabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">story</span><span class="p">,</span> <span class="n">point_name</span><span class="p">)</span> 
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>        <span class="k">return</span> <span class="n">point_name</span>
 </span></pre></div>
 
 
@@ -118,7 +140,26 @@
 </span><span id="PointObj-25"><a href="#PointObj-25"><span class="linenos">25</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eDiaphragmOption</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eDiaphragmOption</span>
 </span><span id="PointObj-26"><a href="#PointObj-26"><span class="linenos">26</span></a>        <span class="sd">&quot;&quot;&quot;EtabsModel `DiaphragmOption` enumeration&quot;&quot;&quot;</span>
 </span><span id="PointObj-27"><a href="#PointObj-27"><span class="linenos">27</span></a>        
-</span><span id="PointObj-28"><a href="#PointObj-28"><span class="linenos">28</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="PointObj-28"><a href="#PointObj-28"><span class="linenos">28</span></a>
+</span><span id="PointObj-29"><a href="#PointObj-29"><span class="linenos">29</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="PointObj-30"><a href="#PointObj-30"><span class="linenos">30</span></a>        
+</span><span id="PointObj-31"><a href="#PointObj-31"><span class="linenos">31</span></a>        
+</span><span id="PointObj-32"><a href="#PointObj-32"><span class="linenos">32</span></a>        
+</span><span id="PointObj-33"><a href="#PointObj-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">get_name_from_label</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">story</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="PointObj-34"><a href="#PointObj-34"><span class="linenos">34</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves the unique name of a point object, given the label and story level.</span>
+</span><span id="PointObj-35"><a href="#PointObj-35"><span class="linenos">35</span></a>
+</span><span id="PointObj-36"><a href="#PointObj-36"><span class="linenos">36</span></a><span class="sd">        :param label: The point object label </span>
+</span><span id="PointObj-37"><a href="#PointObj-37"><span class="linenos">37</span></a><span class="sd">        :type label: str</span>
+</span><span id="PointObj-38"><a href="#PointObj-38"><span class="linenos">38</span></a><span class="sd">        :param story: The point object story level  </span>
+</span><span id="PointObj-39"><a href="#PointObj-39"><span class="linenos">39</span></a><span class="sd">        :type label: str</span>
+</span><span id="PointObj-40"><a href="#PointObj-40"><span class="linenos">40</span></a><span class="sd">        :return point_name: The unique name of the point object</span>
+</span><span id="PointObj-41"><a href="#PointObj-41"><span class="linenos">41</span></a><span class="sd">        :rtype: str</span>
+</span><span id="PointObj-42"><a href="#PointObj-42"><span class="linenos">42</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PointObj-43"><a href="#PointObj-43"><span class="linenos">43</span></a>
+</span><span id="PointObj-44"><a href="#PointObj-44"><span class="linenos">44</span></a>        <span class="n">point_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+</span><span id="PointObj-45"><a href="#PointObj-45"><span class="linenos">45</span></a>        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">point_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_obj</span><span class="o">.</span><span class="n">GetNameFromLabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">story</span><span class="p">,</span> <span class="n">point_name</span><span class="p">)</span> 
+</span><span id="PointObj-46"><a href="#PointObj-46"><span class="linenos">46</span></a>        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+</span><span id="PointObj-47"><a href="#PointObj-47"><span class="linenos">47</span></a>        <span class="k">return</span> <span class="n">point_name</span>
 </span></pre></div>
 
 
@@ -146,7 +187,8 @@
 </span><span id="PointObj.__init__-25"><a href="#PointObj.__init__-25"><span class="linenos">25</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">eDiaphragmOption</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eDiaphragmOption</span>
 </span><span id="PointObj.__init__-26"><a href="#PointObj.__init__-26"><span class="linenos">26</span></a>        <span class="sd">&quot;&quot;&quot;EtabsModel `DiaphragmOption` enumeration&quot;&quot;&quot;</span>
 </span><span id="PointObj.__init__-27"><a href="#PointObj.__init__-27"><span class="linenos">27</span></a>        
-</span><span id="PointObj.__init__-28"><a href="#PointObj.__init__-28"><span class="linenos">28</span></a>        <span class="c1"># relate custom enumerations</span>
+</span><span id="PointObj.__init__-28"><a href="#PointObj.__init__-28"><span class="linenos">28</span></a>
+</span><span id="PointObj.__init__-29"><a href="#PointObj.__init__-29"><span class="linenos">29</span></a>        <span class="c1"># relate custom enumerations</span>
 </span></pre></div>
 
 
@@ -162,6 +204,53 @@
     <a class="headerlink" href="#PointObj.eDiaphragmOption"></a>
     
             <div class="docstring"><p>EtabsModel <code>DiaphragmOption</code> enumeration</p>
+</div>
+
+
+                            </div>
+                            <div id="PointObj.get_name_from_label" class="classattr">
+                                        <input id="PointObj.get_name_from_label-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">get_name_from_label</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">label</span><span class="p">:</span> <span class="nb">str</span>, </span><span class="param"><span class="n">story</span><span class="p">:</span> <span class="nb">str</span></span><span class="return-annotation">) -> <span class="nb">str</span>:</span></span>
+
+                <label class="view-source-button" for="PointObj.get_name_from_label-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#PointObj.get_name_from_label"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PointObj.get_name_from_label-33"><a href="#PointObj.get_name_from_label-33"><span class="linenos">33</span></a>    <span class="k">def</span> <span class="nf">get_name_from_label</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">story</span> <span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="PointObj.get_name_from_label-34"><a href="#PointObj.get_name_from_label-34"><span class="linenos">34</span></a>        <span class="sd">&quot;&quot;&quot;Retrieves the unique name of a point object, given the label and story level.</span>
+</span><span id="PointObj.get_name_from_label-35"><a href="#PointObj.get_name_from_label-35"><span class="linenos">35</span></a>
+</span><span id="PointObj.get_name_from_label-36"><a href="#PointObj.get_name_from_label-36"><span class="linenos">36</span></a><span class="sd">        :param label: The point object label </span>
+</span><span id="PointObj.get_name_from_label-37"><a href="#PointObj.get_name_from_label-37"><span class="linenos">37</span></a><span class="sd">        :type label: str</span>
+</span><span id="PointObj.get_name_from_label-38"><a href="#PointObj.get_name_from_label-38"><span class="linenos">38</span></a><span class="sd">        :param story: The point object story level  </span>
+</span><span id="PointObj.get_name_from_label-39"><a href="#PointObj.get_name_from_label-39"><span class="linenos">39</span></a><span class="sd">        :type label: str</span>
+</span><span id="PointObj.get_name_from_label-40"><a href="#PointObj.get_name_from_label-40"><span class="linenos">40</span></a><span class="sd">        :return point_name: The unique name of the point object</span>
+</span><span id="PointObj.get_name_from_label-41"><a href="#PointObj.get_name_from_label-41"><span class="linenos">41</span></a><span class="sd">        :rtype: str</span>
+</span><span id="PointObj.get_name_from_label-42"><a href="#PointObj.get_name_from_label-42"><span class="linenos">42</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="PointObj.get_name_from_label-43"><a href="#PointObj.get_name_from_label-43"><span class="linenos">43</span></a>
+</span><span id="PointObj.get_name_from_label-44"><a href="#PointObj.get_name_from_label-44"><span class="linenos">44</span></a>        <span class="n">point_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+</span><span id="PointObj.get_name_from_label-45"><a href="#PointObj.get_name_from_label-45"><span class="linenos">45</span></a>        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">point_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_obj</span><span class="o">.</span><span class="n">GetNameFromLabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">story</span><span class="p">,</span> <span class="n">point_name</span><span class="p">)</span> 
+</span><span id="PointObj.get_name_from_label-46"><a href="#PointObj.get_name_from_label-46"><span class="linenos">46</span></a>        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+</span><span id="PointObj.get_name_from_label-47"><a href="#PointObj.get_name_from_label-47"><span class="linenos">47</span></a>        <span class="k">return</span> <span class="n">point_name</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Retrieves the unique name of a point object, given the label and story level.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>label</strong>:  The point object label </li>
+<li><strong>story</strong>:  The point object story level  </li>
+</ul>
+
+<h6 id="returns">Returns</h6>
+
+<blockquote>
+  <p>The unique name of the point object</p>
+</blockquote>
 </div>
 
 
