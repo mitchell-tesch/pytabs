@@ -2,10 +2,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/mitchell-tesch/pytabs">
-    <img src="images/logo.png" alt="pytabs logo" width="80" height="80">
+    <img src="images/logo.png" alt="PyTABS logo" width="80" height="80">
   </a>
 
-  <h3 align="center">pyTABS</h3>
+  <h3 align="center">PyTABS</h3>
 
   <p align="center">
     A python wrapper for CSi ETABS .NET API
@@ -25,7 +25,7 @@ A Python wrapper for CSi ETABS .NET API - a simple yet robust Python interface t
 
 
 ## Installation
-*pyTABS* can be installed through the Python package manager:
+*PyTABS* can be installed through the Python package manager:
 ```
 $ pip install pytabs
 ```
