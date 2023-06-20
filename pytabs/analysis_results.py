@@ -629,7 +629,7 @@ class AnalysisResults:
                 'location': list(location),
                 'axial': list(axial),
                 'shear_2': list(shear_2),
-                'shear_3': list(shear_2),
+                'shear_3': list(shear_3),
                 'torsion': list(torsion),
                 'moment_2': list(moment_2),
                 'moment_3': list(moment_3)}

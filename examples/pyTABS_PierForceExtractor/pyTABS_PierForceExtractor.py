@@ -1,6 +1,6 @@
 # pyTABS Example: Pier Force Extractor
 # Mitchell Tesch
-VERSION = '221204'
+VERSION = '230615'
 
 # Development Environment Configuration
 # required for those working within the development repository
@@ -9,7 +9,7 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from context import pytabs
 # workbook mock caller
-WB_FN = os.path.join(os.path.dirname(__file__), 'pyTABS_PierForceExtractor.xlsm')
+WB_FN = os.path.join(os.path.dirname(__file__), 'pyTABS_PierForceExtractorWF.xlsm')
 
 # Library imports
 import xlwings as xw
@@ -152,18 +152,18 @@ def main():
     
     # set-up results cases / combos for extraction
     print("\nConfiguring analysis results extraction.")
-    etabs_model.analysis_results.deselect_all_cases_combos_for_output()
+    etabs_model.analysis_results_setup.deselect_all_cases_combos_for_output()
     available_cases = etabs_model.load_cases.get_name_list()
-    available_combos = etabs_model.resp_combo.get_name_list()
+    available_combos = etabs_model.combo.get_name_list()
     error_target_case_combo = []
     selected_cases = []
     selected_combos = []
     for case_combo in target_cases_combos:
         if case_combo in available_cases:
-            etabs_model.analysis_results.set_case_selected_for_output(case_combo)
+            etabs_model.analysis_results_setup.set_case_selected_for_output(case_combo)
             selected_cases.append(case_combo)
         elif case_combo in available_combos:
-            etabs_model.analysis_results.set_combo_selected_for_output(case_combo)
+            etabs_model.analysis_results_setup.set_combo_selected_for_output(case_combo)
             selected_combos.append(case_combo)
         else:
             error_target_case_combo.append(case_combo)
@@ -191,12 +191,12 @@ def main():
                                'theta': round(theta, 1),
                                'case': pier_forces['load_case'][_r],
                                'location': pier_forces['location'][_r],
-                               'p': round(pier_forces['p'][_r], RESULTS_DECIMALS),
-                               'v2': round(pier_forces['v2'][_r], RESULTS_DECIMALS),
-                               'v3': round(pier_forces['v3'][_r], RESULTS_DECIMALS),
-                               't': round(pier_forces['t'][_r], RESULTS_DECIMALS),
-                               'm2': round(pier_forces['m2'][_r], RESULTS_DECIMALS),
-                               'm3': round(pier_forces['m3'][_r], RESULTS_DECIMALS)}])
+                               'p': round(pier_forces['axial'][_r], RESULTS_DECIMALS),
+                               'v2': round(pier_forces['shear_2'][_r], RESULTS_DECIMALS),
+                               'v3': round(pier_forces['shear_3'][_r], RESULTS_DECIMALS),
+                               't': round(pier_forces['torsion'][_r], RESULTS_DECIMALS),
+                               'm2': round(pier_forces['moment_2'][_r], RESULTS_DECIMALS),
+                               'm3': round(pier_forces['moment_3'][_r], RESULTS_DECIMALS)}])
         pier_forces_df = pd.concat([pier_forces_df, row_df], ignore_index=True)
     
     # create a set of unique piers for summary ie. grouping of shoring wall panels
