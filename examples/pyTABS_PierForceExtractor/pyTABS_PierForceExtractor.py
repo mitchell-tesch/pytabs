@@ -2,20 +2,16 @@
 # Mitchell Tesch
 VERSION = '230615'
 
-# Development Environment Configuration
-# required for those working within the development repository
-import sys, os
-# import of pytabs package via examples context
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from context import pytabs
-# workbook mock caller
-WB_FN = os.path.join(os.path.dirname(__file__), 'pyTABS_PierForceExtractorWF.xlsm')
-
 # Library imports
+import os
+import pytabs
 import xlwings as xw
 import pandas as pd
 import  datetime
-from pytabs.model import *
+
+
+# workbook mock caller
+WB_FN = os.path.join(os.path.dirname(__file__), 'pyTABS_PierForceExtractorWF.xlsm')
 
 # Constants
 # Workbook Input sheet configuration
@@ -132,7 +128,7 @@ def main():
     else:
         print(f"\nOpening ETABS model: {model_fp}.")
     # substantiate pyTABS EtabsModel
-    etabs_model = EtabsModel(attach_to_instance=model_is_open, model_path=model_fp)
+    etabs_model = pytabs.EtabsModel(attach_to_instance=model_is_open, model_path=model_fp)
     # set the model units to 
     etabs_model.set_present_units(etabs_model.eUnits.kN_m_C)
     

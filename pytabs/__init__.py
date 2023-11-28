@@ -14,3 +14,8 @@ $ pip install pytabs
  - pdoc
 
 """
+
+
+__version__ = "0.1.0"
+
+from pytabs.model import EtabsModel

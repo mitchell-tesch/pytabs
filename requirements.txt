@@ -1,2 +1,2 @@
-pythonnet
+pip ipythonnet
 pdoc

@@ -2,21 +2,13 @@
 # Sam Cubis
 VERSION = '230202'
 
-# Development Environment Configuration
-# required for those working within the development repository
-import sys, os
-# import of pytabs package via examples context
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from context import pytabs
+import os
+import xlwings as xw
+from datetime import datetime
+import pytabs
 
 # workbook mock caller
 # WB_FN = os.path.join(os.path.dirname(__file__), 'GroupAssignmentBatchMaster.xlsm')
-
-import xlwings as xw
-from datetime import datetime
-# from pytabs.enumerations import eStageOperationType, eStageObjectType, eStageMyType
-import pytabs.model
-
 
 NOW = datetime.now()
 
@@ -54,7 +46,7 @@ def staged_lc_create(model_fp, model_is_open):
         print(f"\nOpening ETABS model: {model_fp}.")
     
     # substantiate pyTABS EtabsModel
-    etabs_model = pytabs.model.EtabsModel(attach_to_instance=model_is_open, model_path=model_fp)
+    etabs_model = pytabs.EtabsModel(attach_to_instance=model_is_open, model_path=model_fp)
     
     # set the model units to 
     etabs_model.set_present_units(etabs_model.eUnits.kN_m_C)
@@ -67,34 +59,34 @@ def staged_lc_create(model_fp, model_is_open):
     output_condition = [True]* len(story_list)
     output_stage_name = [x + '_out' for x in story_list]
     output_comments = ['']* len(story_list)
-    etabs_model.case_static_nonlinear_staged.set_case(case_title)
-    etabs_model.case_static_nonlinear_staged.set_stage_definitions(case_title, len(story_list), story_durations, output_condition, output_stage_name, output_comments)
+    etabs_model.load_cases.static_nonlinear_staged.set_case(case_title)
+    etabs_model.load_cases.static_nonlinear_staged.set_stage_definitions(case_title, len(story_list), story_durations, output_condition, output_stage_name, output_comments)
 
     # for i, story in enumerate(story_list):
 
-    etabs_model.case_static_nonlinear_staged.set_stage_data(case_title, 1, 1, 
-                                                            [etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE],
-                                                            [etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP], 
+    etabs_model.load_cases.static_nonlinear_staged.set_stage_data(case_title, 1, 1, 
+                                                            [etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE],
+                                                            [etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP], 
                                                             ['Story5_Wall'],
                                                             [float(69)],
-                                                            [etabs_model.case_static_nonlinear_staged.eStageMyType.NONE],
+                                                            [etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE],
                                                             [''],
                                                             [float(0)])
-    # etabs_model.case_static_nonlinear_staged.set_stage_data(case_title, 2, 2, 
-    #                                                         [etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE, None],
-    #                                                         [etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP, None], 
+    # etabs_model.load_cases.static_nonlinear_staged.set_stage_data(case_title, 2, 2, 
+    #                                                         [etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE, None],
+    #                                                         [etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP, None], 
     #                                                         ['Story6_Wall', ''],
     #                                                         [float(69), 0.0],
-    #                                                         [etabs_model.case_static_nonlinear_staged.eStageMyType.NONE, etabs_model.case_static_nonlinear_staged.eStageMyType.NONE],
+    #                                                         [etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE, etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE],
     #                                                         ['', ''],
     #                                                         [float(1), 1.0])
 
-    etabs_model.case_static_nonlinear_staged.set_stage_data(case_title, 2, 2, 
-                                                            [etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE,etabs_model.case_static_nonlinear_staged.eStageOperationType.LOAD_NEW],
-                                                            [etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP,etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP], 
+    etabs_model.load_cases.static_nonlinear_staged.set_stage_data(case_title, 2, 2, 
+                                                            [etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE,etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.LOAD_NEW],
+                                                            [etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP,etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP], 
                                                             ['Story7_Wall', 'All'],
                                                             [float(69), 0.0],
-                                                            [etabs_model.case_static_nonlinear_staged.eStageMyType.NONE, etabs_model.case_static_nonlinear_staged.eStageMyType.LOAD],
+                                                            [etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE, etabs_model.load_cases.static_nonlinear_staged.eStageMyType.LOAD],
                                                             ['', 'Dead'],
                                                             [float(1), 1.0])
     # exit ETABS if not attached

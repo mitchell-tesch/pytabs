@@ -150,7 +150,7 @@ class Story:
         splice_height = [float()]
         colour = [int()]
         
-        [ret, base_elevation, number_stories, story_names, 
+        [ret, base_elevation, number_stories, story_names,
          story_elevations, story_heights, is_master_story,
          similar_to_story, splice_above, splice_height, colour] = self.story.GetStories_2(base_elevation, number_stories, story_names, 
                                                                                           story_elevations, story_heights, is_master_story,
@@ -158,17 +158,17 @@ class Story:
         handle (ret)
         return {'base_elevation' : base_elevation,
                 'number_stories' : number_stories,
-                'story_names' : story_names,
-                'story_elevations' : story_elevations,
-                'story_heights' : story_heights,
-                'is_master_story' : is_master_story,
-                'similar_to_story' : similar_to_story,
-                'splice_above' : splice_above,
-                'splice_height' : splice_height,
-                'colour': colour}
+                'story_names' : list(story_names),
+                'story_elevations' : list(story_elevations),
+                'story_heights' : list(story_heights),
+                'is_master_story' : list(is_master_story),
+                'similar_to_story' : list(similar_to_story),
+                'splice_above' : list(splice_above),
+                'splice_height' : list(splice_height),
+                'colour': list(colour)}
     
     
-    def set_elevation(self, story_name : int, elevation : float) -> None: 
+    def set_elevation(self, story_name : int, elevation : float) -> None:
         """Sets the elevation of a defined story.
         
         :param story_name: name of a defined story 
@@ -179,7 +179,7 @@ class Story:
         handle(self.story.SetElevation(story_name, elevation))
     
     
-    def set_GUID (self, story_name : str, guid : str = '') -> None: 
+    def set_GUID (self, story_name : str, guid : str = '') -> None:
         """Sets the GUID of a defined story.
 
         :param story_name: name of a defined story
@@ -190,7 +190,7 @@ class Story:
         handle(self.story.SetGUID(story_name, guid))
     
     
-    def set_height(self, story_name : int, height : float) -> None: 
+    def set_height(self, story_name : int, height : float) -> None:
         """Sets the height of a defined story.
         
         param story_name: name of a defined story 
@@ -201,7 +201,7 @@ class Story:
         handle(self.story.SetHeight(story_name, height))
     
     
-    def set_master_story(self, story_name : str, is_master_story : bool) -> None: 
+    def set_master_story(self, story_name : str, is_master_story : bool) -> None:
         """Sets whether a defined story is a master story.
         
         param story_name: name of a defined story 

@@ -14,5 +14,5 @@ PYTABS_CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'p
 def read_config():
     """Read pyTabs configuration file (pytabs_config.ini)"""
     pytabs_config  = configparser.ConfigParser()
-    pytabs_config .read(PYTABS_CONFIG_PATH)
+    pytabs_config.read(PYTABS_CONFIG_PATH)
     return pytabs_config

@@ -193,7 +193,7 @@ class EtabsModel():
             # start etabs application
             self.etabs_object.ApplicationStart()
         
-        # if EtabsObject active 
+        # if EtabsObject active
         if self.active:
             # create SapModel interface
             self.sap_model = etabs.cSapModel(self.etabs_object.SapModel)
@@ -207,7 +207,6 @@ class EtabsModel():
             self.analysis_results = AnalysisResults(self.sap_model)
             self.area_elm = AreaElm(self.sap_model)
             self.area_obj = AreaObj(self.sap_model)
-            # individual case interfaces to be accessed via LoadCase interface
             self.combo = Combo(self.sap_model)
             self.constraint = Constraint(self.sap_model)
             self.database_tables = DatabaseTables(self.sap_model)
@@ -217,9 +216,11 @@ class EtabsModel():
             self.group = Group(self.sap_model)
             self.line_elm = LineElm(self.sap_model)
             self.link_obj = LinkObj(self.sap_model)
+            # individual case interfaces to be accessed via LoadCase interface
             self.load_cases = LoadCases(self.sap_model)
             self.load_patterns = LoadPatterns(self.sap_model)
             self.pier_label = PierLabel(self.sap_model)
+            self.point_obj = PointObj(self.sap_model)
             # individual property interfaces to be accessed via Property interface
             self.property = Property(self.sap_model)
             self.select = Select(self.sap_model)
@@ -274,7 +275,7 @@ class EtabsModel():
         :return: Units enumeration
         :rtype: eUnits
         """
-        self.sap_model.GetDatabaseUnits()
+        ret = self.sap_model.GetDatabaseUnits()
         if ret == 0:
             raise EtabsError(0, "Database units could not be returned.")
         else:

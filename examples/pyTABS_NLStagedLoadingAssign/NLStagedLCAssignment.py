@@ -2,19 +2,13 @@
 # Sam Cubis
 VERSION = '230202'
 
-# Development Environment Configuration
-# required for those working within the development repository
-import sys, os
-# import of pytabs package via examples context
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from context import pytabs
+import os
+import xlwings as xw
+from datetime import datetime
+import pytabs
 
 # workbook mock caller
 WB_FN = os.path.join(os.path.dirname(__file__), 'NLStagedLCBulkSpreadsheet.xlsm')
-
-import xlwings as xw
-from datetime import datetime
-import pytabs.model
 
 NOW = datetime.now()
 
@@ -70,7 +64,7 @@ def staged_lc_create(headers, run_data, model_fp, model_is_open, load_patterns):
         print(f"\nOpening ETABS model: {model_fp}.")
     
     # substantiate pyTABS EtabsModel
-    etabs_model = pytabs.model.EtabsModel(attach_to_instance=model_is_open, model_path=model_fp)
+    etabs_model = pytabs.EtabsModel(attach_to_instance=model_is_open, model_path=model_fp)
     
     # set the model units to 
     etabs_model.set_present_units(etabs_model.eUnits.kN_m_C)
@@ -97,10 +91,10 @@ def staged_lc_create(headers, run_data, model_fp, model_is_open, load_patterns):
     output_comments = ['']* len(stage_list)
 
     #create load case with generic name
-    etabs_model.case_static_nonlinear_staged.set_case("pyTabs- GeneratedNLStagedLC")
+    etabs_model.load_cases.static_nonlinear_staged.set_case("pyTabs- GeneratedNLStagedLC")
 
     #set up all stages
-    etabs_model.case_static_nonlinear_staged.set_stage_definitions("pyTabs- GeneratedNLStagedLC", len(stage_list), story_durations, output_condition, output_stage_name, output_comments)
+    etabs_model.load_cases.static_nonlinear_staged.set_stage_definitions("pyTabs- GeneratedNLStagedLC", len(stage_list), story_durations, output_condition, output_stage_name, output_comments)
    
     #add operations for each stage
 
@@ -149,101 +143,101 @@ def staged_lc_create(headers, run_data, model_fp, model_is_open, load_patterns):
         
         # add structure - WALL
         if name_wall != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
             if type_wall == "Group":
-                op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+                op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(age_wall)
             op_name.append(name_wall)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.NONE)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE)
             op_load_name.append('')
             op_scale_factor.append(1.0)
 
         # add structure - Floor
         if name_floor != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
             if type_floor == "Group":
-                op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+                op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(age_floor)
             op_name.append(name_floor)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.NONE)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE)
             op_load_name.append('')
             op_scale_factor.append(1.0)
 
         # add structure - Beam
         if name_beam != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
             if type_beam == "Group":
-                op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+                op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(age_beam)
             op_name.append(name_beam)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.NONE)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE)
             op_load_name.append('')
             op_scale_factor.append(1.0)
 
         # add structure - Column
         if name_col != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE)
             if type_col == "Group":
-                op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+                op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(age_col)
             op_name.append(name_col)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.NONE)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE)
             op_load_name.append('')
             op_scale_factor.append(1.0)
 
         # add load - SW
         if add_sw == 'IF_ADDED':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.LOAD_NEW)
-            op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.LOAD_NEW)
+            op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(0.0)
             op_name.append("All")
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.LOAD)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.LOAD)
             op_load_name.append(sw_lp)
             op_scale_factor.append(fact_sw)
 
         # add load - Facade
         if add_facade != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.LOAD_ALL)
-            op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.LOAD_ALL)
+            op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(0.0)
             op_name.append(add_facade)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.LOAD)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.LOAD)
             op_load_name.append(facade_lp)
             op_scale_factor.append(fact_facade)
 
         # add load - SDL
         if add_sdl != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.LOAD_ALL)
-            op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.LOAD_ALL)
+            op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(0.0)
             op_name.append(add_sdl)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.LOAD)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.LOAD)
             op_load_name.append(sdl_lp)
             op_scale_factor.append(fact_sdl)
 
         # add load - LL_Red
         if add_ll_red != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.LOAD_ALL)
-            op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.LOAD_ALL)
+            op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(0.0)
             op_name.append(add_ll_red)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.LOAD)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.LOAD)
             op_load_name.append(ll_red_lp)
             op_scale_factor.append(fact_ll_red)
 
         # add load - LL_Red
         if add_ll_unred != '':
-            operations.append(etabs_model.case_static_nonlinear_staged.eStageOperationType.LOAD_ALL)
-            op_type.append(etabs_model.case_static_nonlinear_staged.eStageObjectType.GROUP)
+            operations.append(etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.LOAD_ALL)
+            op_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP)
             op_age.append(0.0)
             op_name.append(add_ll_unred)
-            op_load_type.append(etabs_model.case_static_nonlinear_staged.eStageMyType.LOAD)
+            op_load_type.append(etabs_model.load_cases.static_nonlinear_staged.eStageMyType.LOAD)
             op_load_name.append(ll_unred_lp)
             op_scale_factor.append(fact_ll_unred)
 
         number_ops = len(operations)
 
-        etabs_model.case_static_nonlinear_staged.set_stage_data("pyTabs- GeneratedNLStagedLC", int(stage_number), int(number_ops), operations, op_type, 
+        etabs_model.load_cases.static_nonlinear_staged.set_stage_data("pyTabs- GeneratedNLStagedLC", int(stage_number), int(number_ops), operations, op_type, 
                                                                 op_name, op_age, op_load_type, op_load_name, op_scale_factor)
         print("Stage "+ str(stage_number) + " complete..."  )      
 
