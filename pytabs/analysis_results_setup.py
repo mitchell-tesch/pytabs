@@ -81,8 +81,8 @@ class AnalysisResultsSetup:
         all_buckling_modes = bool()
         [ret, start_buckling_mode,
         end_buckling_mode, all_buckling_modes] = self.analysis_results_setup.GetOptionBucklingMode(start_buckling_mode,
-                                                                                                   end_buckling_mode,
-                                                                                                   all_buckling_modes)
+                                                                                                    end_buckling_mode,
+                                                                                                    all_buckling_modes)
         handle(ret)
         return (start_buckling_mode, end_buckling_mode, all_buckling_modes)
 

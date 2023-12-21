@@ -129,8 +129,8 @@ class LoadCases:
         is_automatic_desc = {0: False, 1: True}
         
         [ref, case_type, sub_type, design_type, 
-         design_type_option, is_automatic] = self.load_cases.GetTypeOAPI_1(case_name, case_type, sub_type,
-                                                                           design_type, design_type_option, is_automatic)
+        design_type_option, is_automatic] = self.load_cases.GetTypeOAPI_1(case_name, case_type, sub_type,
+                                                                            design_type, design_type_option, is_automatic)
         handle(ref)
         sub_type = self.__determine_sub_type(case_type, sub_type)
         return {'case_name': case_name,

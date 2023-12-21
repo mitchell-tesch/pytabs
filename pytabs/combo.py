@@ -50,8 +50,8 @@ class Combo:
         mode_numbers = [int()]
         scaling_factors = [float()]
         [ret, number_items, cname_types,
-         cnames, mode_numbers, scaling_factors] = self.combo.GetCaseList_1(name, number_items, cname_types,
-                                                                           cnames, mode_numbers, scaling_factors)
+        cnames, mode_numbers, scaling_factors] = self.combo.GetCaseList_1(name, number_items, cname_types,
+                                                                            cnames, mode_numbers, scaling_factors)
         handle(ret)
         return {'number_items': number_items,
                 'cname_types': list(cname_types),
