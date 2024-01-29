@@ -120,7 +120,7 @@ class PierLabel:
                                                                               width_bot, thickness_bot, width_top,
                                                                               thickness_top, mat_prop, cg_bot_x, cg_bot_y,
                                                                               cg_bot_z, cg_top_x, cg_top_y, cg_top_z)
-        # handle(ret) - if pier exists but no elements assigned ret != 0
+        handle(ret)
         return {'pier_name': pier_name,
                 'number_stories': number_stories,
                 'story_name': list(story_name),

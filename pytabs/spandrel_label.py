@@ -6,9 +6,6 @@ __all__ = ['SpandrelLabel']
 from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
-# import custom enumerations
-
-
 # import typing
 from typing import TypedDict, Union
 
@@ -16,7 +13,7 @@ class SpandrelNameList(TypedDict):
     """TypedDict class for Spandrel name list return"""
     number_names : int
     spandrel_names : list[str]
-    is_multi_story : list[bool]]
+    is_multi_story : list[bool]
 
 class SectionProperties(TypedDict):
     """TypedDict class for Spandrel section properties return"""
