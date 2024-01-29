@@ -213,12 +213,12 @@ def main():
         for case in target_cases_combos:
             filtered_df = pier_forces_df.loc[(pier_forces_df.id.str.startswith(pier)) & (pier_forces_df.case == case)]
             header_df = pd.DataFrame({'id': [pier, pier],
-                                        'theta': [filtered_df.theta.iloc[0], filtered_df.theta.iloc[0]],
-                                        'case': [case, case],
-                                        'envelope': ['Min', 'Max']})
+                                      'theta': [filtered_df.theta.iloc[0], filtered_df.theta.iloc[0]],
+                                      'case': [case, case],
+                                      'envelope': ['Min', 'Max']})
             actions_df = filtered_df[['p','v2', 'v3', 't', 'm2', 'm3']]
             filtered_summary_df = pd.concat([actions_df .min(numeric_only=True).to_frame().T,
-                                            actions_df .max(numeric_only=True).to_frame().T], ignore_index=True)
+                                             actions_df .max(numeric_only=True).to_frame().T], ignore_index=True)
             filtered_summary_df = pd.concat([header_df, filtered_summary_df], axis=1)
             pier_summary_df = pd.concat([pier_summary_df, filtered_summary_df], ignore_index=True)
         pier_summary_dfs[pier] = pier_summary_df
