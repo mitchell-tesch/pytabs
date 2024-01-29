@@ -128,7 +128,7 @@ class LoadCases:
         design_type_options_desc = {0: 'Program determined', 1: 'User specified'}
         is_automatic_desc = {0: False, 1: True}
         
-        [ref, case_type, sub_type, design_type, 
+        [ref, case_type, sub_type, design_type,
          design_type_option, is_automatic] = self.load_cases.GetTypeOAPI_1(case_name, case_type, sub_type,
                                                                            design_type, design_type_option, is_automatic)
         handle(ref)

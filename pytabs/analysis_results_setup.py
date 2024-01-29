@@ -80,9 +80,9 @@ class AnalysisResultsSetup:
         end_buckling_mode = int()
         all_buckling_modes = bool()
         [ret, start_buckling_mode,
-        end_buckling_mode, all_buckling_modes] = self.analysis_results_setup.GetOptionBucklingMode(start_buckling_mode,
-                                                                                                   end_buckling_mode,
-                                                                                                   all_buckling_modes)
+         end_buckling_mode, all_buckling_modes] = self.analysis_results_setup.GetOptionBucklingMode(start_buckling_mode,
+                                                                                                    end_buckling_mode,
+                                                                                                    all_buckling_modes)
         handle(ret)
         return (start_buckling_mode, end_buckling_mode, all_buckling_modes)
 
@@ -183,7 +183,7 @@ class AnalysisResultsSetup:
         handle(self.analysis_results_setup.SetOptionBaseReactLoc(point[0], point[1], point[2]))
     
     
-    def set_buckling_mode_setup(self, start_buckling_mode : int, end_buckling_mode : int, all_buckling_modes : bool = False) -> None: 
+    def set_buckling_mode_setup(self, start_buckling_mode : int, end_buckling_mode : int, all_buckling_modes : bool = False) -> None:
         """Sets the buckling mode range for output. 
         
         :param start_buckling_mode: first buckling mode number 
@@ -196,7 +196,7 @@ class AnalysisResultsSetup:
         handle(self.analysis_results_setup.SetOptionBucklingMode(start_buckling_mode, end_buckling_mode, all_buckling_modes))
         
         
-    def set_direct_history_setup(self, option : eResultsSetupStepOutOption) -> None: 
+    def set_direct_history_setup(self, option : eResultsSetupStepOutOption) -> None:
         """Sets the direct history results option.
         
         :param option: one of step out options (envelopes, step-by-step or last-step)
@@ -205,7 +205,7 @@ class AnalysisResultsSetup:
         handle(self.analysis_results_setup.SetOptionDirectHist(option.value))
 
 
-    def set_modal_history_setup(self, option : eResultsSetupStepOutOption) -> None: 
+    def set_modal_history_setup(self, option : eResultsSetupStepOutOption) -> None:
         """Sets the modal history results option.
         
         :param option: one of step out options (envelopes, step-by-step or last-step)

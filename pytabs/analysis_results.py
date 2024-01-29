@@ -410,7 +410,7 @@ class AnalysisResults:
         load_case, step_type, step_number,
         delta_1, delta_2, delta_3,
         rotation_1, rotation_2, rotation_3] = self.analysis_results.JointDispl(name, item_type_element, number_results,
-                                                                               object_name, element_name, 
+                                                                               object_name, element_name,
                                                                                load_case, step_type, step_number,
                                                                                delta_1, delta_2, delta_3,
                                                                                rotation_1, rotation_2, rotation_3)
@@ -491,16 +491,16 @@ class AnalysisResults:
         sum_rotation_z = [float()]
 
         [ret, number_results, load_case,
-         step_type, step_number, period,
-         delta_x, delta_y, delta_z,
-         sum_delta_x, sum_delta_y, sum_delta_z,
-         rotation_x, rotation_y, rotation_z,
-         sum_rotation_x, sum_rotation_y, sum_rotation_z] = self.analysis_results.ModalParticipatingMassRatios(number_results, load_case,
-                                                                                                              step_type, step_number, period,
-                                                                                                              delta_x, delta_y, delta_z,
-                                                                                                              sum_delta_x, sum_delta_y, sum_delta_z,
-                                                                                                              rotation_x, rotation_y, rotation_z,
-                                                                                                              sum_rotation_x, sum_rotation_y, sum_rotation_z)
+        step_type, step_number, period,
+        delta_x, delta_y, delta_z,
+        sum_delta_x, sum_delta_y, sum_delta_z,
+        rotation_x, rotation_y, rotation_z,
+        sum_rotation_x, sum_rotation_y, sum_rotation_z] = self.analysis_results.ModalParticipatingMassRatios(number_results, load_case,
+                                                                                                             step_type, step_number, period,
+                                                                                                             delta_x, delta_y, delta_z,
+                                                                                                             sum_delta_x, sum_delta_y, sum_delta_z,
+                                                                                                             rotation_x, rotation_y, rotation_z,
+                                                                                                             sum_rotation_x, sum_rotation_y, sum_rotation_z)
         handle(ret)
         return {'number_results': number_results,
                 'load_case': list(load_case),
@@ -546,10 +546,10 @@ class AnalysisResults:
             delta_x, delta_y, delta_z,
             rotation_x, rotation_y, rotation_z,
             modal_mass, modal_stiff] = self.analysis_results.ModalParticipationFactors(number_results, load_case,
-                                                                                    step_type, step_number, period,
-                                                                                    delta_x, delta_y, delta_z,
-                                                                                    rotation_x, rotation_y, rotation_z,
-                                                                                    modal_mass, modal_stiff)
+                                                                                       step_type, step_number, period,
+                                                                                       delta_x, delta_y, delta_z,
+                                                                                       rotation_x, rotation_y, rotation_z,
+                                                                                       modal_mass, modal_stiff)
         handle(ret)
         return {'number_results': number_results,
                 'load_case': list(load_case),
@@ -619,8 +619,10 @@ class AnalysisResults:
         moment_3 = [float()]
         
         [ret, number_results, story_name, pier_name,
-         load_case, location, axial, shear_2, shear_3, torsion, moment_2, moment_3] = self.analysis_results.PierForce(number_results, story_name, pier_name,
-                                                                                      load_case, location, axial, shear_2, shear_3, torsion, moment_2, moment_3)
+         load_case, location, axial, shear_2, shear_3,
+         torsion, moment_2, moment_3] = self.analysis_results.PierForce(number_results, story_name, pier_name,
+                                                                        load_case, location, axial, shear_2, shear_3,
+                                                                        torsion, moment_2, moment_3)
         handle(ret)
         return {'number_results': number_results,
                 'story_name': list(story_name),
@@ -695,12 +697,12 @@ class AnalysisResults:
         moment_3 = [float()]
 
         [ret, number_results, section_cut,
-        load_case, step_type, step_number,
-        axial, shear_2, shear_3,
-        torsion, moment_2, moment_3] = self.analysis_results.SectionCutAnalysis(number_results, section_cut,
-                                                                                load_case, step_type, step_number,
-                                                                                axial, shear_2, shear_3,
-                                                                                torsion, moment_2, moment_3)
+         load_case, step_type, step_number,
+         axial, shear_2, shear_3,
+         torsion, moment_2, moment_3] = self.analysis_results.SectionCutAnalysis(number_results, section_cut,
+                                                                                 load_case, step_type, step_number,
+                                                                                 axial, shear_2, shear_3,
+                                                                                 torsion, moment_2, moment_3)
         handle(ret)
         return {'number_results' : number_results, 
                 'section_cut' : list(section_cut),
@@ -734,9 +736,9 @@ class AnalysisResults:
         moment_3 = [float()]
 
         [ret, number_results, story_name,
-            spandrel_name, load_case, location,
-            axial, shear_2, shear_3,
-            torsion, moment_2, moment_3] = self.analysis_results.SpandrelForce(number_results, story_name,
+         spandrel_name, load_case, location,
+         axial, shear_2, shear_3,
+         torsion, moment_2, moment_3] = self.analysis_results.SpandrelForce(number_results, story_name,
                                                                             spandrel_name, load_case, location,
                                                                             axial, shear_2, shear_3,
                                                                             torsion, moment_2, moment_3)
@@ -773,12 +775,12 @@ class AnalysisResults:
         delta_z = [float()]
 
         [ret, number_results, story, load_case,
-        step_type, step_number,
-        direction, drift, label,
-        delta_x, delta_y, delta_z] = self.analysis_results.StoryDrifts(number_results, story, load_case,
-                                                                                   step_type, step_number,
-                                                                                   direction, drift, label,
-                                                                                   delta_x, delta_y, delta_z)
+         step_type, step_number,
+         direction, drift, label,
+         delta_x, delta_y, delta_z] = self.analysis_results.StoryDrifts(number_results, story, load_case,
+                                                                        step_type, step_number,
+                                                                        direction, drift, label,
+                                                                        delta_x, delta_y, delta_z)
         handle(ret)
         return {'number_results': number_results,
                 'story': list(story), 
