@@ -62,6 +62,22 @@ class AreaObj:
         [ret, number_names, area_names] = self.area_obj.GetNameListOnStory(story_name, number_names, area_names)
         handle(ret)
         return list(area_names)
+    
+    def get_section_property(self, area_name: str) -> str:
+        """Retrieves the name of the area property assigned to an area object.
+        
+        :param area_name: name of an existing area object
+        :type area_name: str
+        :return: name of the area property assigned to the area object
+        :rtype: str
+        """
+
+        prop_name = str()
+
+        [ret, prop_name] = self.area_obj.GetProperty(area_name, prop_name)
+
+        handle(ret)
+        return prop_name
 
 
     def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
@@ -77,3 +93,34 @@ class AreaObj:
         :type item_type: eItemType, optional
         """
         handle(self.area_obj.SetGroupAssign(name, group_name, remove, item_type))
+
+    
+    def get_spring_assignment(self, area_name: str) -> str:
+        """Retrieves the area object area spring assignment of the defined frame object.
+
+        :param area_name: unique name of an existing area object
+        :type area_name: str
+        :return: area object area spring assignment
+        :rtype: str
+        """  
+        area_spring_assign = str()
+
+        [ret, area_spring_assign] = self.area_obj.GetSpringAssignment(area_name, area_spring_assign)
+        handle(ret)
+        return area_spring_assign
+    
+    
+    def set_spring_assignment(self, area_name: str, area_spring_name, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+        """Assigns an existing area spring property to area objects of the value item_type.
+        
+        :param area_name: unique name of an existing area object
+        :type point_name: str
+        :param area_spring_name: name of an existing area spring property
+        :typ area_spring_name: str
+        :param item_type: one of eItemType enumeration (`Objects` : area object specified by name is added/removed from group, `Group` : all area objects in the group specified by name are added/removed from group, `SelectedObjects` : all selected area objects are added/removed from group, name is ignored), defaults to eItemType.Objects
+        :type item_type: eItemType, optional
+        """
+
+        handle(self.area_obj.SetSpringAssignment(area_name, area_spring_name, item_type))
+
+        return

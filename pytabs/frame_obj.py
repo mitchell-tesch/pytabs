@@ -187,6 +187,20 @@ class FrameObj:
         [ret, number_names, frame_names] = self.frame_obj.GetNameListOnStory(story_name, number_names, frame_names)
         handle(ret)
         return list(frame_names)
+    
+    def get_spring_assignment(self, frame_name: str) -> str:
+        """Retrieves the frame object line spring assignment of the defined frame object.
+
+        :param frame_name: unique name of an existing frame object
+        :type frame_name: str
+        :return: frame object line spring assignment
+        :rtype: str
+        """  
+        frame_spring_assign = str()
+
+        [ret, frame_spring_assign] = self.frame_obj.GetSpringAssignment(frame_name, frame_spring_assign)
+        handle(ret)
+        return frame_spring_assign
 
 
     def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
@@ -202,3 +216,19 @@ class FrameObj:
         :type item_type: eItemType, optional
         """
         handle(self.frame_obj.SetGroupAssign(name, group_name, remove, item_type))
+
+
+    def set_spring_assignment(self, frame_name: str, line_spring_name, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+        """Assigns an existing line spring property to frame objects of the value item_type.
+        
+        :param frame_name: unique name of an existing frame object
+        :type point_name: str
+        :param line_spring_name: name of an existing line spring property
+        :typ line_spring_name: str
+        :param item_type: one of eItemType enumeration (`Objects` : area object specified by name is added/removed from group, `Group` : all area objects in the group specified by name are added/removed from group, `SelectedObjects` : all selected area objects are added/removed from group, name is ignored), defaults to eItemType.Objects
+        :type item_type: eItemType, optional
+        """
+
+        handle(self.frame_obj.SetSpringAssignment(frame_name, line_spring_name, item_type))
+
+        return

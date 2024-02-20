@@ -43,6 +43,9 @@ from pytabs.story import Story
 from pytabs.tendon_obj import TendonObj
 from pytabs.tower import Tower
 from pytabs.view import View
+from pytabs.prop_point_spring import PropPointSpring
+from pytabs.prop_line_spring import PropLineSpring
+from pytabs.prop_area_spring import PropAreaSpring
 
 
 class UnitsComponents(TypedDict):
@@ -120,6 +123,12 @@ class EtabsModel():
         """EtabsModel `Tower` interface."""
         self.view : View
         """EtabsModel `View` interface."""
+        self.prop_point_spring : PropPointSpring
+        """EtabsModel `PointSpring` interface."""
+        self.prop_line_spring : PropLineSpring
+        """EtabsModel `LineSpring` interface."""
+        self.prop_area_spring : PropAreaSpring
+        """EtabsModel `AreaSpring` interface."""        
         
         # relate ETABS cross interface enumerations
         self.eAreaDesignOrientation = etabs.eAreaDesignOrientation
@@ -229,6 +238,9 @@ class EtabsModel():
             self.tendon_obj = TendonObj(self.sap_model)
             self.tower = Tower(self.sap_model)
             self.view = View(self.sap_model)
+            self.prop_point_spring = PropPointSpring(self.sap_model)
+            self.prop_line_spring = PropLineSpring(self.sap_model)
+            self.prop_area_spring = PropAreaSpring(self.sap_model)
 
             # if not attached to instance and model path supplied open model
             if (not attach_to_instance) and model_path:
