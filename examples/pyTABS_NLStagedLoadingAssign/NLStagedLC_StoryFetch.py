@@ -5,7 +5,7 @@ VERSION = '230202'
 import os
 import xlwings as xw
 from datetime import datetime
-import pytabs
+from src import pytabs
 
 # workbook mock caller
 WB_FN = os.path.join(os.path.dirname(__file__), 'NLStagedLCBulkSpreadsheet.xlsm')

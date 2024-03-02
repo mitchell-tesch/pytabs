@@ -4,7 +4,7 @@
 VERSION = '230202'
 
 import os
-import pytabs
+from src import pytabs
 import xlwings as xw
 from datetime import datetime
 

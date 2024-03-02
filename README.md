@@ -32,9 +32,8 @@ $ pip install pytabs
 
 
 ## Requirements
- - Python 3.8+
+ - Python 3.10+
  - pythonnet
- - pdoc
 
 
 ## Usage

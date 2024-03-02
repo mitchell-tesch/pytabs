@@ -4,7 +4,7 @@ VERSION = '230615'
 
 # Library imports
 import os
-import pytabs
+from src import pytabs
 import xlwings as xw
 import pandas as pd
 import  datetime

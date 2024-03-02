@@ -2,10 +2,8 @@
 # Sam Cubis
 VERSION = '230202'
 
-import os
-import xlwings as xw
 from datetime import datetime
-import pytabs
+from src import pytabs
 
 # workbook mock caller
 # WB_FN = os.path.join(os.path.dirname(__file__), 'GroupAssignmentBatchMaster.xlsm')
@@ -72,12 +70,12 @@ def staged_lc_create(model_fp, model_is_open):
                                                             [etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE],
                                                             [''],
                                                             [float(0)])
-    # etabs_model.load_cases.static_nonlinear_staged.set_stage_data(case_title, 2, 2, 
-    #                                                         [etabs_model.load_cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE, None],
-    #                                                         [etabs_model.load_cases.static_nonlinear_staged.eStageObjectType.GROUP, None], 
+    # etabs_model.cases.static_nonlinear_staged.set_stage_data(case_title, 2, 2,
+    #                                                         [etabs_model.cases.static_nonlinear_staged.eStageOperationType.ADD_STRUCTURE, None],
+    #                                                         [etabs_model.cases.static_nonlinear_staged.eStageObjectType.GROUP, None],
     #                                                         ['Story6_Wall', ''],
     #                                                         [float(69), 0.0],
-    #                                                         [etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE, etabs_model.load_cases.static_nonlinear_staged.eStageMyType.NONE],
+    #                                                         [etabs_model.cases.static_nonlinear_staged.eStageMyType.NONE, etabs_model.cases.static_nonlinear_staged.eStageMyType.NONE],
     #                                                         ['', ''],
     #                                                         [float(1), 1.0])
 
