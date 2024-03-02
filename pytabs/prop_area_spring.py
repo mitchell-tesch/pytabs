@@ -1,5 +1,5 @@
-# pyTABS - ETABS .NET API python wrapper
-# PropAreaSpring - cPropAreaSpring
+# PyTABS - ETABS .NET API python wrapper
+# PropAreaSpring - cPropAreaSpring interface
 __all__ = ['PropAreaSpring']
 
 # import ETABS namespace and pyTABS error handler
@@ -7,20 +7,39 @@ from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
 # import custom enumerations
-
+from pytabs.enumerations import eSpringNonlinearOption
 
 # import typing
+from typing import TypedDict
+
+
+class AreaSpringProperties(TypedDict):
+    """TypedDict class for area spring properties return"""
+    area_spring_name: str
+    u1: float
+    u2: float
+    u3: float
+    nonlinear_option_3: eSpringNonlinearOption
+    spring_option: int
+    soil_profile: str
+    end_length_ratio: float
+    period: float
+    colour: int
+    notes: str
+    guid: str
 
 
 class PropAreaSpring:
     """PropAreaSpring interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create PropAreaSpring interface
         self.prop_area_spring = etabs.cPropAreaSpring(sap_model.PropAreaSpring)
-        
+
         # relate custom enumerations
+        self.eSpringNonlinearOption = eSpringNonlinearOption
 
     def get_names_list(self) -> list[str]:
         """Retrieves the names of all existing defined area spring properties.
@@ -28,73 +47,83 @@ class PropAreaSpring:
         :return line_spring_names: list of area spring names
         :rtype: list(str)
         """
-
-        number_names = int()
+        _number_names = int()
         area_spring_names = [str()]
-        [ret, number_names, area_spring_names] = self.prop_area_spring.GetNameList(number_names, area_spring_names) 
+        [ret, _number_names, area_spring_names] = self.prop_area_spring.GetNameList(_number_names, area_spring_names)
         handle(ret)
         return list(area_spring_names)
-    
-    def get_area_spring_prop (self, area_spring_name: str, NonLinearOption3: int) -> list[float]:
+
+    def get_area_spring_prop(self, area_spring_name: str) -> AreaSpringProperties:
         """Retrieves the line spring property of an existing named area spring.
 
         :param area_spring_name: name of an existing area spring property
         :type area_spring_name: str
-        :param NonLinearOption3: nonlinear option for the local 3 direction. 0 = Linear, Resists Tension and Compression, 1 = Resists Compression only, 2 = Resists Tension only
-        :type NonLinearOption3: int
-        :return area_springs: area object spring stiffness matrix [U1, U2, U3, R1]  in associated area element's local coordinate system
-        :rtype: list[float]
+        :return area_springs: properties of area spring
+        :rtype: AreaSpringProperties
         """
-
         u1 = float()
         u2 = float()
         u3 = float()
-        SpringOption = int() #placeholder only - for future release
-        SoilProfile = str() #placeholder only - for future release
-        EndLengthRatio = float() #placeholder only - for future release
-        period = float() #placeholder only - for future release
-        color = int()
+        nonlinear_option_3 = int()
+        spring_option = int()  # placeholder only - for future release
+        soil_profile = str()  # placeholder only - for future release
+        end_length_ratio = float()  # placeholder only - for future release
+        period = float()  # placeholder only - for future release
+        colour = int()
         notes = str()
-        iGUID = str()
+        guid = str()
 
-        [ret, u1, u2, u3, NonLinearOption3, SpringOption, 
-         SoilProfile, EndLengthRatio, period,color, notes, iGUID] = self.prop_area_spring.GetAreaSpringProp(area_spring_name, u1, u2, u3, NonLinearOption3, SpringOption, 
-                                                                                                            SoilProfile, EndLengthRatio, period,color, notes, iGUID)
-        
-        area_springs = [u1, u2, u3]
-
+        [ret, u1, u2, u3, nonlinear_option_3,
+         spring_option, soil_profile, end_length_ratio,
+         period, colour, notes, guid] = self.prop_area_spring.GetAreaSpringProp(area_spring_name, u1, u2, u3,
+                                                                                nonlinear_option_3, spring_option,
+                                                                                soil_profile, end_length_ratio, period,
+                                                                                colour, notes, guid)
         handle(ret)
-        return area_springs
-    
+        return {'area_spring_name': area_spring_name,
+                'u1': u1,
+                'u2': u2,
+                'u3': u3,
+                'nonlinear_option_3': eSpringNonlinearOption(nonlinear_option_3),
+                'spring_option': spring_option,
+                'soil_profile': soil_profile,
+                'end_length_ratio': end_length_ratio,
+                'period': period,
+                'colour': colour,
+                'notes': notes,
+                'guid': guid}
 
-    def set_area_spring_prop(self, area_spring_name: str, area_springs: list[float], NonLinearOption3: int) -> None:
-        """Creates a new named area spring property, or modifies an existig named area spring property
+    def set_area_spring_prop(self, area_spring_name: str, stiffness: list[float],
+                             nonlinear_option_3: eSpringNonlinearOption, spring_option: int = 1,
+                             soil_profile: str = "", end_length_ratio: float = 0., period: float = 0.,
+                             colour: int = 0, notes: str = '', guid: str = '') -> None:
+        """Creates a new named area spring property, or modifies an existing named area spring property
 
         :param area_spring_name: name of the new spring property to be defined or an existing area spring property to re-define
         :type area_spring_name: str
-        :param area_springs: area spring stiffness matrix [U1, U2, U3, R1, R2, R3] in associated area element's local coordinate system
-        :typ: list[float]
-        :param NonLinearOption3: nonlinear option for the local 3 direction. 0 = Linear, Resists Tension and Compression, 1 = Resists Compression only, 2 = Resists Tension only
-        :type NonLinearOption3: int
-        :return: area spring stiffness matrix [U1, U2, U3, R1]  in associated area element's local coordinate system
-        :rtype: list[float]
+        :param stiffness: area spring stiffness matrix [U1, U2, U3] in associated area element's local coordinate system
+        :type: list[float]
+        :param nonlinear_option_3: nonlinear option for the local 3 direction
+        :type nonlinear_option_3: eSpringNonlinearOption
+        :param spring_option: argument is for a future release
+        :type spring_option: int, optional
+        :param soil_profile: argument is for a future release
+        :type soil_profile: str, optional
+        :param end_length_ratio: argument is for a future release
+        :type end_length_ratio: float, optional
+        :param period: argument is for a future release
+        :type period: float, optional
+        :param colour: display color for the property specified as an integer
+        :type colour: int, optional
+        :param notes: notes, if any, assigned to the property
+        :type notes: str, optional
+        :param guid: global unique identifier
+        :type guid: str, optional
         """
-
-        #Unpack spring values
-        u1 = area_springs[0]
-        u2 = area_springs[1]
-        u3 = area_springs[2]
-        SpringOption = int() #placeholder only - for future release
-        SoilProfile = str() #placeholder only - for future release
-        EndLengthRatio = float() #placeholder only - for future release
-        period = float() #placeholder only - for future release
-        color = int()
-        notes = str()
-        iGUID = str()
-
-        SpringOption = 1
-
-        ret = self.prop_area_spring.SetAreaSpringProp(area_spring_name, u1, u2, u3, NonLinearOption3, SpringOption, SoilProfile, EndLengthRatio, period, color, notes, iGUID)
-
-        handle(ret)
-        return #list(line_springs)
+        # Unpack spring values
+        u1 = stiffness[0]
+        u2 = stiffness[1]
+        u3 = stiffness[2]
+        handle(self.prop_area_spring.SetAreaSpringProp(area_spring_name, u1, u2, u3, nonlinear_option_3.value,
+                                                       spring_option, soil_profile, end_length_ratio, period,
+                                                       colour, notes, guid))

@@ -1,10 +1,11 @@
-# pyTABS - ETABS .NET API python wrapper
-# LinkObj - cLinkObj
+# PyTABS - ETABS .NET API python wrapper
+# LinkObj - cLinkObj interface
 __all__ = ['LinkObj']
 
 # import ETABS namespace and pyTABS error handler
 from pytabs.etabs_config import *
 from pytabs.error_handle import *
+
 
 # import custom enumerations
 
@@ -14,10 +15,11 @@ from pytabs.error_handle import *
 
 class LinkObj:
     """LinkObj interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create LinkObj interface
         self.link_obj = etabs.cLinkObj(sap_model.LinkObj)
-        
+
         # relate custom enumerations

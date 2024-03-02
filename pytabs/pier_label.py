@@ -1,4 +1,4 @@
-# pyTABS - ETABS .NET API python wrapper
+# PyTABS - ETABS .NET API python wrapper
 # PierLabel - cPierLabel interface 
 __all__ = ['PierLabel']
 
@@ -12,35 +12,35 @@ from typing import TypedDict
 
 class PierSectionProperties(TypedDict):
     """TypedDict class for Pier section properties return"""
-    pier_name : str
-    number_stories : int
-    story_name : list[str]
-    axis_angle : list[float]
-    num_area_objs : list[int]
-    num_line_objs : list[int]
-    width_bot : list[float]
-    thickness_bot : list[float]
-    width_top : list[float]
-    thickness_top : list[float]
-    mat_prop : list[str]
-    cg_bot_x : list[float]
-    cg_bot_y : list[float]
-    cg_bot_z : list[float]
-    cg_top_x : list[float]
-    cg_top_y : list[float]
-    cg_top_z : list[float]
+    pier_name: str
+    number_stories: int
+    story_name: list[str]
+    axis_angle: list[float]
+    num_area_objs: list[int]
+    num_line_objs: list[int]
+    width_bot: list[float]
+    thickness_bot: list[float]
+    width_top: list[float]
+    thickness_top: list[float]
+    mat_prop: list[str]
+    cg_bot_x: list[float]
+    cg_bot_y: list[float]
+    cg_bot_z: list[float]
+    cg_top_x: list[float]
+    cg_top_y: list[float]
+    cg_top_z: list[float]
 
 
 class PierLabel:
     """PierLabel interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create PierLabel interface
         self.pier_label = etabs.cPierLabel(self.sap_model.PierLabel)
 
-
-    def change_name(self, pier_name : str, new_pier_name : str) -> None:
+    def change_name(self, pier_name: str, new_pier_name: str) -> None:
         """Changes the name of a defined Pier Label.
 
         :param pier_name: name of defined pier to change
@@ -50,8 +50,7 @@ class PierLabel:
         """
         handle(self.pier_label.ChangeName(pier_name, new_pier_name))
 
-
-    def delete(self, pier_name : str) -> None:
+    def delete(self, pier_name: str) -> None:
         """Deletes the specified Pier Label.
 
         :param pier_name: name of defined pier to delete
@@ -59,21 +58,19 @@ class PierLabel:
         """
         handle(self.pier_label.Delete(pier_name))
 
-
     def get_names_list(self) -> list[str]:
         """Retrieves the names of all defined Pier Labels.
 
         :return: All Pier Labels
         :rtype: list[str]
         """
-        number_names = int()
+        _number_names = int()
         pier_names = [str()]
-        [ret, number_names, pier_names] = self.pier_label.GetNameList(number_names, pier_names)
+        [ret, _number_names, pier_names] = self.pier_label.GetNameList(_number_names, pier_names)
         handle(ret)
         return list(pier_names)
-    
-    
-    def get_pier(self, pier_name : str) -> bool:
+
+    def get_pier(self, pier_name: str) -> bool:
         """Checks whether the specified Pier Label exists.
 
         :param pier_name: pier name to check
@@ -85,9 +82,8 @@ class PierLabel:
         if ret == 0:
             return True
         return False
-    
-    
-    def get_section_properties(self, pier_name : str) -> PierSectionProperties:
+
+    def get_section_properties(self, pier_name: str) -> PierSectionProperties:
         """Retrieves the section properties for a specified pier.
 
         :param pier_name: Pier name for which to retrieve section properties
@@ -118,7 +114,8 @@ class PierLabel:
          cg_top_x, cg_top_y, cg_top_z] = self.pier_label.GetSectionProperties(pier_name, number_stories, story_name,
                                                                               axis_angle, num_area_objs, num_line_objs,
                                                                               width_bot, thickness_bot, width_top,
-                                                                              thickness_top, mat_prop, cg_bot_x, cg_bot_y,
+                                                                              thickness_top, mat_prop, cg_bot_x,
+                                                                              cg_bot_y,
                                                                               cg_bot_z, cg_top_x, cg_top_y, cg_top_z)
         handle(ret)
         return {'pier_name': pier_name,
@@ -138,9 +135,8 @@ class PierLabel:
                 'cg_top_x': list(cg_top_x),
                 'cg_top_y': list(cg_top_y),
                 'cg_top_z': list(cg_top_z)}
-    
-    
-    def set_pier(self, pier_name : str) -> None:
+
+    def set_pier(self, pier_name: str) -> None:
         """Adds a new Pier Label. 
 
         :param pier_name: name of new pier label

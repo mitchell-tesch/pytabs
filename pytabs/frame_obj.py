@@ -1,4 +1,4 @@
-# pyTABS - ETABS .NET API python wrapper
+# PyTABS - ETABS .NET API python wrapper
 # FrameObj - cFrameObj interface 
 __all__ = ['FrameObj']
 
@@ -13,15 +13,17 @@ from pytabs.enumerations import eFrameDesignProcedure
 # import typing
 from typing import TypedDict
 
+
 class FrameObjectLabelData(TypedDict):
     """TypedDict class for Frame object label data return"""
-    frame_name : str
-    frame_label : str
-    frame_story : str
+    frame_name: str
+    frame_label: str
+    frame_story: str
+
 
 class FrameObj:
     """FrameObj interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create FrameObj interface
@@ -31,10 +33,9 @@ class FrameObj:
         self.eHingeLocationType = etabs.eHingeLocationType
         """EtabsModel `HingeLocationType` enumeration"""
 
-
-    def add_by_coord(self, xi_coordinate : float, yi_coordinate : float, zi_coordinate : float,
-                     xj_coordinate : float, yj_coordinate : float, zj_coordinate : float,
-                     prop_name : str = "Default", user_name : str = "", coordinate_sys : str = "Global" ) -> str:
+    def add_by_coord(self, xi_coordinate: float, yi_coordinate: float, zi_coordinate: float,
+                     xj_coordinate: float, yj_coordinate: float, zj_coordinate: float,
+                     prop_name: str = "Default", user_name: str = "", coordinate_sys: str = "Global") -> str:
         """Adds a new frame object whose end points are at the specific coordinates.
         
         :param xi_coordinate: the X coordinates of the I-End of the added frame object in the coordinate system defined by the coordinate_sys item
@@ -65,8 +66,7 @@ class FrameObj:
         handle(ret)
         return str(frame_name)
 
-
-    def add_by_point(self, point_i : str, point_j : str, prop_name : str = "Default", user_name : str = "") -> str:
+    def add_by_point(self, point_i: str, point_j: str, prop_name: str = "Default", user_name: str = "") -> str:
         """Adds a new frame object whose end points are specified by name. 
         :param point_i: the name of a defined point object at the I-End of the added frame object
         :type point_i: str
@@ -84,8 +84,7 @@ class FrameObj:
         handle(ret)
         return str(frame_name)
 
-
-    def get_design_orientation(self, frame_name : str) -> etabs.eFrameDesignOrientation:
+    def get_design_orientation(self, frame_name: str) -> etabs.eFrameDesignOrientation:
         """Retrieves the design orientation for a frame object.
 
         :param frame_name: name of the frame object
@@ -98,8 +97,7 @@ class FrameObj:
         handle(ret)
         return design_orientation
 
-
-    def get_design_procedure(self, frame_name : str) -> eFrameDesignProcedure:
+    def get_design_procedure(self, frame_name: str) -> eFrameDesignProcedure:
         """Retrieves the design procedure for a frame object.
 
         :param frame_name: name of the frame object
@@ -112,8 +110,7 @@ class FrameObj:
         handle(ret)
         return eFrameDesignProcedure(procedure_type)
 
-
-    def get_group_assign(self, name : str) -> list[str]:
+    def get_group_assign(self, name: str) -> list[str]:
         """Retrieves the groups to which a frame object is assigned.
 
         :param name: name of an existing frame object
@@ -121,14 +118,13 @@ class FrameObj:
         :return: names of the groups to which the frame object is assigned
         :rtype: list[str]
         """
-        number_groups = int()
+        _number_groups = int()
         groups = [str()]
-        [ret, number_groups, groups] = self.frame_obj.GetGroupAssign(name, number_groups, groups)
+        [ret, _number_groups, groups] = self.frame_obj.GetGroupAssign(name, _number_groups, groups)
         handle(ret)
         return list(groups)
 
-    
-    def get_GUID(self, frame_name : str) -> str:
+    def get_guid(self, frame_name: str) -> str:
         """Retrieves the GUID(Global Unique ID) for the specified frame object.
         
         :param frame_name: name of the frame object
@@ -141,8 +137,7 @@ class FrameObj:
         handle(ret)
         return guid
 
-    
-    def get_label_from_name(self, frame_name : str) -> FrameObjectLabelData:
+    def get_label_from_name(self, frame_name: str) -> FrameObjectLabelData:
         """Retrieves the label and story for a unique frame object name.
         :param frame_name: name of the frame object
         :type frame_name: str
@@ -157,24 +152,21 @@ class FrameObj:
                 'frame_label': frame_label,
                 'frame_story': frame_story}
 
+    # TODO def get_modifiers(self, name : str)
 
-    #TODO def get_modifiers(self, name : str)
-    
-    
     def get_name_list(self) -> list[str]:
         """Retrieves the names of all defined frame objects.
 
         :return: frame object names
         :rtype: list[str]
         """
-        number_names = int()
+        _number_names = int()
         frame_names = [str()]
-        [ret, number_names, frame_names] = self.frame_obj.GetNameList(number_names, frame_names)
+        [ret, _number_names, frame_names] = self.frame_obj.GetNameList(_number_names, frame_names)
         handle(ret)
         return list(frame_names)
 
-
-    def get_name_list_on_story(self, story_name : str) -> list[str]:
+    def get_name_list_on_story(self, story_name: str) -> list[str]:
         """Retrieves the names of the defined frame objects on a given story.
 
         :param story_name: name of an existing story
@@ -182,9 +174,9 @@ class FrameObj:
         :return: frame object names on existing story
         :rtype: list[str]
         """
-        number_names = int()
+        _number_names = int()
         frame_names = [str()]
-        [ret, number_names, frame_names] = self.frame_obj.GetNameListOnStory(story_name, number_names, frame_names)
+        [ret, _number_names, frame_names] = self.frame_obj.GetNameListOnStory(story_name, _number_names, frame_names)
         handle(ret)
         return list(frame_names)
     
@@ -196,14 +188,13 @@ class FrameObj:
         :return: frame object line spring assignment
         :rtype: str
         """  
-        frame_spring_assign = str()
-
-        [ret, frame_spring_assign] = self.frame_obj.GetSpringAssignment(frame_name, frame_spring_assign)
+        spring_prop = str()
+        [ret, spring_prop] = self.frame_obj.GetSpringAssignment(frame_name, spring_prop)
         handle(ret)
-        return frame_spring_assign
+        return spring_prop
 
-
-    def set_group_assign(self, name : str, group_name : str, remove : bool = False, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+    def set_group_assign(self, name: str, group_name: str, remove: bool = False,
+                         item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
         """Adds or removes frame objects from a specified group.
 
         :param name: name of an existing frame object or group depending on the value of item_type
@@ -217,18 +208,15 @@ class FrameObj:
         """
         handle(self.frame_obj.SetGroupAssign(name, group_name, remove, item_type))
 
-
-    def set_spring_assignment(self, frame_name: str, line_spring_name, item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+    def set_spring_assignment(self, frame_name: str, line_spring_prop: str,
+                              item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
         """Assigns an existing line spring property to frame objects of the value item_type.
         
         :param frame_name: unique name of an existing frame object
-        :type point_name: str
-        :param line_spring_name: name of an existing line spring property
-        :typ line_spring_name: str
+        :type frame_name: str
+        :param line_spring_prop: name of an existing line spring property
+        :type line_spring_prop: str
         :param item_type: one of eItemType enumeration (`Objects` : area object specified by name is added/removed from group, `Group` : all area objects in the group specified by name are added/removed from group, `SelectedObjects` : all selected area objects are added/removed from group, name is ignored), defaults to eItemType.Objects
         :type item_type: eItemType, optional
         """
-
-        handle(self.frame_obj.SetSpringAssignment(frame_name, line_spring_name, item_type))
-
-        return
+        handle(self.frame_obj.SetSpringAssignment(frame_name, line_spring_prop, item_type))

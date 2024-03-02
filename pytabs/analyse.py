@@ -1,4 +1,4 @@
-# pyTABS - ETABS .NET API python wrapper
+# PyTABS - ETABS .NET API python wrapper
 # Analyse - cAnalyze interface 
 __all__ = ['Analyse']
 
@@ -8,15 +8,12 @@ from pytabs.error_handle import *
 
 # import custom enumerations
 
-
-
 # import typing
-
 
 
 class Analyse:
     """Analyse interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create Analyse interface

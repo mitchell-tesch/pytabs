@@ -1,10 +1,9 @@
-# pyTABS - ETABS .NET API python wrapper
+# PyTABS - ETABS .NET API python wrapper
 # Property - pyTABS interface to all prop type interfaces
 __all__ = ['Property']
 
 # import ETABS namespace and pyTABS error handler
 from pytabs.etabs_config import *
-from pytabs.error_handle import *
 
 # import of interfaces of prop types
 from pytabs.prop_area_spring import PropAreaSpring
@@ -20,7 +19,8 @@ from pytabs.prop_tendon import PropTendon
 
 class Property:
     """Properties interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         
