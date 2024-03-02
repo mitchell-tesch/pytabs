@@ -1,4 +1,4 @@
-# pyTABS - ETABS .NET API python wrapper
+# PyTABS - ETABS .NET API python wrapper
 # ETABS Configuration - ETABS API DLL handler
 __all__ = ['etabs', 'pytabs_config']
 
@@ -13,6 +13,8 @@ import clr
 # Mock for pdoc pipeline where dependency is not available
 # reference: https://blog.rtwilson.com/how-to-make-your-sphinx-documentation-compile-with-readthedocs-when-youre-using-numpy-and-scipy/
 MOCK_MODULES = ['ETABSv1']
+
+
 class Mock(object):
     __qualname__ = 'mock'
     
@@ -52,4 +54,5 @@ except:
     for mod_name in MOCK_MODULES:
         sys.modules[mod_name] = Mock()
     import ETABSv1 as etabs
-    warnings.warn("ETABS API DLL file (ETABSv1.dll) not found in configured location, check pytabs_config.ini", ImportWarning)
+    warnings.warn("ETABS API DLL file (ETABSv1.dll) not found in configured location, check pytabs_config.ini",
+                  ImportWarning)

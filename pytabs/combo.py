@@ -1,5 +1,5 @@
-# pyTABS - ETABS .NET API python wrapper
-# Combo - cCombo
+# PyTABS - ETABS .NET API python wrapper
+# Combo - cCombo interface
 __all__ = ['Combo']
 
 # import ETABS namespace and pyTABS error handler
@@ -12,31 +12,32 @@ from pytabs.error_handle import *
 # import typing
 from typing import TypedDict
 
+
 class CaseList(TypedDict):
     """TypedDict class for case list return"""
-    number_items : int
-    cname_types : list[etabs.eCNameType]
-    cnames : list[str]
-    mode_numbers : list[int]
-    scaling_factors : list[float]
+    number_items: int
+    cname_types: list[etabs.eCNameType]
+    cnames: list[str]
+    mode_numbers: list[int]
+    scaling_factors: list[float]
 
 
 class Combo:
     """Combo interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create interface for static nonlinear staged load cases
         self.combo = etabs.cCombo(sap_model.RespCombo)
-        
+
         # relate relevant ETABS enumerations
         self.eCNameType = etabs.eCNameType
         """EtabsModel `CNameType` enumeration"""
-        
+
         # relate custom enumerations
 
-
-    def get_case_list(self, name : str) -> CaseList:
+    def get_case_list(self, name: str) -> CaseList:
         """Retrieves all load cases and response combinations included in the load combination specified by the Name item.
 
         :param name: The name of an existing load combination.
@@ -59,15 +60,14 @@ class Combo:
                 'mode_numbers': list(mode_numbers),
                 'scaling_factors': list(scaling_factors)}
 
-
     def get_name_list(self) -> list[str]:
         """Retrieves the names of all defined response combinations.
 
         :return: list of combination names
         :rtype: list[str]
         """
-        number_names = int()
+        _number_names = int()
         combo_names = [str()]
-        [ret, number_names, combo_names] = self.combo.GetNameList(number_names, combo_names)
+        [ret, _number_names, combo_names] = self.combo.GetNameList(_number_names, combo_names)
         handle(ret)
         return list(combo_names)

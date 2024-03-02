@@ -1,5 +1,5 @@
-# pyTABS - ETABS .NET API python wrapper
-# View - cView
+# PyTABS - ETABS .NET API python wrapper
+# View - cView interface
 __all__ = ['View']
 
 # import ETABS namespace and pyTABS error handler
@@ -9,14 +9,14 @@ from pytabs.error_handle import *
 
 class View:
     """View interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create View interface
         self.view = etabs.cView(sap_model.View)
-    
-    
-    def refresh_view(self, window : int = 0, zoom : bool = True) -> None:
+
+    def refresh_view(self, window: int = 0, zoom: bool = True) -> None:
         """Refreshes the view for the specified window(s).
 
         :param window: window number, with 0 for all windows, defaults to 0
@@ -25,6 +25,5 @@ class View:
         :type zoom: bool, optional
         """
         handle(self.view.RefreshView(window, zoom))
-    
-    
+
     # RefreshWindow method redundant with the above.

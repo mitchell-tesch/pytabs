@@ -1,6 +1,5 @@
-# pyTABS - ETABS .NET API python wrapper
-# Custom Enumerations
-# Enumerations not included within ETABS API
+# PyTABS - ETABS .NET API python wrapper
+# Custom Enumerations for PyTABS (those not included within ETABS API)
 
 # import enum types
 from enum import Enum, IntEnum
@@ -111,3 +110,14 @@ class eSelectObjectType(IntEnum):
     AREA = 5
     SOLID = 6
     LINK = 7
+
+
+class ePointSpringStiffnessOption(IntEnum):
+    USER_OR_LINK = 1
+    SOIL_OR_FOOTING = 2
+
+
+class eSpringNonlinearOption(IntEnum):
+    LINEAR = 0
+    COMPRESSION_ONLY = 1
+    TENSION_ONLY = 2

@@ -1,4 +1,4 @@
-# pyTABS - ETABS .NET API python wrapper
+# PyTABS - ETABS .NET API python wrapper
 # AnalysisResultsSetup - cAnalysisResultsSetup interface
 __all__ = ['AnalysisResultsSetup']
 
@@ -6,31 +6,29 @@ __all__ = ['AnalysisResultsSetup']
 from pytabs.etabs_config import *
 from pytabs.error_handle import *
 
-
 # import custom enumerations
 from pytabs.enumerations import (eResultsSetupStepOutOption, eResultsSetupComboOutOption)
 
 
 class AnalysisResultsSetup:
     """AnalysisResultsSetup interface"""
-    def __init__(self, sap_model : etabs.cSapModel) -> None:
+
+    def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create AnalysisResultsSetup interface
         self.analysis_results_setup = etabs.cAnalysisResultsSetup(sap_model.Results.Setup)
-        
+
         # relate custom enumerations
         self.eResultsSetupStepOutOption = eResultsSetupStepOutOption
-        self.eResultsSetupComboOutOption =  eResultsSetupComboOutOption
-        
-        
+        self.eResultsSetupComboOutOption = eResultsSetupComboOutOption
+
     # Analysis Results Setup Methods
     def deselect_all_cases_combos_for_output(self) -> None:
         """Deselects all load cases and response combinations for output."""
         handle(self.analysis_results_setup.DeselectAllCasesAndCombosForOutput())
 
-
-    def get_case_selected_for_output(self, case_name : str) -> bool:
+    def get_case_selected_for_output(self, case_name: str) -> bool:
         """Checks if a load case is selected for output.
 
         :param case_name: name of an existing load case
@@ -42,8 +40,7 @@ class AnalysisResultsSetup:
         handle(ret)
         return selected
 
-
-    def get_combo_selected_for_output(self, combo_name : str) -> bool:
+    def get_combo_selected_for_output(self, combo_name: str) -> bool:
         """Checks if a load combination is selected for output.
 
         :param combo_name: name of an existing combination
@@ -54,8 +51,7 @@ class AnalysisResultsSetup:
         [ret, selected] = self.analysis_results_setup.GetComboSelectedForOutput(combo_name)
         handle(ret)
         return selected
-    
-    
+
     def get_base_reaction_location(self) -> tuple[float, float, float]:
         """Retrieves the global coordinates of the location at which the base reactions are reported.
 
@@ -67,8 +63,7 @@ class AnalysisResultsSetup:
         gz = float()
         [ret, gx, gy, gz] = self.analysis_results_setup.GetOptionBaseReactLoc(gx, gy, gz)
         handle(ret)
-        return (gx, gy, gz)
-    
+        return gx, gy, gz
 
     def get_buckling_mode_setup(self) -> tuple[int, int, bool]:
         """Retrieves the mode buckling range for output. 
@@ -84,8 +79,7 @@ class AnalysisResultsSetup:
                                                                                                     end_buckling_mode,
                                                                                                     all_buckling_modes)
         handle(ret)
-        return (start_buckling_mode, end_buckling_mode, all_buckling_modes)
-
+        return start_buckling_mode, end_buckling_mode, all_buckling_modes
 
     def get_direct_history_setup(self) -> eResultsSetupStepOutOption:
         """Retrieves the output option for direct history results.
@@ -98,7 +92,6 @@ class AnalysisResultsSetup:
         handle(ret)
         return eResultsSetupStepOutOption(option)
 
-
     def get_modal_history_setup(self) -> eResultsSetupStepOutOption:
         """Retrieves the output option for modal history results. 
 
@@ -110,7 +103,6 @@ class AnalysisResultsSetup:
         handle(ret)
         return eResultsSetupStepOutOption(option)
 
-
     def get_mode_shape_setup(self) -> tuple[bool, int, int]:
         """Retrieves the mode shape range for output.
 
@@ -120,13 +112,12 @@ class AnalysisResultsSetup:
         start_mode = int()
         end_mode = int()
         all_modes = bool()
-        [ret, start_mode, end_mode, all_modes] = self.analysis_results_setup.GetOptionModeShape(start_mode, end_mode, all_modes)
+        [ret, start_mode, end_mode, all_modes] = self.analysis_results_setup.GetOptionModeShape(start_mode, end_mode,
+                                                                                                all_modes)
         handle(ret)
-        return (all_modes, start_mode, end_mode)
-    
-    
+        return all_modes, start_mode, end_mode
+
     # TODO GetOptionMultiStepStatic - setup options within ETABS unknown
-    
 
     def get_combination_setup(self) -> eResultsSetupComboOutOption:
         """Retrieves the combination option setup.
@@ -138,8 +129,7 @@ class AnalysisResultsSetup:
         [ret, option] = self.analysis_results_setup.GetOptionMultiValuedCombo(option)
         handle(ret)
         return eResultsSetupComboOutOption(option)
-    
-    
+
     def get_nonlinear_setup(self) -> eResultsSetupStepOutOption:
         """Retrieves the non-linear static results option.
 
@@ -150,9 +140,8 @@ class AnalysisResultsSetup:
         [ret, option] = self.analysis_results_setup.GetOptionNLStatic(option)
         handle(ret)
         return eResultsSetupStepOutOption(option)
-    
-    
-    def set_case_selected_for_output(self, case_name : str, select_state : bool = True) -> None:
+
+    def set_case_selected_for_output(self, case_name: str, select_state: bool = True) -> None:
         """Sets a load case selected for output flag.
 
         :param case_name: name of existing load case
@@ -161,9 +150,8 @@ class AnalysisResultsSetup:
         :type select_state: bool, optional
         """
         handle(self.analysis_results_setup.SetCaseSelectedForOutput(case_name, select_state))
-    
-    
-    def set_combo_selected_for_output(self, combo_name : str, select_state : bool = True) -> None:
+
+    def set_combo_selected_for_output(self, combo_name: str, select_state: bool = True) -> None:
         """Sets a combination selected for output flag.
 
         :param combo_name: name of the existing combination
@@ -173,17 +161,16 @@ class AnalysisResultsSetup:
         """
         handle(self.analysis_results_setup.SetComboSelectedForOutput(combo_name, select_state))
 
-
-    def set_base_reaction_location(self, point : tuple[float, float, float]) -> None:
+    def set_base_reaction_location(self, point: tuple[float, float, float]) -> None:
         """Sets the global coordinates of the location at which the base reactions are reported.
 
         :param point: global coordinate of 3d point where base reactions are to be reported (gx, gy, gz)
         :type point: tuple[float, float, float]
         """
         handle(self.analysis_results_setup.SetOptionBaseReactLoc(point[0], point[1], point[2]))
-    
-    
-    def set_buckling_mode_setup(self, start_buckling_mode : int, end_buckling_mode : int, all_buckling_modes : bool = False) -> None:
+
+    def set_buckling_mode_setup(self, start_buckling_mode: int, end_buckling_mode: int,
+                                all_buckling_modes: bool = False) -> None:
         """Sets the buckling mode range for output. 
         
         :param start_buckling_mode: first buckling mode number 
@@ -193,10 +180,10 @@ class AnalysisResultsSetup:
         :param all_buckling_modes: all buckling modes, defaults to `False` 
         :type start_buckling_mode: bool, optional 
         """
-        handle(self.analysis_results_setup.SetOptionBucklingMode(start_buckling_mode, end_buckling_mode, all_buckling_modes))
-        
-        
-    def set_direct_history_setup(self, option : eResultsSetupStepOutOption) -> None:
+        handle(self.analysis_results_setup.SetOptionBucklingMode(start_buckling_mode, end_buckling_mode,
+                                                                 all_buckling_modes))
+
+    def set_direct_history_setup(self, option: eResultsSetupStepOutOption) -> None:
         """Sets the direct history results option.
         
         :param option: one of step out options (envelopes, step-by-step or last-step)
@@ -204,17 +191,15 @@ class AnalysisResultsSetup:
         """
         handle(self.analysis_results_setup.SetOptionDirectHist(option.value))
 
-
-    def set_modal_history_setup(self, option : eResultsSetupStepOutOption) -> None:
+    def set_modal_history_setup(self, option: eResultsSetupStepOutOption) -> None:
         """Sets the modal history results option.
         
         :param option: one of step out options (envelopes, step-by-step or last-step)
         :type option:  eResultsSetupStepOutOption
         """
         handle(self.analysis_results_setup.SetOptionModalHist(option.value))
-        
-        
-    def set_mode_shape_setup(self, start_mode : int, end_mode : int, all_modes : bool = False) -> None:
+
+    def set_mode_shape_setup(self, start_mode: int, end_mode: int, all_modes: bool = False) -> None:
         """Sets the mode shape range for output.
 
         :param start_mode: first mode number
@@ -226,11 +211,9 @@ class AnalysisResultsSetup:
         """
         handle(self.analysis_results_setup.SetOptionModeShape(start_mode, end_mode, all_modes))
 
-
     # TODO SetOptionMultiStepStatic - setup options within ETABS unknown
-    
 
-    def set_combination_setup(self, option : eResultsSetupComboOutOption) -> None:
+    def set_combination_setup(self, option: eResultsSetupComboOutOption) -> None:
         """Sets the non-linear static results option.
         
         :param option: one of combo options (envelopes or multiple)
@@ -238,8 +221,7 @@ class AnalysisResultsSetup:
         """
         handle(self.analysis_results_setup.SetOptionMultiValuedCombo(option.value))
 
-
-    def set_nonlinear_setup(self, option : eResultsSetupStepOutOption) -> None:
+    def set_nonlinear_setup(self, option: eResultsSetupStepOutOption) -> None:
         """Sets the non-linear static results option.
         
         :param option: one of step out options (envelopes, step-by-step or last-step)
