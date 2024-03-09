@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytabs.analysis_results &mdash; PyTABS 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyTABS
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pytabs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyTABS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pytabs.analysis_results</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pytabs.analysis_results</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PyTABS - ETABS .NET API python wrapper</span>
+<span class="c1"># AnalysisResults - cAnalysisResults interface</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AnalysisResults&#39;</span><span class="p">]</span>
+
+<span class="c1"># import ETABS namespace and pyTABS error handler</span>
+<span class="kn">from</span> <span class="nn">.etabs_config</span> <span class="kn">import</span> <span class="n">etabs</span>
+<span class="kn">from</span> <span class="nn">.error_handle</span> <span class="kn">import</span> <span class="n">handle</span>
+
+<span class="c1"># import custom enumerations</span>
+<span class="kn">from</span> <span class="nn">.enumerations</span> <span class="kn">import</span> <span class="p">(</span><span class="n">eResultsSetupStepOutOption</span><span class="p">,</span> <span class="n">eResultsSetupComboOutOption</span><span class="p">)</span>
+
+<span class="c1"># import typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+
+
+<span class="k">class</span> <span class="nc">BaseReact</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for base_react return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">x_coordinate</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">y_coordinate</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">z_coordinate</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">BaseReactWithCentroid</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for base_react_with_centroid return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">x_coordinate</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">y_coordinate</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">z_coordinate</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">x_centroid_for_force_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">y_centroid_for_force_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">z_centroid_for_force_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">x_centroid_for_force_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">y_centroid_for_force_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">z_centroid_for_force_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">x_centroid_for_force_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">y_centroid_for_force_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">z_centroid_for_force_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">BucklingFactor</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for buckling_factor return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">factor</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">JointDisplacement</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for joint_displacement return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">object_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">element_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_1</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_1</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ModalLoadParticipationRatios</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Typed class for modal_load_participation_ratios&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">item_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">item</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">static_ratios</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">dynamic_ratios</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ModalParticipatingMassRatios</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for modal_participating_mass_ratios&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">period</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">sum_delta_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">sum_delta_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">sum_delta_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">sum_rotation_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">sum_rotation_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">sum_rotation_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ModalParticipationFactors</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for modal_participation_factors&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">period</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">rotation_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">modal_mass</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">modal_stiff</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ModalPeriod</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for modal_period return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">period</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">frequency</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">circular_frequency</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">eigen_value</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">PierForce</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for pir_force return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">story_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">pier_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">axial</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">shear_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">shear_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">torsion</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SectionCutAnalysis</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for section_cut_analysis return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">section_cut</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_1</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">force_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_1</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SectionCutDesign</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for section_cut_design return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">section_cut</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">axial</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">shear_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">shear_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">torsion</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SpandrelForce</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for spandrel_force return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">story_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">spandrel_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">location</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">axial</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">shear_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">shear_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">torsion</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_2</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">moment_3</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">StoryDrift</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for story_drift return&quot;&quot;&quot;</span>
+    <span class="n">number_results</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">story</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">load_case</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_type</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">step_number</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">direction</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">drift</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">label</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">delta_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">delta_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="AnalysisResults">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults">[docs]</a>
+<span class="k">class</span> <span class="nc">AnalysisResults</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;AnalysisResults interface&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># link of SapModel interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+        <span class="c1"># create AnalysisResultsSetup interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cAnalysisResultsSetup</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">Setup</span><span class="p">)</span>
+        <span class="c1"># create AnalysisResults interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cAnalysisResults</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">Results</span><span class="p">)</span>
+
+        <span class="c1"># relate custom enumerations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eResultsSetupStepOutOption</span> <span class="o">=</span> <span class="n">eResultsSetupStepOutOption</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eResultsSetupComboOutOption</span> <span class="o">=</span> <span class="n">eResultsSetupComboOutOption</span>
+
+    <span class="c1"># Analysis Results Methods</span>
+    <span class="c1"># TODO: AreaForceShell</span>
+    <span class="c1"># TODO: AreaJointForceShell</span>
+    <span class="c1"># TODO: AreaStrainShell</span>
+    <span class="c1"># TODO: AreaStrainShellLayered</span>
+    <span class="c1"># TODO: AreaStressShell</span>
+    <span class="c1"># TODO: AreaStressShellLayered,</span>
+    <span class="c1"># TODO: AssembledJoinMass</span>
+
+<div class="viewcode-block" id="AnalysisResults.base_react">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.base_react">[docs]</a>
+    <span class="k">def</span> <span class="nf">base_react</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseReact</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the structure total base reactions.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: total base reactions analysis results </span>
+<span class="sd">        :rtype: BaseReact</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">x_coordinate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+        <span class="n">y_coordinate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+        <span class="n">z_coordinate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">force_x</span><span class="p">,</span>
+         <span class="n">force_y</span><span class="p">,</span> <span class="n">force_z</span><span class="p">,</span> <span class="n">moment_x</span><span class="p">,</span> <span class="n">moment_y</span><span class="p">,</span>
+         <span class="n">moment_z</span><span class="p">,</span> <span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span><span class="p">,</span> <span class="n">z_coordinate</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">BaseReact</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span>
+                                                                                               <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span>
+                                                                                               <span class="n">step_number</span><span class="p">,</span> <span class="n">force_x</span><span class="p">,</span>
+                                                                                               <span class="n">force_y</span><span class="p">,</span>
+                                                                                               <span class="n">force_z</span><span class="p">,</span> <span class="n">moment_x</span><span class="p">,</span>
+                                                                                               <span class="n">moment_y</span><span class="p">,</span> <span class="n">moment_z</span><span class="p">,</span>
+                                                                                               <span class="n">x_coordinate</span><span class="p">,</span>
+                                                                                               <span class="n">y_coordinate</span><span class="p">,</span>
+                                                                                               <span class="n">z_coordinate</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;force_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_x</span><span class="p">),</span>
+                <span class="s1">&#39;force_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_y</span><span class="p">),</span>
+                <span class="s1">&#39;force_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_z</span><span class="p">),</span>
+                <span class="s1">&#39;moment_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_x</span><span class="p">),</span>
+                <span class="s1">&#39;moment_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_y</span><span class="p">),</span>
+                <span class="s1">&#39;moment_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_z</span><span class="p">),</span>
+                <span class="s1">&#39;x_coordinate&#39;</span><span class="p">:</span> <span class="n">x_coordinate</span><span class="p">,</span>
+                <span class="s1">&#39;y_coordinate&#39;</span><span class="p">:</span> <span class="n">y_coordinate</span><span class="p">,</span>
+                <span class="s1">&#39;z_coordinate&#39;</span><span class="p">:</span> <span class="n">z_coordinate</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.base_react_with_centroid">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.base_react_with_centroid">[docs]</a>
+    <span class="k">def</span> <span class="nf">base_react_with_centroid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseReactWithCentroid</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the structure total base reactions and includes information on the centroid of the translational reaction forces.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Base reaction with centriod analysis results </span>
+<span class="sd">        :rtype: BaseReactWithCentroid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">x_coordinate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+        <span class="n">y_coordinate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+        <span class="n">z_coordinate</span> <span class="o">=</span> <span class="nb">float</span><span class="p">()</span>
+        <span class="n">x_centroid_for_force_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">y_centroid_for_force_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">z_centroid_for_force_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">x_centroid_for_force_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">y_centroid_for_force_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">z_centroid_for_force_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">x_centroid_for_force_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">y_centroid_for_force_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">z_centroid_for_force_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+         <span class="n">force_x</span><span class="p">,</span> <span class="n">force_y</span><span class="p">,</span> <span class="n">force_z</span><span class="p">,</span> <span class="n">moment_x</span><span class="p">,</span> <span class="n">moment_y</span><span class="p">,</span> <span class="n">moment_z</span><span class="p">,</span>
+         <span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span><span class="p">,</span> <span class="n">z_coordinate</span><span class="p">,</span>
+         <span class="n">x_centroid_for_force_x</span><span class="p">,</span> <span class="n">y_centroid_for_force_x</span><span class="p">,</span> <span class="n">z_centroid_for_force_x</span><span class="p">,</span>
+         <span class="n">x_centroid_for_force_y</span><span class="p">,</span> <span class="n">y_centroid_for_force_y</span><span class="p">,</span> <span class="n">z_centroid_for_force_y</span><span class="p">,</span>
+         <span class="n">x_centroid_for_force_z</span><span class="p">,</span> <span class="n">y_centroid_for_force_z</span><span class="p">,</span>
+         <span class="n">z_centroid_for_force_z</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">BaseReactWithCentroid</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span>
+                                                                               <span class="n">step_number</span><span class="p">,</span>
+                                                                               <span class="n">force_x</span><span class="p">,</span> <span class="n">force_y</span><span class="p">,</span> <span class="n">force_z</span><span class="p">,</span> <span class="n">moment_x</span><span class="p">,</span>
+                                                                               <span class="n">moment_y</span><span class="p">,</span> <span class="n">moment_z</span><span class="p">,</span>
+                                                                               <span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span><span class="p">,</span> <span class="n">z_coordinate</span><span class="p">,</span>
+                                                                               <span class="n">x_centroid_for_force_x</span><span class="p">,</span>
+                                                                               <span class="n">y_centroid_for_force_x</span><span class="p">,</span>
+                                                                               <span class="n">z_centroid_for_force_x</span><span class="p">,</span>
+                                                                               <span class="n">x_centroid_for_force_y</span><span class="p">,</span>
+                                                                               <span class="n">y_centroid_for_force_y</span><span class="p">,</span>
+                                                                               <span class="n">z_centroid_for_force_y</span><span class="p">,</span>
+                                                                               <span class="n">x_centroid_for_force_z</span><span class="p">,</span>
+                                                                               <span class="n">y_centroid_for_force_z</span><span class="p">,</span>
+                                                                               <span class="n">z_centroid_for_force_z</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;force_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_x</span><span class="p">),</span>
+                <span class="s1">&#39;force_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_y</span><span class="p">),</span>
+                <span class="s1">&#39;force_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_z</span><span class="p">),</span>
+                <span class="s1">&#39;moment_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_x</span><span class="p">),</span>
+                <span class="s1">&#39;moment_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_y</span><span class="p">),</span>
+                <span class="s1">&#39;moment_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_z</span><span class="p">),</span>
+                <span class="s1">&#39;x_coordinate&#39;</span><span class="p">:</span> <span class="n">x_coordinate</span><span class="p">,</span>
+                <span class="s1">&#39;y_coordinate&#39;</span><span class="p">:</span> <span class="n">y_coordinate</span><span class="p">,</span>
+                <span class="s1">&#39;z_coordinate&#39;</span><span class="p">:</span> <span class="n">z_coordinate</span><span class="p">,</span>
+                <span class="s1">&#39;x_centroid_for_force_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_centroid_for_force_x</span><span class="p">),</span>
+                <span class="s1">&#39;y_centroid_for_force_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_centroid_for_force_x</span><span class="p">),</span>
+                <span class="s1">&#39;z_centroid_for_force_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">z_centroid_for_force_x</span><span class="p">),</span>
+                <span class="s1">&#39;x_centroid_for_force_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_centroid_for_force_y</span><span class="p">),</span>
+                <span class="s1">&#39;y_centroid_for_force_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_centroid_for_force_y</span><span class="p">),</span>
+                <span class="s1">&#39;z_centroid_for_force_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">z_centroid_for_force_y</span><span class="p">),</span>
+                <span class="s1">&#39;x_centroid_for_force_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_centroid_for_force_z</span><span class="p">),</span>
+                <span class="s1">&#39;y_centroid_for_force_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_centroid_for_force_z</span><span class="p">),</span>
+                <span class="s1">&#39;z_centroid_for_force_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">z_centroid_for_force_z</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.buckling_factor">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.buckling_factor">[docs]</a>
+    <span class="k">def</span> <span class="nf">buckling_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BucklingFactor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports buckling factors obtained from buckling load cases. </span>
+<span class="sd">        </span>
+<span class="sd">        :return: Buckling factors analysis results </span>
+<span class="sd">        :rtype: BucklingFactor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+         <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">factor</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">BucklingFactor</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+                                                                                <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">factor</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;factor&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">factor</span><span class="p">)}</span></div>
+
+
+    <span class="c1"># TODO: FrameForce</span>
+    <span class="c1"># TODO: FrameJointForce</span>
+    <span class="c1"># TODO: GeneraliszeDispl</span>
+    <span class="c1"># TODO: JointAcc</span>
+    <span class="c1"># TODO: JointAccAbs</span>
+
+<div class="viewcode-block" id="AnalysisResults.joint_displacement">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.joint_displacement">[docs]</a>
+    <span class="k">def</span> <span class="nf">joint_displacement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item_type_element</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemTypeElm</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JointDisplacement</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the joint displacements for the specified point elements.</span>
+<span class="sd">        The displacements reported by this function are relative displacements.</span>
+
+<span class="sd">        :param name: The name of an existing point object, point element, or group of objects depending on the value of the ItemTypeElm item</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param item_type_element: one of the following items in the `eItemTypeElm` enumeration.</span>
+<span class="sd">            `ObjectElm` - the point element corresponding to the point object specified by the `name`</span>
+<span class="sd">            `Element` - the point element specified by `name`</span>
+<span class="sd">            `GroupElm` - all point elements directly or indirectly specified in the group specified by `name`</span>
+<span class="sd">            `SelectionElm` - all point elements directly or indirectly selected and `name` is ignored</span>
+<span class="sd">        :type item_type_element: etabs.eItemTypeElm</span>
+<span class="sd">        :return: Joint Displacement analysis results </span>
+<span class="sd">        :rtype: JointDisplacement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">object_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">element_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">object_name</span><span class="p">,</span> <span class="n">element_name</span><span class="p">,</span>
+         <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+         <span class="n">delta_1</span><span class="p">,</span> <span class="n">delta_2</span><span class="p">,</span> <span class="n">delta_3</span><span class="p">,</span>
+         <span class="n">rotation_1</span><span class="p">,</span> <span class="n">rotation_2</span><span class="p">,</span> <span class="n">rotation_3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">JointDispl</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">item_type_element</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span>
+                                                                                <span class="n">object_name</span><span class="p">,</span> <span class="n">element_name</span><span class="p">,</span>
+                                                                                <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+                                                                                <span class="n">delta_1</span><span class="p">,</span> <span class="n">delta_2</span><span class="p">,</span> <span class="n">delta_3</span><span class="p">,</span>
+                                                                                <span class="n">rotation_1</span><span class="p">,</span> <span class="n">rotation_2</span><span class="p">,</span> <span class="n">rotation_3</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;object_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">object_name</span><span class="p">),</span>
+                <span class="s1">&#39;element_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">element_name</span><span class="p">),</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;delta_1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_1</span><span class="p">),</span>
+                <span class="s1">&#39;delta_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_2</span><span class="p">),</span>
+                <span class="s1">&#39;delta_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_3</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_1</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_2</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_3</span><span class="p">)}</span></div>
+
+
+    <span class="c1"># TODO: JointDisplAbs</span>
+    <span class="c1"># TODO: JointDrifts</span>
+    <span class="c1"># TODO: JointReact</span>
+    <span class="c1"># TODO: JointVel</span>
+    <span class="c1"># TODO: JointVelAbs</span>
+    <span class="c1"># TODO: LinkDeformation</span>
+    <span class="c1"># TODO: LinkForce</span>
+    <span class="c1"># TODO: LinkJointForce</span>
+
+<div class="viewcode-block" id="AnalysisResults.modal_load_participation_ratios">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.modal_load_participation_ratios">[docs]</a>
+    <span class="k">def</span> <span class="nf">modal_load_participation_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalLoadParticipationRatios</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the modal load participation ratios for each selected modal analysis case</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Modal load participation ratios analysis results </span>
+<span class="sd">        :rtype: ModalLoadParticipationRatios</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">item_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">static_ratios</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">dynamic_ratios</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span>
+         <span class="n">load_case</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span>
+         <span class="n">static_ratios</span><span class="p">,</span> <span class="n">dynamic_ratios</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">ModalLoadParticipationRatios</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+                                                                                             <span class="n">item_type</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span>
+                                                                                             <span class="n">static_ratios</span><span class="p">,</span>
+                                                                                             <span class="n">dynamic_ratios</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;item_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">item_type</span><span class="p">),</span>
+                <span class="s1">&#39;item&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="p">),</span>
+                <span class="s1">&#39;static_ratios&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">static_ratios</span><span class="p">),</span>
+                <span class="s1">&#39;dynamic_ratios&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">dynamic_ratios</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.modal_participating_mass_ratios">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.modal_participating_mass_ratios">[docs]</a>
+    <span class="k">def</span> <span class="nf">modal_participating_mass_ratios</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalParticipatingMassRatios</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the modal participating mass ratios for each mode of each selected modal analysis case.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Modal participating mass ratios analysis results </span>
+<span class="sd">        :rtype: ModalParticipatingMassRatios</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">sum_delta_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">sum_delta_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">sum_delta_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">sum_rotation_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">sum_rotation_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">sum_rotation_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+         <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span>
+         <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">,</span>
+         <span class="n">sum_delta_x</span><span class="p">,</span> <span class="n">sum_delta_y</span><span class="p">,</span> <span class="n">sum_delta_z</span><span class="p">,</span>
+         <span class="n">rotation_x</span><span class="p">,</span> <span class="n">rotation_y</span><span class="p">,</span> <span class="n">rotation_z</span><span class="p">,</span>
+         <span class="n">sum_rotation_x</span><span class="p">,</span> <span class="n">sum_rotation_y</span><span class="p">,</span> <span class="n">sum_rotation_z</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">ModalParticipatingMassRatios</span><span class="p">(</span>
+            <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+            <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span>
+            <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">,</span>
+            <span class="n">sum_delta_x</span><span class="p">,</span> <span class="n">sum_delta_y</span><span class="p">,</span> <span class="n">sum_delta_z</span><span class="p">,</span>
+            <span class="n">rotation_x</span><span class="p">,</span> <span class="n">rotation_y</span><span class="p">,</span> <span class="n">rotation_z</span><span class="p">,</span>
+            <span class="n">sum_rotation_x</span><span class="p">,</span> <span class="n">sum_rotation_y</span><span class="p">,</span> <span class="n">sum_rotation_z</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;period&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">period</span><span class="p">),</span>
+                <span class="s1">&#39;delta_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_x</span><span class="p">),</span>
+                <span class="s1">&#39;delta_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_y</span><span class="p">),</span>
+                <span class="s1">&#39;delta_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_z</span><span class="p">),</span>
+                <span class="s1">&#39;sum_delta_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sum_delta_x</span><span class="p">),</span>
+                <span class="s1">&#39;sum_delta_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sum_delta_y</span><span class="p">),</span>
+                <span class="s1">&#39;sum_delta_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sum_delta_z</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_x</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_y</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_z</span><span class="p">),</span>
+                <span class="s1">&#39;sum_rotation_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sum_rotation_x</span><span class="p">),</span>
+                <span class="s1">&#39;sum_rotation_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sum_rotation_y</span><span class="p">),</span>
+                <span class="s1">&#39;sum_rotation_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">sum_rotation_z</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.modal_participation_factors">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.modal_participation_factors">[docs]</a>
+    <span class="k">def</span> <span class="nf">modal_participation_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalParticipationFactors</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the modal participation factors for each mode of each selected modal analysis case.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Modal participation factors analysis results</span>
+<span class="sd">        :rtype: ModalParticipationFactors</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">rotation_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">modal_mass</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">modal_stiff</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+         <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span>
+         <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">,</span>
+         <span class="n">rotation_x</span><span class="p">,</span> <span class="n">rotation_y</span><span class="p">,</span> <span class="n">rotation_z</span><span class="p">,</span>
+         <span class="n">modal_mass</span><span class="p">,</span> <span class="n">modal_stiff</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">ModalParticipationFactors</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+                                                                                    <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span>
+                                                                                    <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">,</span>
+                                                                                    <span class="n">rotation_x</span><span class="p">,</span> <span class="n">rotation_y</span><span class="p">,</span> <span class="n">rotation_z</span><span class="p">,</span>
+                                                                                    <span class="n">modal_mass</span><span class="p">,</span> <span class="n">modal_stiff</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;period&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">period</span><span class="p">),</span>
+                <span class="s1">&#39;delta_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_x</span><span class="p">),</span>
+                <span class="s1">&#39;delta_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_y</span><span class="p">),</span>
+                <span class="s1">&#39;delta_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_z</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_x</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_y</span><span class="p">),</span>
+                <span class="s1">&#39;rotation_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">rotation_z</span><span class="p">),</span>
+                <span class="s1">&#39;modal_mass&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modal_mass</span><span class="p">),</span>
+                <span class="s1">&#39;modal_stiff&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">modal_stiff</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.modal_period">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.modal_period">[docs]</a>
+    <span class="k">def</span> <span class="nf">modal_period</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ModalPeriod</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the modal period, cyclic frequency, circular frequency and eigenvalue for each selected modal load case.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Modal period analysis results</span>
+<span class="sd">        :rtype: ModalPeriod</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">()]</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">circular_frequency</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">eigen_value</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+         <span class="n">period</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">circular_frequency</span><span class="p">,</span> <span class="n">eigen_value</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">ModalPeriod</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span>
+                                                                                                 <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span>
+                                                                                                 <span class="n">step_number</span><span class="p">,</span>
+                                                                                                 <span class="n">period</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span>
+                                                                                                 <span class="n">circular_frequency</span><span class="p">,</span>
+                                                                                                 <span class="n">eigen_value</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;period&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">period</span><span class="p">),</span>
+                <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">frequency</span><span class="p">),</span>
+                <span class="s1">&#39;circular_frequency&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">circular_frequency</span><span class="p">),</span>
+                <span class="s1">&#39;eigen_value&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">eigen_value</span><span class="p">)}</span></div>
+
+
+    <span class="c1"># TODO: ModalShape</span>
+    <span class="c1"># TODO: PanelZoneDeformation</span>
+    <span class="c1"># TODO: PanelZoneForce</span>
+
+<div class="viewcode-block" id="AnalysisResults.pier_force">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.pier_force">[docs]</a>
+    <span class="k">def</span> <span class="nf">pier_force</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PierForce</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves pier forces for any defined pier objects in the model.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Pier force analysis results</span>
+<span class="sd">        :rtype: PierForce</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">story_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">pier_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">axial</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">shear_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">shear_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">torsion</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">story_name</span><span class="p">,</span> <span class="n">pier_name</span><span class="p">,</span>
+         <span class="n">load_case</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">axial</span><span class="p">,</span> <span class="n">shear_2</span><span class="p">,</span> <span class="n">shear_3</span><span class="p">,</span>
+         <span class="n">torsion</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">PierForce</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">story_name</span><span class="p">,</span> <span class="n">pier_name</span><span class="p">,</span>
+                                                                        <span class="n">load_case</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">axial</span><span class="p">,</span> <span class="n">shear_2</span><span class="p">,</span> <span class="n">shear_3</span><span class="p">,</span>
+                                                                        <span class="n">torsion</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;story_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">story_name</span><span class="p">),</span>
+                <span class="s1">&#39;pier_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">pier_name</span><span class="p">),</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">location</span><span class="p">),</span>
+                <span class="s1">&#39;axial&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">axial</span><span class="p">),</span>
+                <span class="s1">&#39;shear_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">shear_2</span><span class="p">),</span>
+                <span class="s1">&#39;shear_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">shear_3</span><span class="p">),</span>
+                <span class="s1">&#39;torsion&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">torsion</span><span class="p">),</span>
+                <span class="s1">&#39;moment_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_2</span><span class="p">),</span>
+                <span class="s1">&#39;moment_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_3</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.section_cut_analysis">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.section_cut_analysis">[docs]</a>
+    <span class="k">def</span> <span class="nf">section_cut_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SectionCutAnalysis</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the section cut force for sections cuts that are specified to have an analysis </span>
+<span class="sd">        (force_1, force_2, force_3, moment_1, moment_2, moment_3) result type.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: section cut analysis results</span>
+<span class="sd">        :rtype: SectionCutAnalysis</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">section_cut</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">force_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_1</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">section_cut</span><span class="p">,</span>
+         <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+         <span class="n">force_1</span><span class="p">,</span> <span class="n">force_2</span><span class="p">,</span> <span class="n">force_3</span><span class="p">,</span>
+         <span class="n">moment_1</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">SectionCutAnalysis</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">section_cut</span><span class="p">,</span>
+                                                                                  <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+                                                                                  <span class="n">force_1</span><span class="p">,</span> <span class="n">force_2</span><span class="p">,</span> <span class="n">force_3</span><span class="p">,</span>
+                                                                                  <span class="n">moment_1</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;section_cut&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">section_cut</span><span class="p">),</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;force_1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_1</span><span class="p">),</span>
+                <span class="s1">&#39;force_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_2</span><span class="p">),</span>
+                <span class="s1">&#39;force_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">force_3</span><span class="p">),</span>
+                <span class="s1">&#39;moment_1&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_1</span><span class="p">),</span>
+                <span class="s1">&#39;moment_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_2</span><span class="p">),</span>
+                <span class="s1">&#39;moment_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_3</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.section_cut_design">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.section_cut_design">[docs]</a>
+    <span class="k">def</span> <span class="nf">section_cut_design</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SectionCutDesign</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Report the section cut force for sections cuts that are specified to have a design </span>
+<span class="sd">        (axial force, shear force 2, shear force 3, torsion, moment 2, moment 3) result type.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Section cut design results </span>
+<span class="sd">        :rtype: SectionCutDesign</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">section_cut</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">axial</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">shear_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">shear_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">torsion</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">section_cut</span><span class="p">,</span>
+         <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+         <span class="n">axial</span><span class="p">,</span> <span class="n">shear_2</span><span class="p">,</span> <span class="n">shear_3</span><span class="p">,</span>
+         <span class="n">torsion</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">SectionCutAnalysis</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">section_cut</span><span class="p">,</span>
+                                                                                 <span class="n">load_case</span><span class="p">,</span> <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+                                                                                 <span class="n">axial</span><span class="p">,</span> <span class="n">shear_2</span><span class="p">,</span> <span class="n">shear_3</span><span class="p">,</span>
+                                                                                 <span class="n">torsion</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;section_cut&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">section_cut</span><span class="p">),</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;axial&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">axial</span><span class="p">),</span>
+                <span class="s1">&#39;shear_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">shear_2</span><span class="p">),</span>
+                <span class="s1">&#39;shear_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">shear_3</span><span class="p">),</span>
+                <span class="s1">&#39;torsion&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">torsion</span><span class="p">),</span>
+                <span class="s1">&#39;moment_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_2</span><span class="p">),</span>
+                <span class="s1">&#39;moment_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_3</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.spandrel_force">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.spandrel_force">[docs]</a>
+    <span class="k">def</span> <span class="nf">spandrel_force</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpandrelForce</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves spandrel forces for any defined spandrel objects in the model.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Spandrel force analysis results </span>
+<span class="sd">        :rtype: SpandrelForce</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">story_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">spandrel_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">location</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">axial</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">shear_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">shear_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">torsion</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_2</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">moment_3</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">story_name</span><span class="p">,</span>
+         <span class="n">spandrel_name</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span>
+         <span class="n">axial</span><span class="p">,</span> <span class="n">shear_2</span><span class="p">,</span> <span class="n">shear_3</span><span class="p">,</span>
+         <span class="n">torsion</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">SpandrelForce</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">story_name</span><span class="p">,</span>
+                                                                            <span class="n">spandrel_name</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span>
+                                                                            <span class="n">axial</span><span class="p">,</span> <span class="n">shear_2</span><span class="p">,</span> <span class="n">shear_3</span><span class="p">,</span>
+                                                                            <span class="n">torsion</span><span class="p">,</span> <span class="n">moment_2</span><span class="p">,</span> <span class="n">moment_3</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;story_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">story_name</span><span class="p">),</span>
+                <span class="s1">&#39;spandrel_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">spandrel_name</span><span class="p">),</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">location</span><span class="p">),</span>
+                <span class="s1">&#39;axial&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">axial</span><span class="p">),</span>
+                <span class="s1">&#39;shear_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">shear_2</span><span class="p">),</span>
+                <span class="s1">&#39;shear_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">shear_3</span><span class="p">),</span>
+                <span class="s1">&#39;torsion&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">torsion</span><span class="p">),</span>
+                <span class="s1">&#39;moment_2&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_2</span><span class="p">),</span>
+                <span class="s1">&#39;moment_3&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">moment_3</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="AnalysisResults.story_drifts">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.analysis_results.AnalysisResults.story_drifts">[docs]</a>
+    <span class="k">def</span> <span class="nf">story_drifts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StoryDrift</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reports the story drifts.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: Story drifts analysis results </span>
+<span class="sd">        :rtype: StoryDrift</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_results</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">story</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">load_case</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_type</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">step_number</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">drift</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">delta_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">delta_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_results</span><span class="p">,</span> <span class="n">story</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+         <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+         <span class="n">direction</span><span class="p">,</span> <span class="n">drift</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span>
+         <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="o">.</span><span class="n">StoryDrifts</span><span class="p">(</span><span class="n">number_results</span><span class="p">,</span> <span class="n">story</span><span class="p">,</span> <span class="n">load_case</span><span class="p">,</span>
+                                                                        <span class="n">step_type</span><span class="p">,</span> <span class="n">step_number</span><span class="p">,</span>
+                                                                        <span class="n">direction</span><span class="p">,</span> <span class="n">drift</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span>
+                                                                        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span><span class="p">,</span> <span class="n">delta_z</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;number_results&#39;</span><span class="p">:</span> <span class="n">number_results</span><span class="p">,</span>
+                <span class="s1">&#39;story&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">story</span><span class="p">),</span>
+                <span class="s1">&#39;load_case&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">load_case</span><span class="p">),</span>
+                <span class="s1">&#39;step_type&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_type</span><span class="p">),</span>
+                <span class="s1">&#39;step_number&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">step_number</span><span class="p">),</span>
+                <span class="s1">&#39;direction&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">direction</span><span class="p">),</span>
+                <span class="s1">&#39;drift&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">drift</span><span class="p">),</span>
+                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                <span class="s1">&#39;delta_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_x</span><span class="p">),</span>
+                <span class="s1">&#39;delta_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_y</span><span class="p">),</span>
+                <span class="s1">&#39;delta_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">delta_z</span><span class="p">)}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Mitchell Tesch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
