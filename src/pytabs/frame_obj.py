@@ -67,14 +67,15 @@ class FrameObj:
 
     def add_by_point(self, point_i: str, point_j: str, prop_name: str = "Default", user_name: str = "") -> str:
         """Adds a new frame object whose end points are specified by name. 
+
         :param point_i: the name of a defined point object at the I-End of the added frame object
         :type point_i: str
-        param point_j: the name of a defined point object at the J-End of the added frame object
+        :param point_j: the name of a defined point object at the J-End of the added frame object
         :type point_j: str
         :param prop_name: if `Default` ETABS assigns a default section property to the frame object, if `None` no section property is assigned to the frame object, otherwise use the name of a defined frame section property
         :type prop_name: str, optional
         :param user_name: if a user_name is specified and that name is already used for another frame, cable or tendon object the program ignores the username, if no username is specified the program assigns a default name to the frame object
-        :type user_name: str,optional
+        :type user_name: str, optional
         :return: the name ETABS ultimately assigns for the frame object
         :rtype: str
         """
@@ -138,6 +139,7 @@ class FrameObj:
 
     def get_label_from_name(self, frame_name: str) -> FrameObjectLabelData:
         """Retrieves the label and story for a unique frame object name.
+
         :param frame_name: name of the frame object
         :type frame_name: str
         :return: label and story of frame object name

@@ -191,7 +191,7 @@ class Story:
     def set_height(self, story_name: int, height: float) -> None:
         """Sets the height of a defined story.
         
-        param story_name: name of a defined story 
+        :param story_name: name of a defined story
         :type story_name: int
         :param height: height of the story
         :type height: float 
@@ -201,7 +201,7 @@ class Story:
     def set_master_story(self, story_name: str, is_master_story: bool) -> None:
         """Sets whether a defined story is a master story.
         
-        param story_name: name of a defined story 
+        :param story_name: name of a defined story
         :type story_name: str
         :param is_master_story: `True` if the story is a master story, `False` otherwise 
         :type is_master_story: bool 
