@@ -1,2 +1,3 @@
-sphinx
 pythonnet
+sphinx
+sphinx_rtd_theme
