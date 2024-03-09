@@ -3,9 +3,11 @@
 __all__ = ['CaseStaticLinear']
 
 # import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import etabs
+from pytabs.error_handle import handle
 
 # import custom enumerations
-from src.pytabs.enumerations import eLinearStaticCaseLoadType
+from pytabs.enumerations import eLinearStaticCaseLoadType
 
 # import typing
 from typing import TypedDict

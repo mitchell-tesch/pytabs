@@ -3,8 +3,8 @@
 __all__ = ['AnalysisResults']
 
 # import ETABS namespace and pyTABS error handler
-from .etabs_config import *
-from .error_handle import *
+from .etabs_config import etabs
+from .error_handle import handle
 
 # import custom enumerations
 from .enumerations import (eResultsSetupStepOutOption, eResultsSetupComboOutOption)
@@ -394,10 +394,10 @@ class AnalysisResults:
         :param name: The name of an existing point object, point element, or group of objects depending on the value of the ItemTypeElm item
         :type name: str
         :param item_type_element: one of the following items in the `eItemTypeElm` enumeration.
-        `ObjectElm` - the point element corresponding to the point object specified by the `name`
-        `Element` - the point element specified by `name`
-        `GroupElm` - all point elements directly or indirectly specified in the group specified by `name`
-        `SelectionElm` - all point elements directly or indirectly selected and `name` is ignored
+            `ObjectElm` - the point element corresponding to the point object specified by the `name`
+            `Element` - the point element specified by `name`
+            `GroupElm` - all point elements directly or indirectly specified in the group specified by `name`
+            `SelectionElm` - all point elements directly or indirectly selected and `name` is ignored
         :type item_type_element: etabs.eItemTypeElm
         :return: Joint Displacement analysis results 
         :rtype: JointDisplacement

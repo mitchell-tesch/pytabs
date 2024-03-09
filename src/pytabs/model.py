@@ -6,7 +6,7 @@ __all__ = ['EtabsModel']
 from pathlib import Path
 
 # import ETABS namespace and pyTABS error handler
-from .etabs_config import *
+from .etabs_config import etabs, pytabs_config
 from .error_handle import handle, EtabsError
 
 # import pyTABS custom enumerations

@@ -3,8 +3,8 @@
 __all__ = ['LoadCases']
 
 # import ETABS namespace and pyTABS error handler
-from .etabs_config import *
-from .error_handle import *
+from .etabs_config import etabs
+from .error_handle import handle
 
 # import of interfaces of load case types
 from .cases.case_direct_history_linear import CaseDirectHistoryLinear

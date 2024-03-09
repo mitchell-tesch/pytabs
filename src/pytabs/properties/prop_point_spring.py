@@ -3,9 +3,11 @@
 __all__ = ['PropPointSpring']
 
 # import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import etabs
+from pytabs.error_handle import handle
 
 # import custom enumerations
-from src.pytabs.enumerations import ePointSpringStiffnessOption
+from pytabs.enumerations import ePointSpringStiffnessOption
 
 # import typing
 from typing import TypedDict

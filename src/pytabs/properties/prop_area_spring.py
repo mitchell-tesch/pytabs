@@ -3,9 +3,11 @@
 __all__ = ['PropAreaSpring']
 
 # import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import etabs
+from pytabs.error_handle import handle
 
 # import custom enumerations
-from src.pytabs.enumerations import eSpringNonlinearOption
+from pytabs.enumerations import eSpringNonlinearOption
 
 # import typing
 from typing import TypedDict

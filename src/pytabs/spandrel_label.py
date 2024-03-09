@@ -3,8 +3,8 @@
 __all__ = ['SpandrelLabel']
 
 # import ETABS namespace and pyTABS error handler
-from .etabs_config import *
-from .error_handle import *
+from .etabs_config import etabs
+from .error_handle import handle
 
 # import custom enumerations
 
@@ -84,12 +84,12 @@ class SpandrelLabel:
                 'is_multi_story': is_multi_story}
 
     def get_section_properties(self, spandrel_name: str) -> SectionProperties:
-        """Retrieves the section properties for a specified spandrel 
+        """Retrieves the section properties for a specified spandrel
         
-        :param spandrel_name: name of an existing spandrel 
-        :type spandrel_name: str 
-        :return: section properties for the specified spandrel 
-        :rtype SectionProperties
+        :param spandrel_name: name of an existing spandrel
+        :type spandrel_name: str
+        :return: section properties for the specified spandrel
+        :rtype: SectionProperties
         """
         number_stories = int()
         story_name = [str()]

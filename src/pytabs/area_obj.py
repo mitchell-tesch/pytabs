@@ -3,8 +3,8 @@
 __all__ = ['AreaObj']
 
 # import ETABS namespace and pyTABS error handler
-from .etabs_config import *
-from .error_handle import *
+from .etabs_config import etabs
+from .error_handle import handle
 
 # import typing
 from typing import TypedDict

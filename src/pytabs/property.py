@@ -3,8 +3,8 @@
 __all__ = ['Property']
 
 # import ETABS namespace and pyTABS error handler
-from .etabs_config import *
-from .error_handle import *
+from .etabs_config import etabs
+from .error_handle import handle
 
 # import of interfaces of prop types
 from .properties.prop_area_spring import PropAreaSpring

@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/mitchell-tesch/pytabs">
-    <img src="images/logo.png" alt="PyTABS logo" width="80" height="80">
+    <img src="docs/_static/logo.png" alt="PyTABS logo" width="80" height="80">
   </a>
 
   <h3 align="center">PyTABS</h3>

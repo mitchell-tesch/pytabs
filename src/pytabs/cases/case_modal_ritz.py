@@ -3,8 +3,8 @@
 __all__ = ['CaseModalRitz']
 
 # import ETABS namespace and pyTABS error handler
-from pytabs.etabs_config import *
-from pytabs.error_handle import *
+from pytabs.etabs_config import etabs
+from pytabs.error_handle import handle
 
 # import custom enumerations
 

@@ -3,16 +3,18 @@
 __all__ = ['CaseStaticNonlinearStaged']
 
 # import ETABS namespace and pyTABS error handler
+from pytabs.etabs_config import etabs
+from pytabs.error_handle import *
 
 # import custom enumerations
-from src.pytabs.enumerations import (eGeometryNonlinearityType,
-                                     eLoadApplicationControlType,
-                                     eDisplacementControlType,
-                                     eDisplacementMonitorType,
-                                     eMonitoredDisplacementDoF,
-                                     eStageOperationType,
-                                     eStageObjectType,
-                                     eStageMyType)
+from pytabs.enumerations import (eGeometryNonlinearityType,
+                                 eLoadApplicationControlType,
+                                 eDisplacementControlType,
+                                 eDisplacementMonitorType,
+                                 eMonitoredDisplacementDoF,
+                                 eStageOperationType,
+                                 eStageObjectType,
+                                 eStageMyType)
 
 
 class CaseStaticNonlinearStaged:

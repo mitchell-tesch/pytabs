@@ -3,7 +3,8 @@
 __all__ = ['PropArea']
 
 # import ETABS namespace and pyTABS error handler
-
+from pytabs.etabs_config import etabs
+from pytabs.error_handle import handle
 
 # import custom enumerations
 
