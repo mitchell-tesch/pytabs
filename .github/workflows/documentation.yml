@@ -13,7 +13,7 @@ jobs:
       with:
         documentation_path: ./docs
         python_version: 3.12
-        sphinx_build_options: -D autodoc_mock_imports=ETABSv1
+        sphinx_build_options: -D autodoc_mock_imports="ETABSv1"
         publish: false
     - uses: peaceiris/actions-gh-pages@v3
       with:
