@@ -36,6 +36,9 @@ class Mock(object):
 pytabs_config = config.read_config()
 etabs_api_path = pytabs_config['ETABS']['API_DLL_PATH']
 
+# pythonnet clr-loader import of Marshal - ETABS API requirement
+clr.AddReference("System.Runtime.InteropServices")
+
 # pythonnet clr-loader try import of ETABS API DLL (ETABSv1.dll) else load Mock
 warnings.filterwarnings('default')
 try:
