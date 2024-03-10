@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytabs.frame_obj &mdash; PyTABS 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyTABS
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pytabs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyTABS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pytabs.frame_obj</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pytabs.frame_obj</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PyTABS - ETABS .NET API python wrapper</span>
+<span class="c1"># FrameObj - cFrameObj interface </span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FrameObj&#39;</span><span class="p">]</span>
+
+<span class="c1"># import ETABS namespace and pyTABS error handler</span>
+<span class="kn">from</span> <span class="nn">.etabs_config</span> <span class="kn">import</span> <span class="n">etabs</span>
+<span class="kn">from</span> <span class="nn">.error_handle</span> <span class="kn">import</span> <span class="n">handle</span>
+
+<span class="c1"># import pyTABS custom enumerations</span>
+<span class="kn">from</span> <span class="nn">.enumerations</span> <span class="kn">import</span> <span class="n">eFrameDesignProcedure</span>
+
+<span class="c1"># import typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+
+
+<span class="k">class</span> <span class="nc">FrameObjectLabelData</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for Frame object label data return&quot;&quot;&quot;</span>
+    <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">frame_label</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">frame_story</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<div class="viewcode-block" id="FrameObj">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj">[docs]</a>
+<span class="k">class</span> <span class="nc">FrameObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;FrameObj interface&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># link of SapModel interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+        <span class="c1"># create FrameObj interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cFrameObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">FrameObj</span><span class="p">)</span>
+        
+        <span class="c1"># relate relevant ETABS enumerations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eHingeLocationType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eHingeLocationType</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `HingeLocationType` enumeration&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FrameObj.add_by_coord">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.add_by_coord">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_by_coord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xi_coordinate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">yi_coordinate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zi_coordinate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                     <span class="n">xj_coordinate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">yj_coordinate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zj_coordinate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                     <span class="n">prop_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Default&quot;</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">coordinate_sys</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Global&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a new frame object whose end points are at the specific coordinates.</span>
+<span class="sd">        </span>
+<span class="sd">        :param xi_coordinate: the X coordinates of the I-End of the added frame object in the coordinate system defined by the coordinate_sys item</span>
+<span class="sd">        :type xi_coordinate: float</span>
+<span class="sd">        :param yi_coordinate: the Y coordinates of the I-End of the added frame object in the coordinate system defined by the coordinate_sys item</span>
+<span class="sd">        :type yi_coordinate: float</span>
+<span class="sd">        :param zi_coordinate: the Z coordinates of the I-End of the added frame object in the coordinate system defined by the coordinate_sys item</span>
+<span class="sd">        :type zi_coordinate: float</span>
+<span class="sd">        :param xj_coordinate: the X coordinates of the J-End of the added frame object in the coordinate system defined by the coordinate_sys item</span>
+<span class="sd">        :type xj_coordinate: float</span>
+<span class="sd">        :param yj_coordinate: the Y coordinates of the J-End of the added frame object in the coordinate system defined by the coordinate_sys item</span>
+<span class="sd">        :type yj_coordinate: float</span>
+<span class="sd">        :param zj_coordinate: the Z coordinates of the J-End of the added frame object in the coordinate system defined by the coordinate_sys item</span>
+<span class="sd">        :type zj_coordinate: float</span>
+<span class="sd">        :param prop_name: if `Default` ETABS assigns a default section property to the frame object, if `None` no section property is assigned to the frame object, otherwise use the name of a defined frame section property</span>
+<span class="sd">        :type prop_name: str, optional</span>
+<span class="sd">        :param user_name: if a user_name is specified and that name is already used for another frame, cable or tendon object the program ignores the username, if no username is specified the program assigns a default name to the frame object</span>
+<span class="sd">        :type user_name: str, optional</span>
+<span class="sd">        :param coordinate_sys: the name of the coordinate system in which the frame object end point coordinates are defined</span>
+<span class="sd">        :type coordinate_sys: str, optional</span>
+<span class="sd">        :return: the name ETABS ultimately assigns for the frame object</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">frame_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">AddByCoord</span><span class="p">(</span><span class="n">xi_coordinate</span><span class="p">,</span> <span class="n">yi_coordinate</span><span class="p">,</span> <span class="n">zi_coordinate</span><span class="p">,</span>
+                                                      <span class="n">xj_coordinate</span><span class="p">,</span> <span class="n">yj_coordinate</span><span class="p">,</span> <span class="n">zj_coordinate</span><span class="p">,</span>
+                                                      <span class="n">frame_name</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">user_name</span><span class="p">,</span> <span class="n">coordinate_sys</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">frame_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.add_by_point">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.add_by_point">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_by_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point_i</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">point_j</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Default&quot;</span><span class="p">,</span> <span class="n">user_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a new frame object whose end points are specified by name. </span>
+
+<span class="sd">        :param point_i: the name of a defined point object at the I-End of the added frame object</span>
+<span class="sd">        :type point_i: str</span>
+<span class="sd">        :param point_j: the name of a defined point object at the J-End of the added frame object</span>
+<span class="sd">        :type point_j: str</span>
+<span class="sd">        :param prop_name: if `Default` ETABS assigns a default section property to the frame object, if `None` no section property is assigned to the frame object, otherwise use the name of a defined frame section property</span>
+<span class="sd">        :type prop_name: str, optional</span>
+<span class="sd">        :param user_name: if a user_name is specified and that name is already used for another frame, cable or tendon object the program ignores the username, if no username is specified the program assigns a default name to the frame object</span>
+<span class="sd">        :type user_name: str, optional</span>
+<span class="sd">        :return: the name ETABS ultimately assigns for the frame object</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">frame_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">AddByPoint</span><span class="p">(</span><span class="n">point_i</span><span class="p">,</span> <span class="n">point_j</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">,</span> <span class="n">prop_name</span><span class="p">,</span> <span class="n">user_name</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">frame_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.get_design_orientation">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_design_orientation">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_design_orientation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eFrameDesignOrientation</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the design orientation for a frame object.</span>
+
+<span class="sd">        :param frame_name: name of the frame object</span>
+<span class="sd">        :type frame_name: str</span>
+<span class="sd">        :return: A value from the eFrameDesignOrientation enumeration</span>
+<span class="sd">        :rtype: etabs.eFrameDesignOrientation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">design_orientation</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eFrameDesignOrientation</span><span class="o">.</span><span class="n">Null</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">design_orientation</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetDesignOrientation</span><span class="p">(</span><span class="n">frame_name</span><span class="p">,</span> <span class="n">design_orientation</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">design_orientation</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.get_design_procedure">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_design_procedure">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_design_procedure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">eFrameDesignProcedure</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the design procedure for a frame object.</span>
+
+<span class="sd">        :param frame_name: name of the frame object</span>
+<span class="sd">        :type frame_name: str</span>
+<span class="sd">        :return: A value from the eFrameDesignProcedure enumeration</span>
+<span class="sd">        :rtype: eFrameDesignProcedure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">procedure_type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">procedure_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetDesignProcedure</span><span class="p">(</span><span class="n">frame_name</span><span class="p">,</span> <span class="n">procedure_type</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">eFrameDesignProcedure</span><span class="p">(</span><span class="n">procedure_type</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.get_group_assign">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_group_assign">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_group_assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the groups to which a frame object is assigned.</span>
+
+<span class="sd">        :param name: name of an existing frame object</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: names of the groups to which the frame object is assigned</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_number_groups</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">_number_groups</span><span class="p">,</span> <span class="n">groups</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetGroupAssign</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">_number_groups</span><span class="p">,</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.get_guid">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_guid">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_guid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the GUID(Global Unique ID) for the specified frame object.</span>
+<span class="sd">        </span>
+<span class="sd">        :param frame_name: name of the frame object</span>
+<span class="sd">        :type frame_name: str</span>
+<span class="sd">        :return: the GUID of the specified frame object</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">guid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">guid</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetGUID</span><span class="p">(</span><span class="n">frame_name</span><span class="p">,</span> <span class="n">guid</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">guid</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.get_label_from_name">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_label_from_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_label_from_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrameObjectLabelData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the label and story for a unique frame object name.</span>
+
+<span class="sd">        :param frame_name: name of the frame object</span>
+<span class="sd">        :type frame_name: str</span>
+<span class="sd">        :return: label and story of frame object name</span>
+<span class="sd">        :rtype: `FrameObjectLabelData`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">frame_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="n">frame_story</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">frame_label</span><span class="p">,</span> <span class="n">frame_story</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetLabelFromName</span><span class="p">(</span><span class="n">frame_name</span><span class="p">,</span> <span class="n">frame_label</span><span class="p">,</span> <span class="n">frame_story</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;frame_name&#39;</span><span class="p">:</span> <span class="n">frame_name</span><span class="p">,</span>
+                <span class="s1">&#39;frame_label&#39;</span><span class="p">:</span> <span class="n">frame_label</span><span class="p">,</span>
+                <span class="s1">&#39;frame_story&#39;</span><span class="p">:</span> <span class="n">frame_story</span><span class="p">}</span></div>
+
+
+    <span class="c1"># TODO def get_modifiers(self, name : str)</span>
+
+<div class="viewcode-block" id="FrameObj.get_name_list">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_name_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_name_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the names of all defined frame objects.</span>
+
+<span class="sd">        :return: frame object names</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_number_names</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">frame_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">_number_names</span><span class="p">,</span> <span class="n">frame_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetNameList</span><span class="p">(</span><span class="n">_number_names</span><span class="p">,</span> <span class="n">frame_names</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame_names</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.get_name_list_on_story">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_name_list_on_story">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_name_list_on_story</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">story_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the names of the defined frame objects on a given story.</span>
+
+<span class="sd">        :param story_name: name of an existing story</span>
+<span class="sd">        :type story_name: str</span>
+<span class="sd">        :return: frame object names on existing story</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_number_names</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">frame_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">_number_names</span><span class="p">,</span> <span class="n">frame_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetNameListOnStory</span><span class="p">(</span><span class="n">story_name</span><span class="p">,</span> <span class="n">_number_names</span><span class="p">,</span> <span class="n">frame_names</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">frame_names</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="FrameObj.get_spring_assignment">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.get_spring_assignment">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_spring_assignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the frame object line spring assignment of the defined frame object.</span>
+
+<span class="sd">        :param frame_name: unique name of an existing frame object</span>
+<span class="sd">        :type frame_name: str</span>
+<span class="sd">        :return: frame object line spring assignment</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>  
+        <span class="n">spring_prop</span> <span class="o">=</span> <span class="nb">str</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">spring_prop</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">GetSpringAssignment</span><span class="p">(</span><span class="n">frame_name</span><span class="p">,</span> <span class="n">spring_prop</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spring_prop</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.set_group_assign">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.set_group_assign">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_group_assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">group_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remove</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="n">item_type</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemType</span><span class="o">.</span><span class="n">Objects</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds or removes frame objects from a specified group.</span>
+
+<span class="sd">        :param name: name of an existing frame object or group depending on the value of item_type</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param group_name: name of an existing group to which the assignment is made</span>
+<span class="sd">        :type group_name: str</span>
+<span class="sd">        :param remove: `True` for add, False for remove, defaults to `False`</span>
+<span class="sd">        :type remove: bool, optional</span>
+<span class="sd">        :param item_type: one of eItemType enumeration (`Objects` : frame object specified by name is added/removed from group, `Group` : all frame objects in the group specified by name are added/removed from group, `SelectedObjects` : all selected frame objects are added/removed from group, name is ignored), defaults to `eItemType.Objects`</span>
+<span class="sd">        :type item_type: eItemType, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">SetGroupAssign</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">group_name</span><span class="p">,</span> <span class="n">remove</span><span class="p">,</span> <span class="n">item_type</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="FrameObj.set_spring_assignment">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.frame_obj.FrameObj.set_spring_assignment">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_spring_assignment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">line_spring_prop</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                              <span class="n">item_type</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemType</span><span class="o">.</span><span class="n">Objects</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assigns an existing line spring property to frame objects of the value item_type.</span>
+<span class="sd">        </span>
+<span class="sd">        :param frame_name: unique name of an existing frame object</span>
+<span class="sd">        :type frame_name: str</span>
+<span class="sd">        :param line_spring_prop: name of an existing line spring property</span>
+<span class="sd">        :type line_spring_prop: str</span>
+<span class="sd">        :param item_type: one of eItemType enumeration (`Objects` : area object specified by name is added/removed from group, `Group` : all area objects in the group specified by name are added/removed from group, `SelectedObjects` : all selected area objects are added/removed from group, name is ignored), defaults to eItemType.Objects</span>
+<span class="sd">        :type item_type: eItemType, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="o">.</span><span class="n">SetSpringAssignment</span><span class="p">(</span><span class="n">frame_name</span><span class="p">,</span> <span class="n">line_spring_prop</span><span class="p">,</span> <span class="n">item_type</span><span class="p">))</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Mitchell Tesch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
