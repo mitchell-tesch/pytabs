@@ -121,3 +121,25 @@ class eSpringNonlinearOption(IntEnum):
     LINEAR = 0
     COMPRESSION_ONLY = 1
     TENSION_ONLY = 2
+
+
+class eLinkDof(IntEnum):
+    U1 = 1
+    U2 = 2
+    U3 = 3
+    R1 = 4
+    R2 = 5
+    R3 = 6
+
+
+class eLinkHysteresisType(IntEnum):
+    KINEMATIC = 1
+    TAKEDA = 2
+    PIVOT = 3
+    
+
+class eTableImportableType(IntEnum):
+    NOT_IMPORTABLE = 0
+    NOT_INTERACTIVE = 1
+    INTERACTIVE_IF_UNLOCKED = 2
+    INTERACTIVE_ALWAYS = 3
