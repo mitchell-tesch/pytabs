@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytabs.spandrel_label &mdash; PyTABS 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyTABS
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pytabs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyTABS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pytabs.spandrel_label</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pytabs.spandrel_label</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PyTABS - ETABS .NET API python wrapper</span>
+<span class="c1"># SpandrelLabel - cSpandrelLabel interface</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;SpandrelLabel&#39;</span><span class="p">]</span>
+
+<span class="c1"># import ETABS namespace and pyTABS error handler</span>
+<span class="kn">from</span> <span class="nn">.etabs_config</span> <span class="kn">import</span> <span class="n">etabs</span>
+<span class="kn">from</span> <span class="nn">.error_handle</span> <span class="kn">import</span> <span class="n">handle</span>
+
+<span class="c1"># import custom enumerations</span>
+
+<span class="c1"># import typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span><span class="p">,</span> <span class="n">Union</span>
+
+
+<span class="k">class</span> <span class="nc">SpandrelNameList</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for Spandrel name list return&quot;&quot;&quot;</span>
+    <span class="n">spandrel_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">is_multi_story</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SectionProperties</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for Spandrel section properties return&quot;&quot;&quot;</span>
+    <span class="n">spandrel_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">number_stories</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">story_name</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">num_area_obj</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">num_line_obj</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">length</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">depth_left</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">thickness_left</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">depth_right</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">thickness_right</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">mat_prop</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">cg_left_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">cg_left_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">cg_left_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">cg_right_x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">cg_right_y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">cg_right_z</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SpandrelLabel">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel">[docs]</a>
+<span class="k">class</span> <span class="nc">SpandrelLabel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SpandrelLabel interface&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># link of SapModel interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+        <span class="c1"># create SpandrelLabel interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSpandrelLabel</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SpandrelLabel</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SpandrelLabel.change_name">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel.change_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">change_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spandrel_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_spandrel_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Changes the name of a defined Spandrel Label </span>
+<span class="sd">        </span>
+<span class="sd">        :param spandrel_label: the existing name of a defined Spandrel </span>
+<span class="sd">        :type spandrel_label: str </span>
+<span class="sd">        :param new_spandrel_label: the new name for the Spandrel Label </span>
+<span class="sd">        :type new_spandrel_label: str </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="o">.</span><span class="n">ChangeName</span><span class="p">(</span><span class="n">spandrel_label</span><span class="p">,</span> <span class="n">new_spandrel_label</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SpandrelLabel.delete">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel.delete">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spandrel_label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes the specified Spandrel Label </span>
+<span class="sd">        </span>
+<span class="sd">        :param spandrel_label: the name of an existing Spandrel Label </span>
+<span class="sd">        :type spandrel_label: str </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">spandrel_label</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SpandrelLabel.get_name_list">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel.get_name_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_name_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SpandrelNameList</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the names of all defined Spandrel Labels </span>
+<span class="sd">        </span>
+<span class="sd">        :return: all story names and if spans multiple stories </span>
+<span class="sd">        :rtype: SpandrelNameList</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_number_names</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">spandrel_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">is_multi_story</span> <span class="o">=</span> <span class="p">[</span><span class="nb">bool</span><span class="p">()]</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">_number_names</span><span class="p">,</span>
+         <span class="n">spandrel_name</span><span class="p">,</span> <span class="n">is_multi_story</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="o">.</span><span class="n">GetNameList</span><span class="p">(</span><span class="n">_number_names</span><span class="p">,</span>
+                                                                          <span class="n">spandrel_name</span><span class="p">,</span>
+                                                                          <span class="n">is_multi_story</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;spandrel_name&#39;</span><span class="p">:</span> <span class="n">spandrel_name</span><span class="p">,</span>
+                <span class="s1">&#39;is_multi_story&#39;</span><span class="p">:</span> <span class="n">is_multi_story</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="SpandrelLabel.get_section_properties">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel.get_section_properties">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_section_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spandrel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SectionProperties</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the section properties for a specified spandrel</span>
+<span class="sd">        </span>
+<span class="sd">        :param spandrel_name: name of an existing spandrel</span>
+<span class="sd">        :type spandrel_name: str</span>
+<span class="sd">        :return: section properties for the specified spandrel</span>
+<span class="sd">        :rtype: SectionProperties</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">number_stories</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">story_name</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">num_area_obj</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">()]</span>
+        <span class="n">num_line_obj</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">()]</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">depth_left</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">thickness_left</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">depth_right</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">thickness_right</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">mat_prop</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="n">cg_left_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">cg_left_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">cg_left_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">cg_right_x</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">cg_right_y</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+        <span class="n">cg_right_z</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">()]</span>
+
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">number_stories</span><span class="p">,</span> <span class="n">story_name</span><span class="p">,</span>
+         <span class="n">num_area_obj</span><span class="p">,</span> <span class="n">num_line_obj</span><span class="p">,</span>
+         <span class="n">length</span><span class="p">,</span> <span class="n">depth_left</span><span class="p">,</span> <span class="n">thickness_left</span><span class="p">,</span>
+         <span class="n">depth_right</span><span class="p">,</span> <span class="n">thickness_right</span><span class="p">,</span> <span class="n">mat_prop</span><span class="p">,</span>
+         <span class="n">cg_left_x</span><span class="p">,</span> <span class="n">cg_left_y</span><span class="p">,</span> <span class="n">cg_left_z</span><span class="p">,</span>
+         <span class="n">cg_right_x</span><span class="p">,</span> <span class="n">cg_right_y</span><span class="p">,</span> <span class="n">cg_right_z</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="o">.</span><span class="n">GetSectionProperties</span><span class="p">(</span><span class="n">spandrel_name</span><span class="p">,</span> <span class="n">number_stories</span><span class="p">,</span>
+                                                                                        <span class="n">story_name</span><span class="p">,</span>
+                                                                                        <span class="n">num_area_obj</span><span class="p">,</span> <span class="n">num_line_obj</span><span class="p">,</span>
+                                                                                        <span class="n">length</span><span class="p">,</span> <span class="n">depth_left</span><span class="p">,</span>
+                                                                                        <span class="n">thickness_left</span><span class="p">,</span>
+                                                                                        <span class="n">depth_right</span><span class="p">,</span> <span class="n">thickness_right</span><span class="p">,</span>
+                                                                                        <span class="n">mat_prop</span><span class="p">,</span>
+                                                                                        <span class="n">cg_left_x</span><span class="p">,</span> <span class="n">cg_left_y</span><span class="p">,</span> <span class="n">cg_left_z</span><span class="p">,</span>
+                                                                                        <span class="n">cg_right_x</span><span class="p">,</span> <span class="n">cg_right_y</span><span class="p">,</span>
+                                                                                        <span class="n">cg_right_z</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;spandrel_name&#39;</span><span class="p">:</span> <span class="n">spandrel_name</span><span class="p">,</span>
+                <span class="s1">&#39;number_stories&#39;</span><span class="p">:</span> <span class="n">number_stories</span><span class="p">,</span>
+                <span class="s1">&#39;story_name&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">story_name</span><span class="p">),</span>
+                <span class="s1">&#39;num_area_obj&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">num_area_obj</span><span class="p">),</span>
+                <span class="s1">&#39;num_line_obj&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">num_line_obj</span><span class="p">),</span>
+                <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">length</span><span class="p">),</span>
+                <span class="s1">&#39;depth_left&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">depth_left</span><span class="p">),</span>
+                <span class="s1">&#39;thickness_left&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">thickness_left</span><span class="p">),</span>
+                <span class="s1">&#39;depth_right&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">depth_right</span><span class="p">),</span>
+                <span class="s1">&#39;thickness_right&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">thickness_right</span><span class="p">),</span>
+                <span class="s1">&#39;mat_prop&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">mat_prop</span><span class="p">),</span>
+                <span class="s1">&#39;cg_left_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cg_left_x</span><span class="p">),</span>
+                <span class="s1">&#39;cg_left_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cg_left_y</span><span class="p">),</span>
+                <span class="s1">&#39;cg_left_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cg_left_z</span><span class="p">),</span>
+                <span class="s1">&#39;cg_right_x&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cg_right_x</span><span class="p">),</span>
+                <span class="s1">&#39;cg_right_y&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cg_right_y</span><span class="p">),</span>
+                <span class="s1">&#39;cg_right_z&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">cg_right_z</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="SpandrelLabel.get_spandrel">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel.get_spandrel">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_spandrel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spandrel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the specified Spandrel Label</span>
+
+<span class="sd">        :param spandrel_name: name of an existing spandrel</span>
+<span class="sd">        :type spandrel_name: str</span>
+<span class="sd">        :return: If spandrel exists, dict with Spandrel name and whether it is multi-story, else None</span>
+<span class="sd">        :rtype: Union[None, dict]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">is_multi_story</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">is_multi_story</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="o">.</span><span class="n">GetSpandrel</span><span class="p">(</span><span class="n">spandrel_name</span><span class="p">,</span> <span class="n">is_multi_story</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;spandrel_name&#39;</span><span class="p">:</span> <span class="n">spandrel_name</span><span class="p">,</span>
+                    <span class="s1">&#39;is_multi_story&#39;</span><span class="p">:</span> <span class="n">is_multi_story</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="SpandrelLabel.set_spandrel">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.spandrel_label.SpandrelLabel.set_spandrel">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_spandrel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spandrel_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">is_multi_story</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a new Spandrel Label or modifies and existing Spandrel Label</span>
+
+<span class="sd">        :param spandrel_name: name of the spandrel, if existing spandrel label is modified</span>
+<span class="sd">        :type spandrel_name: str</span>
+<span class="sd">        :param is_multi_story: whether the Spandrel Label spans multiple story levels </span>
+<span class="sd">        :type is_multi_story: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="o">.</span><span class="n">SetSpandrel</span><span class="p">(</span><span class="n">spandrel_name</span><span class="p">,</span> <span class="n">is_multi_story</span><span class="p">))</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Mitchell Tesch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

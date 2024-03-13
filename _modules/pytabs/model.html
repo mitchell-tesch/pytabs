@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytabs.model &mdash; PyTABS 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyTABS
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pytabs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyTABS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pytabs.model</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pytabs.model</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PyTABS - ETABS .NET API python wrapper</span>
+<span class="c1"># EtabsModel object and cFile interface</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;EtabsModel&#39;</span><span class="p">]</span>
+
+<span class="c1"># general library imports</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># import ETABS namespace and pyTABS error handler</span>
+<span class="kn">from</span> <span class="nn">.etabs_config</span> <span class="kn">import</span> <span class="n">etabs</span><span class="p">,</span> <span class="n">pytabs_config</span>
+<span class="kn">from</span> <span class="nn">.error_handle</span> <span class="kn">import</span> <span class="n">handle</span><span class="p">,</span> <span class="n">EtabsError</span>
+
+<span class="c1"># import pyTABS custom enumerations</span>
+<span class="kn">from</span> <span class="nn">.enumerations</span> <span class="kn">import</span> <span class="n">eFrameDesignProcedure</span>
+
+<span class="c1"># import typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TypedDict</span>
+
+<span class="c1"># import of ETABS API interface wrappers</span>
+<span class="kn">from</span> <span class="nn">.analyse</span> <span class="kn">import</span> <span class="n">Analyse</span>
+<span class="kn">from</span> <span class="nn">.analysis_results</span> <span class="kn">import</span> <span class="n">AnalysisResults</span>
+<span class="kn">from</span> <span class="nn">.analysis_results_setup</span> <span class="kn">import</span> <span class="n">AnalysisResultsSetup</span>
+<span class="kn">from</span> <span class="nn">.area_elm</span> <span class="kn">import</span> <span class="n">AreaElm</span>
+<span class="kn">from</span> <span class="nn">.area_obj</span> <span class="kn">import</span> <span class="n">AreaObj</span>
+<span class="kn">from</span> <span class="nn">.combo</span> <span class="kn">import</span> <span class="n">Combo</span>
+<span class="kn">from</span> <span class="nn">.constraint</span> <span class="kn">import</span> <span class="n">Constraint</span>
+<span class="kn">from</span> <span class="nn">.database_tables</span> <span class="kn">import</span> <span class="n">DatabaseTables</span>
+<span class="kn">from</span> <span class="nn">.diaphragm</span> <span class="kn">import</span> <span class="n">Diaphragm</span>
+<span class="kn">from</span> <span class="nn">.frame_obj</span> <span class="kn">import</span> <span class="n">FrameObj</span>
+<span class="kn">from</span> <span class="nn">.grid_sys</span> <span class="kn">import</span> <span class="n">GridSys</span>
+<span class="kn">from</span> <span class="nn">.group</span> <span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span> <span class="nn">.line_elm</span> <span class="kn">import</span> <span class="n">LineElm</span>
+<span class="kn">from</span> <span class="nn">.link_obj</span> <span class="kn">import</span> <span class="n">LinkObj</span>
+<span class="kn">from</span> <span class="nn">.load_cases</span> <span class="kn">import</span> <span class="n">LoadCases</span>
+<span class="kn">from</span> <span class="nn">.load_patterns</span> <span class="kn">import</span> <span class="n">LoadPatterns</span>
+<span class="kn">from</span> <span class="nn">.pier_label</span> <span class="kn">import</span> <span class="n">PierLabel</span>
+<span class="kn">from</span> <span class="nn">.point_elm</span> <span class="kn">import</span> <span class="n">PointElm</span>
+<span class="kn">from</span> <span class="nn">.point_obj</span> <span class="kn">import</span> <span class="n">PointObj</span>
+<span class="kn">from</span> <span class="nn">.property</span> <span class="kn">import</span> <span class="n">Property</span>
+<span class="kn">from</span> <span class="nn">.select</span> <span class="kn">import</span> <span class="n">Select</span>
+<span class="kn">from</span> <span class="nn">.spandrel_label</span> <span class="kn">import</span> <span class="n">SpandrelLabel</span>
+<span class="kn">from</span> <span class="nn">.story</span> <span class="kn">import</span> <span class="n">Story</span>
+<span class="kn">from</span> <span class="nn">.tendon_obj</span> <span class="kn">import</span> <span class="n">TendonObj</span>
+<span class="kn">from</span> <span class="nn">.tower</span> <span class="kn">import</span> <span class="n">Tower</span>
+<span class="kn">from</span> <span class="nn">.view</span> <span class="kn">import</span> <span class="n">View</span>
+
+
+<span class="k">class</span> <span class="nc">UnitsComponents</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for Units components return&quot;&quot;&quot;</span>
+    <span class="n">force_units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eForce</span>
+    <span class="n">length_units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLength</span>
+    <span class="n">temperature_units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eTemperature</span>
+
+
+<div class="viewcode-block" id="EtabsModel">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel">[docs]</a>
+<span class="k">class</span> <span class="nc">EtabsModel</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;pytabs ETABS Model Object `EtabsObject` 🏢. </span>
+<span class="sd">    </span>
+<span class="sd">    All interfaces and enumerations to the Etabs model objects are accessed as properties - refer below.</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">attach_to_instance</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">specific_etabs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">specific_etabs_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">model_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">remote_computer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        
+        <span class="c1"># relate ETABS interfaces</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyse</span><span class="p">:</span> <span class="n">Analyse</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Analyse` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span><span class="p">:</span> <span class="n">AnalysisResultsSetup</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `AnalysisResultsSetup` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span><span class="p">:</span> <span class="n">AnalysisResults</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `AnalysisResults` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">area_elm</span><span class="p">:</span> <span class="n">AreaElm</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `AreaElm` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">area_obj</span><span class="p">:</span> <span class="n">AreaObj</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `AreaObj` interface.&quot;&quot;&quot;</span>
+        <span class="c1"># individual case interfaces to be accessed via LoadCase interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">combo</span><span class="p">:</span> <span class="n">Combo</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Combo` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constraint</span><span class="p">:</span> <span class="n">Constraint</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Constraint` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database_tables</span><span class="p">:</span> <span class="n">DatabaseTables</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `DatabaseTables` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diaphragm</span><span class="p">:</span> <span class="n">Diaphragm</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Diaphragm` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="p">:</span> <span class="n">FrameObj</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `FrameObj` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_sys</span><span class="p">:</span> <span class="n">GridSys</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `GridSys` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">group</span><span class="p">:</span> <span class="n">Group</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Group` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_elm</span><span class="p">:</span> <span class="n">LineElm</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `LineElm` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link_obj</span><span class="p">:</span> <span class="n">LinkObj</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `LinkObj` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="p">:</span> <span class="n">LoadCases</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `LoadCases` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_patterns</span><span class="p">:</span> <span class="n">LoadPatterns</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `LoadPatterns` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_elm</span><span class="p">:</span> <span class="n">PointElm</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `PointElm` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">point_obj</span><span class="p">:</span> <span class="n">PointObj</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `PointObj` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span><span class="p">:</span> <span class="n">PierLabel</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `PierLabel` interface.&quot;&quot;&quot;</span>
+        <span class="c1"># individual prop interfaces to be accessed via Property interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">property</span><span class="p">:</span> <span class="n">Property</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Property` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">select</span><span class="p">:</span> <span class="n">Select</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Select` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span><span class="p">:</span> <span class="n">SpandrelLabel</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `SpandrelLabel` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">story</span><span class="p">:</span> <span class="n">Story</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Story` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tendon_obj</span><span class="p">:</span> <span class="n">TendonObj</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `TendonObj` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tower</span><span class="p">:</span> <span class="n">Tower</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Tower` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">:</span> <span class="n">View</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `View` interface.&quot;&quot;&quot;</span>
+        
+        <span class="c1"># relate ETABS cross interface enumerations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eAreaDesignOrientation</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eAreaDesignOrientation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `AreaDesignOrientation` enumeration.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eForce</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eForce</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Force` enumeration.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eFrameDesignOrientation</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eFrameDesignOrientation</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `FrameDesignOrientation` enumeration.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eItemType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemType</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `ItemType` enumeration&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eItemTypeElm</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eItemTypeElm</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `ItemTypeElm` enumeration&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eLength</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLength</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Length` enumeration.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eLoadPatternType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadPatternType</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `LoadPatternType` enumeration&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eObjType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eObjType</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `ObjType` enumeration&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eTemperature</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eTemperature</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Temperature` enumeration.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eUnits</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eUnits</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Units` enumeration.&quot;&quot;&quot;</span>
+        
+        <span class="c1"># relate pyTABS custom enumerations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eFrameDesignProcedure</span> <span class="o">=</span> <span class="n">eFrameDesignProcedure</span>
+        
+        <span class="c1"># EtabsModel initial properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pytabs_config</span> <span class="o">=</span> <span class="n">pytabs_config</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pyTABS config file (pytabs_config.ini)&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;`True` if EtabsModel is active, otherwise `False`.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_open</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;`True` if model open, otherwise `False`.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Etabs model filepath.&quot;&quot;&quot;</span>
+        
+        <span class="c1"># create ETABS API helper interface and try to initialise EtabsObject</span>
+        <span class="n">helper</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cHelper</span><span class="p">(</span><span class="n">etabs</span><span class="o">.</span><span class="n">Helper</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">attach_to_instance</span><span class="p">:</span>
+            <span class="c1"># attach to a running instance of ETABS</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># get the active ETABS object        </span>
+                <span class="k">if</span> <span class="n">remote_computer</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cOAPI</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">GetObjectHost</span><span class="p">(</span><span class="n">remote_computer</span><span class="p">,</span> <span class="s2">&quot;CSI.ETABS.API.ETABSObject&quot;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cOAPI</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">GetObject</span><span class="p">(</span><span class="s2">&quot;CSI.ETABS.API.ETABSObject&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">EtabsError</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;No running instance ETABS found or failed to attach.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">specific_etabs</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># create an instance of the ETABS object from the specified path</span>
+                    <span class="k">if</span> <span class="n">remote_computer</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cOAPI</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">CreateObjectHost</span><span class="p">(</span><span class="n">remote_computer</span><span class="p">,</span>
+                                                                                <span class="nb">str</span><span class="p">(</span><span class="n">specific_etabs_path</span><span class="p">)))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cOAPI</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">CreateObject</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">specific_etabs_path</span><span class="p">)))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">EtabsError</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Cannot start a new instance of the ETABS from </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">specific_etabs_path</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span> 
+                    <span class="c1"># create an instance of the ETABS object from the latest installed ETABS</span>
+                    <span class="k">if</span> <span class="n">remote_computer</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cOAPI</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">CreateObjectProgIDHost</span><span class="p">(</span><span class="n">remote_computer</span><span class="p">,</span>
+                                                                                      <span class="s2">&quot;CSI.ETABS.API.ETABSObject&quot;</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cOAPI</span><span class="p">(</span><span class="n">helper</span><span class="o">.</span><span class="n">CreateObjectProgID</span><span class="p">(</span><span class="s2">&quot;CSI.ETABS.API.ETABSObject&quot;</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">EtabsError</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Cannot start a new instance of ETABS.&quot;</span><span class="p">)</span>
+            <span class="c1"># start etabs application</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span><span class="o">.</span><span class="n">ApplicationStart</span><span class="p">()</span>
+        
+        <span class="c1"># if EtabsObject active</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="c1"># create SapModel interface</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span><span class="o">.</span><span class="n">SapModel</span><span class="p">)</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;EtabsModel `SapModel` interface.&quot;&quot;&quot;</span>
+            <span class="c1"># create File interface</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">File</span><span class="p">)</span>
+            
+            <span class="c1"># relate external pyTABS interfaces</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analyse</span> <span class="o">=</span> <span class="n">Analyse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span> <span class="o">=</span> <span class="n">AnalysisResultsSetup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span> <span class="o">=</span> <span class="n">AnalysisResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area_elm</span> <span class="o">=</span> <span class="n">AreaElm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">area_obj</span> <span class="o">=</span> <span class="n">AreaObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combo</span> <span class="o">=</span> <span class="n">Combo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">constraint</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">database_tables</span> <span class="o">=</span> <span class="n">DatabaseTables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">diaphragm</span> <span class="o">=</span> <span class="n">Diaphragm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span> <span class="o">=</span> <span class="n">FrameObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grid_sys</span> <span class="o">=</span> <span class="n">GridSys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">group</span> <span class="o">=</span> <span class="n">Group</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">line_elm</span> <span class="o">=</span> <span class="n">LineElm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">link_obj</span> <span class="o">=</span> <span class="n">LinkObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="c1"># individual case interfaces to be accessed via LoadCase interface</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">LoadCases</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_patterns</span> <span class="o">=</span> <span class="n">LoadPatterns</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pier_label</span> <span class="o">=</span> <span class="n">PierLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">point_obj</span> <span class="o">=</span> <span class="n">PointObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="c1"># individual property interfaces to be accessed via Property interface</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">property</span> <span class="o">=</span> <span class="n">Property</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">Select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spandrel_label</span> <span class="o">=</span> <span class="n">SpandrelLabel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">story</span> <span class="o">=</span> <span class="n">Story</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tendon_obj</span> <span class="o">=</span> <span class="n">TendonObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tower</span> <span class="o">=</span> <span class="n">Tower</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">View</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+
+            <span class="c1"># if not attached to instance and model path supplied open model</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">attach_to_instance</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model_path</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">open_model</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+
+<div class="viewcode-block" id="EtabsModel.exit_application">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.exit_application">[docs]</a>
+    <span class="k">def</span> <span class="nf">exit_application</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminates ETABS application severing API connection&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">etabs_object</span><span class="o">.</span><span class="n">ApplicationExit</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_open</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.open_model">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.open_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">open_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens ETABS model file.</span>
+
+<span class="sd">        :param model_path: file path to ETABS model file</span>
+<span class="sd">        :type model_path: Union[str, Path]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">OpenFile</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model_path</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_open</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.new_model">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.new_model">[docs]</a>
+    <span class="k">def</span> <span class="nf">new_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_model_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates new blank ETABS model and saves.</span>
+
+<span class="sd">        :param new_model_path: file path to save new blank ETABS model file</span>
+<span class="sd">        :type new_model_path: Union[str, Path]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">NewBlank</span><span class="p">())</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">Save</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">new_model_path</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">new_model_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_open</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.get_database_units">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.get_database_units">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_database_units</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eUnits</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a value from the eUnits enumeration indicating the database units for the model.</span>
+<span class="sd">        All data is internally stored in the model in these units and converted to the present units as needed.</span>
+
+<span class="sd">        :raises EtabsError: Database units could not be returned</span>
+<span class="sd">        :return: Units enumeration</span>
+<span class="sd">        :rtype: eUnits</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">GetDatabaseUnits</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EtabsError</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Database units could not be returned.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.get_database_units_components">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.get_database_units_components">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_database_units_components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnitsComponents</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the database units for the model.</span>
+<span class="sd">        All data is internally stored in the model in these units and converted to the present units as needed.</span>
+
+<span class="sd">        :return: units for force, length and temperature units</span>
+<span class="sd">        :rtype: UnitsComponents</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">force_units</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eForce</span><span class="o">.</span><span class="n">NotApplicable</span>
+        <span class="n">length_units</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLength</span><span class="o">.</span><span class="n">NotApplicable</span>
+        <span class="n">temperature_units</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eTemperature</span><span class="o">.</span><span class="n">NotApplicable</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">force_units</span><span class="p">,</span> <span class="n">length_units</span><span class="p">,</span> <span class="n">temperature_units</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">GetDatabaseUnits_2</span><span class="p">(</span><span class="n">force_units</span><span class="p">,</span>
+                                                                                                <span class="n">length_units</span><span class="p">,</span>
+                                                                                                <span class="n">temperature_units</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;force_units&#39;</span><span class="p">:</span> <span class="n">force_units</span><span class="p">,</span>
+                <span class="s1">&#39;length_units&#39;</span><span class="p">:</span> <span class="n">length_units</span><span class="p">,</span>
+                <span class="s1">&#39;temperature_units&#39;</span><span class="p">:</span> <span class="n">temperature_units</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.get_model_is_locked">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.get_model_is_locked">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_model_is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves locked status of the model.</span>
+
+<span class="sd">        :return: True if model is looked, otherwise False</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">GetModelIsLocked</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.get_present_coord_system">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.get_present_coord_system">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_present_coord_system</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves model present coordinate system.</span>
+
+<span class="sd">        :return: name of coordinate system</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">GetPresentCoordSystem</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.get_present_units">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.get_present_units">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_present_units</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eUnits</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a value from the eUnits enumeration indicating the units presently specified for the model.</span>
+
+<span class="sd">        :raises EtabsError: Present units could not be returned</span>
+<span class="sd">        :return: Units enumeration</span>
+<span class="sd">        :rtype: eUnits</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">GetPresentUnits</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EtabsError</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Present units could not be returned.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.get_present_units_components">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.get_present_units_components">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_present_units_components</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnitsComponents</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the units presently specified for the model.</span>
+
+<span class="sd">        :return: units components for force, length and temperature units</span>
+<span class="sd">        :rtype: UnitsComponents</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">force_units</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eForce</span><span class="o">.</span><span class="n">NotApplicable</span>
+        <span class="n">length_units</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLength</span><span class="o">.</span><span class="n">NotApplicable</span>
+        <span class="n">temperature_units</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eTemperature</span><span class="o">.</span><span class="n">NotApplicable</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">force_units</span><span class="p">,</span> <span class="n">length_units</span><span class="p">,</span> <span class="n">temperature_units</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">GetPresentUnits_2</span><span class="p">(</span><span class="n">force_units</span><span class="p">,</span>
+                                                                                               <span class="n">length_units</span><span class="p">,</span>
+                                                                                               <span class="n">temperature_units</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;force_units&#39;</span><span class="p">:</span> <span class="n">force_units</span><span class="p">,</span>
+                <span class="s1">&#39;length_units&#39;</span><span class="p">:</span> <span class="n">length_units</span><span class="p">,</span>
+                <span class="s1">&#39;temperature_units&#39;</span><span class="p">:</span> <span class="n">temperature_units</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.set_model_is_locked">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.set_model_is_locked">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_model_is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lock_it</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Locks or unlocks the model.</span>
+
+<span class="sd">        :param lock_it: True to lock mode, False to unlock, defaults to True</span>
+<span class="sd">        :type lock_it: bool, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SetModelIsLocked</span><span class="p">(</span><span class="n">lock_it</span><span class="p">))</span></div>
+
+    
+<div class="viewcode-block" id="EtabsModel.set_present_units">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.set_present_units">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_present_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eUnits</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the display (present) units.</span>
+
+<span class="sd">        :param units: Units enumeration to set.</span>
+<span class="sd">        :type units: eUnits</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SetPresentUnits</span><span class="p">(</span><span class="n">units</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="EtabsModel.set_present_units_components">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.model.EtabsModel.set_present_units_components">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_present_units_components</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eForce</span><span class="p">,</span> <span class="n">length_units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLength</span><span class="p">,</span>
+                                     <span class="n">temperature_units</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eTemperature</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Specifies the units for the model.</span>
+
+<span class="sd">        :param force_units: Force enumeration to set</span>
+<span class="sd">        :type force_units: eForce</span>
+<span class="sd">        :param length_units: Length enumeration to set</span>
+<span class="sd">        :type length_units: eLength</span>
+<span class="sd">        :param temperature_units: Temperature enumeration to set</span>
+<span class="sd">        :type temperature_units: eTemperature</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="o">.</span><span class="n">SetPresentUnits_2</span><span class="p">(</span><span class="n">force_units</span><span class="p">,</span> <span class="n">length_units</span><span class="p">,</span> <span class="n">temperature_units</span><span class="p">))</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Mitchell Tesch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

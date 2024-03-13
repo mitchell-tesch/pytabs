@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pytabs.load_cases &mdash; PyTABS 0.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            PyTABS
+              <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">pytabs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyTABS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pytabs.load_cases</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pytabs.load_cases</h1><div class="highlight"><pre>
+<span></span><span class="c1"># PyTABS - ETABS .NET API python wrapper</span>
+<span class="c1"># LoadCases - cLoadCases interface </span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;LoadCases&#39;</span><span class="p">]</span>
+
+<span class="c1"># import ETABS namespace and pyTABS error handler</span>
+<span class="kn">from</span> <span class="nn">.etabs_config</span> <span class="kn">import</span> <span class="n">etabs</span>
+<span class="kn">from</span> <span class="nn">.error_handle</span> <span class="kn">import</span> <span class="n">handle</span>
+
+<span class="c1"># import of interfaces of load case types</span>
+<span class="kn">from</span> <span class="nn">.cases.case_direct_history_linear</span> <span class="kn">import</span> <span class="n">CaseDirectHistoryLinear</span>
+<span class="kn">from</span> <span class="nn">.cases.case_direct_history_nonlinear</span> <span class="kn">import</span> <span class="n">CaseDirectHistoryNonlinear</span>
+<span class="kn">from</span> <span class="nn">.cases.case_hyperstatic</span> <span class="kn">import</span> <span class="n">CaseHyperStatic</span>
+<span class="kn">from</span> <span class="nn">.cases.case_modal_eigen</span> <span class="kn">import</span> <span class="n">CaseModalEigen</span>
+<span class="kn">from</span> <span class="nn">.cases.case_modal_history_linear</span> <span class="kn">import</span> <span class="n">CaseModalHistoryLinear</span>
+<span class="kn">from</span> <span class="nn">.cases.case_modal_history_nonlinear</span> <span class="kn">import</span> <span class="n">CaseModalHistoryNonlinear</span>
+<span class="kn">from</span> <span class="nn">.cases.case_modal_ritz</span> <span class="kn">import</span> <span class="n">CaseModalRitz</span>
+<span class="kn">from</span> <span class="nn">.cases.case_response_spectrum</span> <span class="kn">import</span> <span class="n">CaseResponseSpectrum</span>
+<span class="kn">from</span> <span class="nn">.cases.case_static_linear</span> <span class="kn">import</span> <span class="n">CaseStaticLinear</span>
+<span class="kn">from</span> <span class="nn">.cases.case_static_nonlinear</span> <span class="kn">import</span> <span class="n">CaseStaticNonlinear</span>
+<span class="kn">from</span> <span class="nn">.cases.case_static_nonlinear_staged</span> <span class="kn">import</span> <span class="n">CaseStaticNonlinearStaged</span>
+
+<span class="c1"># import typing</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+
+
+<span class="k">class</span> <span class="nc">LoadCaseType</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;TypedDict class for load case type return&quot;&quot;&quot;</span>
+    <span class="n">case_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">case_type</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span>
+    <span class="n">sub_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">design_type</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadPatternType</span>
+    <span class="n">design_type_option</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">is_automatic</span><span class="p">:</span> <span class="nb">bool</span>
+
+
+<div class="viewcode-block" id="LoadCases">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases">[docs]</a>
+<span class="k">class</span> <span class="nc">LoadCases</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;LoadCases interface&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># link of SapModel interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
+        <span class="c1"># create LoadCases interface</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cLoadCases</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">LoadCases</span><span class="p">)</span>
+
+        <span class="c1"># create interface for individual case types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direct_history_linear</span> <span class="o">=</span> <span class="n">CaseDirectHistoryLinear</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direct_history_nonlinear</span> <span class="o">=</span> <span class="n">CaseDirectHistoryNonlinear</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hyperstatic</span> <span class="o">=</span> <span class="n">CaseHyperStatic</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modal_eigen</span> <span class="o">=</span> <span class="n">CaseModalEigen</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modal_history_linear</span> <span class="o">=</span> <span class="n">CaseModalHistoryLinear</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modal_history_nonlinear</span> <span class="o">=</span> <span class="n">CaseModalHistoryNonlinear</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modal_ritz</span> <span class="o">=</span> <span class="n">CaseModalRitz</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response_spectrum</span> <span class="o">=</span> <span class="n">CaseResponseSpectrum</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_linear</span> <span class="o">=</span> <span class="n">CaseStaticLinear</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_nonlinear</span> <span class="o">=</span> <span class="n">CaseStaticNonlinear</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">static_nonlinear_staged</span> <span class="o">=</span> <span class="n">CaseStaticNonlinearStaged</span><span class="p">(</span><span class="n">sap_model</span><span class="p">)</span>
+
+        <span class="c1"># relate relevant ETABS enumerations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eLoadCaseType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `LoadCaseType` enumeration&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LoadCases.change_name">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases.change_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">change_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_case_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Changes the name of a defined Load Case.</span>
+
+<span class="sd">        :param case_name: name of defined load case to change</span>
+<span class="sd">        :type case_name: str</span>
+<span class="sd">        :param new_case_name: new name of load case</span>
+<span class="sd">        :type new_case_name: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">ChangeName</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">new_case_name</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.count">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases.count">[docs]</a>
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Count of load cases of type if specified.</span>
+
+<span class="sd">        :param case_type: load case type enumeration, defaults to None</span>
+<span class="sd">        :type case_type: Union[None, eLoadCaseType], optional</span>
+<span class="sd">        :return: count of load case of type, if specified, else all</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">case_type</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">Count</span><span class="p">(</span><span class="n">case_type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">Count</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.delete">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases.delete">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes the specified load case.</span>
+
+<span class="sd">        :param case_name: name of existing load case</span>
+<span class="sd">        :type case_name: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">Delete</span><span class="p">(</span><span class="n">case_name</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.get_name_list">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases.get_name_list">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_name_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the names of all defined load cases of the specified type.</span>
+
+<span class="sd">        :param case_type: load case type enumeration, defaults to None</span>
+<span class="sd">        :type case_type: Union[None, eLoadCaseType], optional</span>
+<span class="sd">        :return: load case names of type, if specified, else all</span>
+<span class="sd">        :rtype: list[str]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_number_names</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">case_names</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="n">case_type</span><span class="p">:</span>
+            <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">_number_names</span><span class="p">,</span> <span class="n">case_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">GetNameList</span><span class="p">(</span><span class="n">_number_names</span><span class="p">,</span> <span class="n">case_names</span><span class="p">,</span> <span class="n">case_type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">_number_names</span><span class="p">,</span> <span class="n">case_names</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">GetNameList</span><span class="p">(</span><span class="n">_number_names</span><span class="p">,</span> <span class="n">case_names</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">case_names</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.get_type">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases.get_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LoadCaseType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves the case type, design type, and auto flag for the specified load case.</span>
+
+<span class="sd">        :param case_name: name of existing load case</span>
+<span class="sd">        :type case_name: str</span>
+<span class="sd">        :return: load case type details</span>
+<span class="sd">        :rtype: LoadCaseType</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">case_type</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="o">.</span><span class="n">Buckling</span>
+        <span class="n">sub_type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">design_type</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadPatternType</span><span class="o">.</span><span class="n">Notional</span>
+        <span class="n">design_type_option</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">is_automatic</span> <span class="o">=</span> <span class="nb">int</span><span class="p">()</span>
+        <span class="n">design_type_options_desc</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;Program determined&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;User specified&#39;</span><span class="p">}</span>
+        <span class="n">is_automatic_desc</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+        <span class="p">[</span><span class="n">ref</span><span class="p">,</span> <span class="n">case_type</span><span class="p">,</span> <span class="n">sub_type</span><span class="p">,</span> <span class="n">design_type</span><span class="p">,</span>
+         <span class="n">design_type_option</span><span class="p">,</span> <span class="n">is_automatic</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">GetTypeOAPI_1</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">case_type</span><span class="p">,</span> <span class="n">sub_type</span><span class="p">,</span>
+                                                                           <span class="n">design_type</span><span class="p">,</span> <span class="n">design_type_option</span><span class="p">,</span>
+                                                                           <span class="n">is_automatic</span><span class="p">)</span>
+        <span class="n">handle</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+        <span class="n">sub_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__determine_sub_type</span><span class="p">(</span><span class="n">case_type</span><span class="p">,</span> <span class="n">sub_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;case_name&#39;</span><span class="p">:</span> <span class="n">case_name</span><span class="p">,</span>
+                <span class="s1">&#39;case_type&#39;</span><span class="p">:</span> <span class="n">case_type</span><span class="p">,</span>
+                <span class="s1">&#39;sub_type&#39;</span><span class="p">:</span> <span class="n">sub_type</span><span class="p">,</span>
+                <span class="s1">&#39;design_type&#39;</span><span class="p">:</span> <span class="n">design_type</span><span class="p">,</span>
+                <span class="s1">&#39;design_type_option&#39;</span><span class="p">:</span> <span class="n">design_type_options_desc</span><span class="p">[</span><span class="n">design_type_option</span><span class="p">],</span>
+                <span class="s1">&#39;is_automatic&#39;</span><span class="p">:</span> <span class="n">is_automatic_desc</span><span class="p">[</span><span class="n">is_automatic</span><span class="p">]}</span></div>
+
+
+<div class="viewcode-block" id="LoadCases.set_design_type">
+<a class="viewcode-back" href="../../pytabs.html#pytabs.load_cases.LoadCases.set_design_type">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_design_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">design_type_option</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                        <span class="n">design_type</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadPatternType</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadPatternType</span><span class="o">.</span><span class="n">Dead</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set design type of existing load case.</span>
+
+<span class="sd">        :param case_name: name of existing load case</span>
+<span class="sd">        :type case_name: str</span>
+<span class="sd">        :param design_type_option: design type option (0 = Program determined, 1 = User specified)</span>
+<span class="sd">        :type design_type_option: int</span>
+<span class="sd">        :param design_type: design type, defaults to eLoadPatternType.Dead</span>
+<span class="sd">        :type design_type: eLoadPatternType, optional</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_cases</span><span class="o">.</span><span class="n">SetDesignType</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">design_type_option</span><span class="p">,</span> <span class="n">design_type</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__determine_sub_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_type</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="p">,</span> <span class="n">sub_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Private method to determine string of load case subtype.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">case_type</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="o">.</span><span class="n">NonlinearStatic</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="o">.</span><span class="n">Modal</span><span class="p">),</span>
+                              <span class="nb">int</span><span class="p">(</span><span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="o">.</span><span class="n">LinearHistory</span><span class="p">)]:</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">case_type</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="o">.</span><span class="n">NonlinearStatic</span><span class="p">):</span>
+                <span class="n">sub_types_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Nonlinear&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Nonlinear staged construction&#39;</span><span class="p">}</span>
+            <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">case_type</span><span class="p">)</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">etabs</span><span class="o">.</span><span class="n">eLoadCaseType</span><span class="o">.</span><span class="n">Modal</span><span class="p">):</span>
+                <span class="n">sub_types_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Eigen&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Ritz&#39;</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sub_types_dict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Transient&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Periodic&#39;</span><span class="p">}</span>
+            <span class="k">return</span> <span class="n">sub_types_dict</span><span class="p">[</span><span class="n">sub_type</span><span class="p">]</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Mitchell Tesch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
