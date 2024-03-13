@@ -10,10 +10,6 @@ TRIB_LENGTH = 1.2
 TRIB_AREA = 1.2
 
 
-
-
-
-
 def main():
     input_data = extract_excel_inputs()
     
@@ -24,7 +20,7 @@ def main():
     
     for prop_data in input_data:
         prop_base_name = prop_data['name']
-        
+
         prop_set = [{'name': f'{prop_base_name}_{UNIDIRECTIONAL_SUFFIX}',
                      'dof': [False, False, True, False, False, False],
                      'ml_axes': [etabs_model.property.link.eLinkDof.U3],
@@ -52,7 +48,7 @@ def main():
                      'delta_values': uni_to_bidirectional(prop_data['delta_values']),
                     },
                     ]
- 
+
         # create each property in the prop set
         for prop in prop_set:
             # create multi linear elastic link property
@@ -63,7 +59,7 @@ def main():
                                                                ke=[0., 0., 0., 0., 0., 0.],
                                                                ce=[0., 0., 0., 0., 0., 0.],
                                                                dj2=0., dj3=0.)
-            
+
             # provide spring data to link property
             etabs_model.property.link.set_spring_data(name=prop['name'], length=TRIB_LENGTH, area=TRIB_AREA)
             
@@ -79,7 +75,7 @@ def main():
                                                                   stiffness=[0., 0., 0., 0.],
                                                                   nonlinear_option_2=etabs_model.property.line_spring.eSpringNonlinearOption.LINEAR,
                                                                   nonlinear_option_3=etabs_model.property.line_spring.eSpringNonlinearOption.LINEAR)
-        
+
     # get database table for link to line spring association
     db_line_spring_table = etabs_model.database_tables.get_table_details('Spring Property Definitions - Line Springs')
     
@@ -104,10 +100,11 @@ def main():
     db_edit_log = etabs_model.database_tables.apply_table_edits(True)
     print(db_edit_log['import_log'])
     etabs_model.database_tables.discard_table_edits()
-    print('')
+    
 
 def uni_to_bidirectional(values):
     return [-v for v in values][:0:-1] + values
+
 
 def extract_excel_inputs():
     wb = xw.Book(wb_index.WB_FILE)
