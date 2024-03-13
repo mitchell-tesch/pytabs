@@ -191,12 +191,12 @@ class DatabaseTables:
 
     def set_table_data_array_edit(self, table: DbTable, field_keys: list[str], table_data: list[list]) -> None:
         table_version = int()
-        num_records = len(table(table_data))
+        num_records = len(table_data)
         records = [item for record in table_data for item in record]
-        [ret, _table_version, 
+        [ret, _table_version,
          _field_keys_out, _table_data] = self.database_tables.SetTableForEditingArray(table.table_key, table_version,
                                                                                       field_keys, num_records, records)
-         handle(ret)
+        handle(ret)
 
     def apply_table_edits(self, log_import: bool = False) -> DbEditLog:
         num_fatal_errors = int()
@@ -204,9 +204,10 @@ class DatabaseTables:
         num_warn_msgs = int()
         num_info_msgs = int()
         import_log = str()
-        handle(self.database_tables.ApplyEditedTables(log_import, num_fatal_errors, num_error_msgs,
-                                                      num_warn_msgs, num_info_msgs,
-                                                      import_log))
+        [ret, num_fatal_errors, num_error_msgs,
+         num_warn_msgs, num_info_msgs, import_log] = self.database_tables.ApplyEditedTables(log_import, num_fatal_errors, num_error_msgs,
+                                                                                            num_warn_msgs, num_info_msgs, import_log)
+
         return {'num_fatal_errors': num_fatal_errors,
                 'num_error_msgs': num_error_msgs,
                 'num_warn_msgs': num_warn_msgs,

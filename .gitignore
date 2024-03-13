@@ -230,3 +230,9 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
+
+
+
+
+# Specific example files
+examples/PyTABS_LinkSpringProp/XX-XX-CA-ST-Perimeter Wall P-Y Curves-240308.xlsx

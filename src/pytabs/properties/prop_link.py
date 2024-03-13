@@ -63,14 +63,15 @@ class PropLink:
         handle(ret)
 
     def set_multi_linear_points(self, name, dof: eLinkDof, action_values: list[float],
-                                displacement_values: list[float], hysteresis_type: eLinkHysteresisType,
+                                displacement_values: list[float],
+                                hysteresis_type: eLinkHysteresisType = eLinkHysteresisType.KINEMATIC,
                                 alpha_1: int = 0, alpha_2: int = 0, beta_1: int = 0, beta_2: int = 0,
                                 eta: int = 0) -> None:
         number_points = min(len(action_values), len(displacement_values))
-        [ret, _action_values, _displacement_values] = self.prop_link.SetMultiLinearPoints(name, dof, number_points,
+        [ret, _action_values, _displacement_values] = self.prop_link.SetMultiLinearPoints(name, dof.value, number_points,
                                                                                           action_values, displacement_values,
-                                                                                          hysteresis_type, alpha_1, alpha_2,
-                                                                                          beta_1, beta_2, eta)
+                                                                                          hysteresis_type.value, alpha_1,
+                                                                                          alpha_2, beta_1, beta_2, eta)
         handle(ret)
 
     def set_spring_data(self, name, length: float, area: float) -> None:
