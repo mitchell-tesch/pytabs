@@ -25,7 +25,7 @@ def main():
                      'dof': [False, False, True, False, False, False],
                      'ml_axes': [etabs_model.property.link.eLinkDof.U3],
                      'force_values': [0.] + prop_data['force_values'],
-                     'delta_values': [-.0001] + prop_data['delta_values'],
+                     'delta_values': [-.1] + prop_data['delta_values'],
                      },
                     {'name': f'{prop_base_name}_{BIDIRECTIONAL_SUFFIX}',
                      'dof': [False, False, True, False, False, False],
@@ -38,7 +38,7 @@ def main():
                      'ml_axes': [etabs_model.property.link.eLinkDof.U2,
                                  etabs_model.property.link.eLinkDof.U3],
                      'force_values': [0.] + prop_data['force_values'],
-                     'delta_values': [-.0001] + prop_data['delta_values'],
+                     'delta_values': [-.1] + prop_data['delta_values'],
                     },
                     {'name': f'{prop_base_name}_{BIDIRECTIONAL_SUFFIX}_{CORNER_SUFFIX}',
                      'dof': [False, True, True, False, False, False],
@@ -87,7 +87,7 @@ def main():
     for record in table_array.table_data:
         new_record = list(record)
         if record[0].startswith('PW'):
-            new_record[1] = 'Link'  
+            new_record[1] = 'Link'
             new_record[8] = record[0]
         new_table_data.append(new_record)
 
