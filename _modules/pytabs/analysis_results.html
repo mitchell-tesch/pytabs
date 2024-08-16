@@ -298,8 +298,6 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sap_model</span><span class="p">:</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cSapModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># link of SapModel interface</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
-        <span class="c1"># create AnalysisResultsSetup interface</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cAnalysisResultsSetup</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">Setup</span><span class="p">)</span>
         <span class="c1"># create AnalysisResults interface</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cAnalysisResults</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">Results</span><span class="p">)</span>
 

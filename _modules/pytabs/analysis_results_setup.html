@@ -94,7 +94,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span> <span class="o">=</span> <span class="n">sap_model</span>
         <span class="c1"># create AnalysisResultsSetup interface</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span> <span class="o">=</span> <span class="n">etabs</span><span class="o">.</span><span class="n">cAnalysisResultsSetup</span><span class="p">(</span><span class="n">sap_model</span><span class="o">.</span><span class="n">Results</span><span class="o">.</span><span class="n">Setup</span><span class="p">)</span>
-
         <span class="c1"># relate custom enumerations</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eResultsSetupStepOutOption</span> <span class="o">=</span> <span class="n">eResultsSetupStepOutOption</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eResultsSetupComboOutOption</span> <span class="o">=</span> <span class="n">eResultsSetupComboOutOption</span>
@@ -117,7 +116,8 @@
 <span class="sd">        :return: `True` if the Case selected for output, `False` otherwise</span>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">selected</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span><span class="o">.</span><span class="n">GetCaseSelectedForOutput</span><span class="p">(</span><span class="n">case_name</span><span class="p">)</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">selected</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span><span class="o">.</span><span class="n">GetCaseSelectedForOutput</span><span class="p">(</span><span class="n">case_name</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
         <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected</span></div>
 
@@ -132,7 +132,8 @@
 <span class="sd">        :return: `True` if the Combination selected for output, `False` otherwise</span>
 <span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">selected</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span><span class="o">.</span><span class="n">GetComboSelectedForOutput</span><span class="p">(</span><span class="n">combo_name</span><span class="p">)</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">()</span>
+        <span class="p">[</span><span class="n">ret</span><span class="p">,</span> <span class="n">selected</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">analysis_results_setup</span><span class="o">.</span><span class="n">GetComboSelectedForOutput</span><span class="p">(</span><span class="n">combo_name</span><span class="p">,</span> <span class="n">selected</span><span class="p">)</span>
         <span class="n">handle</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected</span></div>
 

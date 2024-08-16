@@ -98,6 +98,7 @@
 <span class="kn">from</span> <span class="nn">.combo</span> <span class="kn">import</span> <span class="n">Combo</span>
 <span class="kn">from</span> <span class="nn">.constraint</span> <span class="kn">import</span> <span class="n">Constraint</span>
 <span class="kn">from</span> <span class="nn">.database_tables</span> <span class="kn">import</span> <span class="n">DatabaseTables</span>
+<span class="kn">from</span> <span class="nn">.design_results</span> <span class="kn">import</span> <span class="n">DesignResults</span>
 <span class="kn">from</span> <span class="nn">.diaphragm</span> <span class="kn">import</span> <span class="n">Diaphragm</span>
 <span class="kn">from</span> <span class="nn">.frame_obj</span> <span class="kn">import</span> <span class="n">FrameObj</span>
 <span class="kn">from</span> <span class="nn">.grid_sys</span> <span class="kn">import</span> <span class="n">GridSys</span>
@@ -158,6 +159,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Constraint` interface.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database_tables</span><span class="p">:</span> <span class="n">DatabaseTables</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `DatabaseTables` interface.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design_results</span><span class="p">:</span> <span class="n">DesignResults</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `DesignResults` interface.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diaphragm</span><span class="p">:</span> <span class="n">Diaphragm</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;EtabsModel `Diaphragm` interface.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span><span class="p">:</span> <span class="n">FrameObj</span>
@@ -287,6 +290,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">combo</span> <span class="o">=</span> <span class="n">Combo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">constraint</span> <span class="o">=</span> <span class="n">Constraint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">database_tables</span> <span class="o">=</span> <span class="n">DatabaseTables</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">design_results</span> <span class="o">=</span> <span class="n">DesignResults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">diaphragm</span> <span class="o">=</span> <span class="n">Diaphragm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">frame_obj</span> <span class="o">=</span> <span class="n">FrameObj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">grid_sys</span> <span class="o">=</span> <span class="n">GridSys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sap_model</span><span class="p">)</span>
