@@ -18,7 +18,6 @@ class AnalysisResultsSetup:
         self.sap_model = sap_model
         # create AnalysisResultsSetup interface
         self.analysis_results_setup = etabs.cAnalysisResultsSetup(sap_model.Results.Setup)
-
         # relate custom enumerations
         self.eResultsSetupStepOutOption = eResultsSetupStepOutOption
         self.eResultsSetupComboOutOption = eResultsSetupComboOutOption
@@ -36,7 +35,8 @@ class AnalysisResultsSetup:
         :return: `True` if the Case selected for output, `False` otherwise
         :rtype: bool
         """
-        [ret, selected] = self.analysis_results_setup.GetCaseSelectedForOutput(case_name)
+        selected = bool()
+        [ret, selected] = self.analysis_results_setup.GetCaseSelectedForOutput(case_name, selected)
         handle(ret)
         return selected
 
@@ -48,7 +48,8 @@ class AnalysisResultsSetup:
         :return: `True` if the Combination selected for output, `False` otherwise
         :rtype: bool
         """
-        [ret, selected] = self.analysis_results_setup.GetComboSelectedForOutput(combo_name)
+        selected = bool()
+        [ret, selected] = self.analysis_results_setup.GetComboSelectedForOutput(combo_name, selected)
         handle(ret)
         return selected
 

@@ -24,6 +24,7 @@ from .area_obj import AreaObj
 from .combo import Combo
 from .constraint import Constraint
 from .database_tables import DatabaseTables
+from .design_results import DesignResults
 from .diaphragm import Diaphragm
 from .frame_obj import FrameObj
 from .grid_sys import GridSys
@@ -82,6 +83,8 @@ class EtabsModel:
         """EtabsModel `Constraint` interface."""
         self.database_tables: DatabaseTables
         """EtabsModel `DatabaseTables` interface."""
+        self.design_results: DesignResults
+        """EtabsModel `DesignResults` interface."""
         self.diaphragm: Diaphragm
         """EtabsModel `Diaphragm` interface."""
         self.frame_obj: FrameObj
@@ -211,6 +214,7 @@ class EtabsModel:
             self.combo = Combo(self.sap_model)
             self.constraint = Constraint(self.sap_model)
             self.database_tables = DatabaseTables(self.sap_model)
+            self.design_results = DesignResults(self.sap_model)
             self.diaphragm = Diaphragm(self.sap_model)
             self.frame_obj = FrameObj(self.sap_model)
             self.grid_sys = GridSys(self.sap_model)

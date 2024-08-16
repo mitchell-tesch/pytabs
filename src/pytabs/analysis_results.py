@@ -222,8 +222,6 @@ class AnalysisResults:
     def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
-        # create AnalysisResultsSetup interface
-        self.analysis_results_setup = etabs.cAnalysisResultsSetup(sap_model.Results.Setup)
         # create AnalysisResults interface
         self.analysis_results = etabs.cAnalysisResults(sap_model.Results)
 
