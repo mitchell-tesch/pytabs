@@ -268,6 +268,32 @@ class EtabsModel:
         self.model_path = new_model_path
         self.model_open = True
 
+    def save_model(self, save_model_path: Union[str, Path]) -> None:
+        """Saves the present model.
+        If no file name is specified, the file is saved using its current name.
+        If there is no current name for the file (the file has not been saved previously) 
+        and this function is called with no file name specified, an error will be returned. 
+
+        :param save_model_path: file path to save new blank ETABS model file
+        :type save_model_path: Union[str, Path]
+        """
+
+        handle(self.file.Save(str(save_model_path)))
+        self.model_path = save_model_path
+        self.model_open = True
+
+    def get_model_file_name(self, IncludePath: bool = True) -> str:
+        """Returns a string that represents the filename of the current model, with or without the full path
+
+        :param IncludePath: Include full path or not, defaults to True
+        :type IncludePath: bool, optional
+        :return: filename of current model, with or without the full path
+        :rtype: str
+        """
+
+        return str(self.sap_model.GetModelFilename(IncludePath))
+
+
     def get_database_units(self) -> etabs.eUnits:
         """Returns a value from the eUnits enumeration indicating the database units for the model.
         All data is internally stored in the model in these units and converted to the present units as needed.

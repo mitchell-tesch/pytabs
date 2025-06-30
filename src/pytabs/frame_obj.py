@@ -204,10 +204,35 @@ class FrameObj:
         :type group_name: str
         :param remove: `True` for add, False for remove, defaults to `False`
         :type remove: bool, optional
-        :param item_type: one of eItemType enumeration (`Objects` : frame object specified by name is added/removed from group, `Group` : all frame objects in the group specified by name are added/removed from group, `SelectedObjects` : all selected frame objects are added/removed from group, name is ignored), defaults to `eItemType.Objects`
+        :param item_type: one of eItemType enumeration 
+                            `Objects` : frame object specified by name is added/removed from group, 
+                            `Group` : all frame objects in the group specified by name are added/removed from group, 
+                            `SelectedObjects` : all selected frame objects are added/removed from group, name is ignored, 
+                            defaults to `eItemType.Objects`
         :type item_type: eItemType, optional
         """
         handle(self.frame_obj.SetGroupAssign(name, group_name, remove, item_type))
+
+    def set_section_assign(self, frame_name: str, prop_name: str, item_type: etabs.eItemType  = etabs.eItemType.Objects, SVarRelStartLoc = 0.0, SVarrTotalLength = 0.0) -> None:
+        """Assigns a frame section property to a frame object. 
+
+        :param frame_name: name of an existing frame object or group depending on the value of item_type
+        :type frame_name: str
+        :param prop_name: name of a frame section property to be assigned to the specified frame object(s)
+        :type prop_name: str
+        :param item_type: one of eItemType enumeration 
+                            `Object` : frame object specified by name is added/removed from group, 
+                            `Group` : all frame objects in the group specified by name are added/removed from group, 
+                            `SelectedObjects` : all selected frame objects are added/removed from group, name is ignored, 
+                            defaults to `eItemType.Objects`
+        :type item_type: etabs.eItemType
+        :param SVarRelStartLoc: _description_, defaults to 0.0
+        :type SVarRelStartLoc: float, optional
+        :param SVarrTotalLength: _description_, defaults to 0.0
+        :type SVarrTotalLength: float, optional
+        """
+
+        handle(self.frame_obj.SetSection(frame_name, prop_name, item_type))
 
     def set_spring_assignment(self, frame_name: str, line_spring_prop: str,
                               item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
