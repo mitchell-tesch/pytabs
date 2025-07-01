@@ -64,6 +64,24 @@ class BucklingFactor(TypedDict):
     step_number: list[float]
     factor: list[float]
 
+class FrameForce(TypedDict):
+    """TypedDict class for frame_force return"""
+    number_results: int
+    object_name: list[str]
+    object_station: list[float]
+    element_name: list[str]
+    element_station: list[float]
+    load_case: list[str]
+    step_type: list[str]
+    step_number: list[int]
+    axial_force: list[float]
+    shear_2: list[float]
+    shear_3: list[float]
+    torsion: list[float]
+    moment_2: list[float]
+    moment_3: list[float]
+
+
 
 class JointDisplacement(TypedDict):
     """TypedDict class for joint_displacement return"""
@@ -379,7 +397,62 @@ class AnalysisResults:
                 'step_number': list(step_number),
                 'factor': list(factor)}
 
-    # TODO: FrameForce
+
+    def frame_force(self, name, item_type_element: etabs.eItemTypeElm) -> FrameForce:
+        """Reports the frame forces for specified line elements
+
+        :param name: The name of an existing point object, point element, or group of objects depending on the value of the ItemTypeElm item
+        :type name: str
+        :param item_type_element: one of the following items in the `eItemTypeElm` enumeration.
+            `ObjectElm` - the point element corresponding to the point object specified by the `name`
+            `Element` - the point element specified by `name`
+            `GroupElm` - all point elements directly or indirectly specified in the group specified by `name`
+            `SelectionElm` - all point elements directly or indirectly selected and `name` is ignored
+        :type item_type_element: etabs.eItemTypeElm
+        :return: Frame force analysis results
+        :rtype: FrameForce
+        """
+
+        number_results = int()
+        object_name = [str()]
+        object_station = [float()]
+        element_name = [str()]
+        element_station = [float()]
+        load_case = [str()]
+        step_type = [str()]
+        step_number = [int()]
+        axial_force = [float()]
+        shear_2 = [float()]
+        shear_3 = [float()]
+        torsion = [float()]
+        moment_2 = [float()]
+        moment_3 = [float()]
+
+        [ret, number_results, object_name, object_station, 
+         element_name, element_station, load_case, step_type, 
+         step_number, axial_force, shear_2, shear_3, torsion, 
+                                        moment_2, moment_3] = self.analysis_results.FrameForce(name, item_type_element, number_results, object_name, object_station, 
+                                                                                                element_name, element_station, load_case, step_type, 
+                                                                                                step_number, axial_force, shear_2, shear_3, torsion, 
+                                                                                                                                moment_2, moment_3)
+
+        handle(ret)
+        return {'number_results': number_results,
+                'object_name': list(object_name),
+                'object_station': list(object_station),
+                'element_name': list(element_name),
+                'element_station': list(element_station),
+                'load_case': list(load_case),
+                'step_type': list(step_type),
+                'step_number': list(step_number),
+                'axial_force': list(axial_force),
+                'shear_2': list(shear_2),
+                'shear_3': list(shear_3),
+                'torsion': list(torsion),
+                'moment_2': list(moment_2),
+                'moment_3': list(moment_3)}
+
+
     # TODO: FrameJointForce
     # TODO: GeneraliszeDispl
     # TODO: JointAcc
