@@ -18,22 +18,24 @@ class Group:
         # create Group interface
         self.group = etabs.cGroup(self.sap_model.GroupDef)
 
-    def set_group_1(self,
-                    group_name: str,
-                    group_color: int = -1,
-                    specified_selection: bool = True,
-                    specified_section_cut_def: bool = True,
-                    specified_steel_design: bool = True,
-                    specified_concrete_design: bool = True,
-                    specified_aluminum_design: bool = True,
-                    specified_static_nla_active: bool = True,
-                    specified_auto_seismic_output: bool = False,
-                    specified_auto_wind_output: bool = False,
-                    specified_mass_weight: bool = True,
-                    specified_steeljoist_design: bool = True,
-                    specified_wall_design: bool = True,
-                    specified_baseplate_design: bool = True,
-                    specified_connection_design: bool = True) -> None:
+    def set_group_1(
+        self,
+        group_name: str,
+        group_color: int = -1,
+        specified_selection: bool = True,
+        specified_section_cut_def: bool = True,
+        specified_steel_design: bool = True,
+        specified_concrete_design: bool = True,
+        specified_aluminum_design: bool = True,
+        specified_static_nla_active: bool = True,
+        specified_auto_seismic_output: bool = False,
+        specified_auto_wind_output: bool = False,
+        specified_mass_weight: bool = True,
+        specified_steeljoist_design: bool = True,
+        specified_wall_design: bool = True,
+        specified_baseplate_design: bool = True,
+        specified_connection_design: bool = True,
+    ) -> None:
         """Sets the group data.
 
         :param group_name: name of group
@@ -67,18 +69,22 @@ class Group:
         :param specified_connection_design: `True` if the group is specified to be used for defining connection design groups; otherwise `False`, defaults to `True`
         :type specified_connection_design: bool, optional
         """
-        handle(self.group.SetGroup_1(group_name,
-                                     group_color,
-                                     specified_selection,
-                                     specified_section_cut_def,
-                                     specified_steel_design,
-                                     specified_concrete_design,
-                                     specified_aluminum_design,
-                                     specified_static_nla_active,
-                                     specified_auto_seismic_output,
-                                     specified_auto_wind_output,
-                                     specified_mass_weight,
-                                     specified_steeljoist_design,
-                                     specified_wall_design,
-                                     specified_baseplate_design,
-                                     specified_connection_design))
+        handle(
+            self.group.SetGroup_1(
+                group_name,
+                group_color,
+                specified_selection,
+                specified_section_cut_def,
+                specified_steel_design,
+                specified_concrete_design,
+                specified_aluminum_design,
+                specified_static_nla_active,
+                specified_auto_seismic_output,
+                specified_auto_wind_output,
+                specified_mass_weight,
+                specified_steeljoist_design,
+                specified_wall_design,
+                specified_baseplate_design,
+                specified_connection_design,
+            )
+        )

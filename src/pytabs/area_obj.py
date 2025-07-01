@@ -1,5 +1,5 @@
 # PyTABS - ETABS .NET API python wrapper
-# AreaObj - cAreaObj interface 
+# AreaObj - cAreaObj interface
 __all__ = ['AreaObj']
 
 # import ETABS namespace and pyTABS error handler
@@ -12,6 +12,7 @@ from typing import TypedDict
 
 class AreaObjectLabelData(TypedDict):
     """TypedDict class for Area object label data return"""
+
     area_name: str
     area_label: str
     area_story: str
@@ -19,12 +20,13 @@ class AreaObjectLabelData(TypedDict):
 
 class AreaObj:
     """AreaObj interface"""
+
     def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
         # create AreaObj interface
         self.area_obj = etabs.cAreaObj(self.sap_model.AreaObj)
-        
+
         # relate relevant ETABS enumerations
         self.eWallPierRebarLayerType = etabs.eWallPierRebarLayerType
         """EtabsModel `WallPierRebarLayerType` enumeration"""
@@ -43,9 +45,11 @@ class AreaObj:
         area_story = str()
         [ret, area_label, area_story] = self.area_obj.GetLabelFromName(area_name, area_label, area_story)
         handle(ret)
-        return {'area_name': area_name,
-                'area_label': area_label,
-                'area_story': area_story}
+        return {
+            'area_name': area_name,
+            'area_label': area_label,
+            'area_story': area_story,
+        }
 
     def get_name_list_on_story(self, story_name: str) -> list[str]:
         """Retrieves the names of the defined area objects on a given story.
@@ -63,7 +67,7 @@ class AreaObj:
 
     def get_property(self, area_name: str) -> str:
         """Retrieves the name of the area property assigned to an area object.
-        
+
         :param area_name: name of an existing area object
         :type area_name: str
         :return: name of the area property assigned to the area object
@@ -74,13 +78,18 @@ class AreaObj:
         handle(ret)
         return prop_name
 
-    def set_group_assign(self, name: str, group_name: str, remove: bool = False,
-                         item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+    def set_group_assign(
+        self,
+        name: str,
+        group_name: str,
+        remove: bool = False,
+        item_type: etabs.eItemType = etabs.eItemType.Objects,
+    ) -> None:
         """Adds or removes area objects from a specified group.
 
-        :param name: name of an existing area object or group depending on the value of item_type 
+        :param name: name of an existing area object or group depending on the value of item_type
         :type name: str
-        :param group_name: name of an existing group to which the assignment is made 
+        :param group_name: name of an existing group to which the assignment is made
         :type group_name: str
         :param remove: `True` for add, False for remove, defaults to `False`
         :type remove: bool, optional
@@ -96,16 +105,20 @@ class AreaObj:
         :type area_name: str
         :return: area object area spring assignment
         :rtype: str
-        """  
+        """
         spring_prop = str()
         [ret, spring_prop] = self.area_obj.GetSpringAssignment(area_name, spring_prop)
         handle(ret)
         return spring_prop
 
-    def set_spring_assignment(self, area_name: str, area_spring_prop: str,
-                              item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+    def set_spring_assignment(
+        self,
+        area_name: str,
+        area_spring_prop: str,
+        item_type: etabs.eItemType = etabs.eItemType.Objects,
+    ) -> None:
         """Assigns an existing area spring property to area objects of the value item_type.
-        
+
         :param area_name: unique name of an existing area object
         :type area_name: str
         :param area_spring_prop: name of an existing area spring property

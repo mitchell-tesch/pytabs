@@ -1,5 +1,5 @@
 # PyTABS - ETABS .NET API python wrapper
-# AreaElm - cAreaElm interface 
+# AreaElm - cAreaElm interface
 __all__ = ['AreaElm']
 
 # import ETABS namespace and pyTABS error handler
@@ -11,6 +11,7 @@ from .error_handle import handle
 
 class AreaElm:
     """AreaElm interface"""
+
     def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model

@@ -12,8 +12,10 @@ from pytabs.error_handle import handle
 # import typing
 from typing import TypedDict
 
+
 class FrameProp(TypedDict):
     """TypedDict class for frame_prop return"""
+
     number_results: int
     name: list[str]
     prop_type: list[etabs.eFramePropType]
@@ -41,17 +43,16 @@ class PropFrame:
 
         # relate custom enumerations
 
-
     def get_all_frame_prop(self) -> FrameProp:
         """Retrieves select data for all frame properties in the model
 
         :return: All frame properties defined in the model
         :rtype: FrameProp
         """
-        
+
         number_results = int()
         name = [str()]
-        prop_type = [] # self.eFramePropType(int)
+        prop_type = []  # self.eFramePropType(int)
         t3 = [float()]
         t2 = [float()]
         tf = [float()]
@@ -60,30 +61,38 @@ class PropFrame:
         tfb = [float()]
         area = [float()]
 
-        [ret, number_results, 
-         name, prop_type, t3, t2, 
-         tf, tw, t2b, tfb, area] = self.prop_frame.GetAllFrameProperties_2(number_results, name, 
-                                                                           prop_type, t3, t2, tf, 
-                                                                           tw, t2b, tfb, area)
-        
+        [ret, number_results, name, prop_type, t3, t2, tf, tw, t2b, tfb, area] = (
+            self.prop_frame.GetAllFrameProperties_2(number_results, name, prop_type, t3, t2, tf, tw, t2b, tfb, area)
+        )
+
         handle(ret)
 
-        return {'number_results': number_results,
-                'prop_name': list(name),
-                #'prop_type': self.eFramePropType(list(prop_type)), ## enum to be resolved
-                'prop_type': prop_type,
-                't3': list(t3),
-                't2': list(t2),
-                'tf': list(tf),
-                'tw': list(tw),
-                't2b': list(t2b),
-                'tfb': list(tfb),
-                'area': list(area)}
-    
+        return {
+            'number_results': number_results,
+            'prop_name': list(name),
+            #'prop_type': self.eFramePropType(list(prop_type)), ## enum to be resolved
+            'prop_type': prop_type,
+            't3': list(t3),
+            't2': list(t2),
+            'tf': list(tf),
+            'tw': list(tw),
+            't2b': list(t2b),
+            'tfb': list(tfb),
+            'area': list(area),
+        }
 
-    def set_rectangle_prop(self, name: str, mat_prop: str, t3: float, t2: float, colour: float = -1, notes: str = '', guid: str = '') -> None:
-        """Initializes a solid rectangular frame section property. If this function is called for an existing frame section property, 
-        all items for the section are reset to their default value. 
+    def set_rectangle_prop(
+        self,
+        name: str,
+        mat_prop: str,
+        t3: float,
+        t2: float,
+        colour: float = -1,
+        notes: str = '',
+        guid: str = '',
+    ) -> None:
+        """Initializes a solid rectangular frame section property. If this function is called for an existing frame section property,
+        all items for the section are reset to their default value.
 
         :param name: name of the fame section property
         :type name: str
@@ -104,4 +113,3 @@ class PropFrame:
         """
 
         return handle(self.prop_frame.SetRectangle(name, mat_prop, t3, t2, colour, notes, guid))
-

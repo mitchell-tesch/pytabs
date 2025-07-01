@@ -1,6 +1,6 @@
 # PyTABS - ETABS .NET API python wrapper
 # DesignResults - cDesignResults interface
-__all__ = ['DesignForces']
+__all__ = ['DesignResults']
 
 # import ETABS namespace and pyTABS error handler
 from .etabs_config import etabs
@@ -14,6 +14,7 @@ from typing import TypedDict
 
 class BeamDesignForce(TypedDict):
     """TypedDict class for beam_design_force return"""
+
     number_results: int
     frame_name: list[str]
     combo_name: list[str]
@@ -52,22 +53,42 @@ class DesignResults:
         moment_2 = [float()]
         moment_3 = [float()]
 
-        [ret, number_results, frame_name,
-         combo_name,station,
-         axial, shear_2, shear_3,
-         torsion, moment_2, moment_3] = self.design_forces.BeamDesignForces(name, number_results, frame_name,
-                                                                            combo_name,station,
-                                                                            axial, shear_2, shear_3,
-                                                                            torsion, moment_2, moment_3,
-                                                                            item_type_element)
+        [
+            ret,
+            number_results,
+            frame_name,
+            combo_name,
+            station,
+            axial,
+            shear_2,
+            shear_3,
+            torsion,
+            moment_2,
+            moment_3,
+        ] = self.design_forces.BeamDesignForces(
+            name,
+            number_results,
+            frame_name,
+            combo_name,
+            station,
+            axial,
+            shear_2,
+            shear_3,
+            torsion,
+            moment_2,
+            moment_3,
+            item_type_element,
+        )
         handle(ret)
-        return {'number_results': number_results,
-                'frame_name': list(frame_name),
-                'combo_name': list(combo_name),
-                'station': list(station),
-                'axial': list(axial),
-                'shear_2': list(shear_2),
-                'shear_3': list(shear_3),
-                'torsion': list(torsion),
-                'moment_2': list(moment_2),
-                'moment_3': list(moment_3)}
+        return {
+            'number_results': number_results,
+            'frame_name': list(frame_name),
+            'combo_name': list(combo_name),
+            'station': list(station),
+            'axial': list(axial),
+            'shear_2': list(shear_2),
+            'shear_3': list(shear_3),
+            'torsion': list(torsion),
+            'moment_2': list(moment_2),
+            'moment_3': list(moment_3),
+        }

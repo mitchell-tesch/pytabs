@@ -15,6 +15,7 @@ from typing import TypedDict
 
 class AreaSpringProperties(TypedDict):
     """TypedDict class for area spring properties return"""
+
     area_spring_name: str
     u1: float
     u2: float
@@ -73,30 +74,62 @@ class PropAreaSpring:
         notes = str()
         guid = str()
 
-        [ret, u1, u2, u3, nonlinear_option_3,
-         spring_option, soil_profile, end_length_ratio,
-         period, colour, notes, guid] = self.prop_area_spring.GetAreaSpringProp(area_spring_name, u1, u2, u3,
-                                                                                nonlinear_option_3, spring_option,
-                                                                                soil_profile, end_length_ratio, period,
-                                                                                colour, notes, guid)
+        [
+            ret,
+            u1,
+            u2,
+            u3,
+            nonlinear_option_3,
+            spring_option,
+            soil_profile,
+            end_length_ratio,
+            period,
+            colour,
+            notes,
+            guid,
+        ] = self.prop_area_spring.GetAreaSpringProp(
+            area_spring_name,
+            u1,
+            u2,
+            u3,
+            nonlinear_option_3,
+            spring_option,
+            soil_profile,
+            end_length_ratio,
+            period,
+            colour,
+            notes,
+            guid,
+        )
         handle(ret)
-        return {'area_spring_name': area_spring_name,
-                'u1': u1,
-                'u2': u2,
-                'u3': u3,
-                'nonlinear_option_3': eSpringNonlinearOption(nonlinear_option_3),
-                'spring_option': spring_option,
-                'soil_profile': soil_profile,
-                'end_length_ratio': end_length_ratio,
-                'period': period,
-                'colour': colour,
-                'notes': notes,
-                'guid': guid}
+        return {
+            'area_spring_name': area_spring_name,
+            'u1': u1,
+            'u2': u2,
+            'u3': u3,
+            'nonlinear_option_3': eSpringNonlinearOption(nonlinear_option_3),
+            'spring_option': spring_option,
+            'soil_profile': soil_profile,
+            'end_length_ratio': end_length_ratio,
+            'period': period,
+            'colour': colour,
+            'notes': notes,
+            'guid': guid,
+        }
 
-    def set_area_spring_prop(self, area_spring_name: str, stiffness: list[float],
-                             nonlinear_option_3: eSpringNonlinearOption, spring_option: int = 1,
-                             soil_profile: str = "", end_length_ratio: float = 0., period: float = 0.,
-                             colour: int = 0, notes: str = '', guid: str = '') -> None:
+    def set_area_spring_prop(
+        self,
+        area_spring_name: str,
+        stiffness: list[float],
+        nonlinear_option_3: eSpringNonlinearOption,
+        spring_option: int = 1,
+        soil_profile: str = '',
+        end_length_ratio: float = 0.0,
+        period: float = 0.0,
+        colour: int = 0,
+        notes: str = '',
+        guid: str = '',
+    ) -> None:
         """Creates a new named area spring property, or modifies an existing named area spring property
 
         :param area_spring_name: name of the new spring property to be defined or an existing area spring property to re-define
@@ -124,6 +157,19 @@ class PropAreaSpring:
         u1 = stiffness[0]
         u2 = stiffness[1]
         u3 = stiffness[2]
-        handle(self.prop_area_spring.SetAreaSpringProp(area_spring_name, u1, u2, u3, nonlinear_option_3.value,
-                                                       spring_option, soil_profile, end_length_ratio, period,
-                                                       colour, notes, guid))
+        handle(
+            self.prop_area_spring.SetAreaSpringProp(
+                area_spring_name,
+                u1,
+                u2,
+                u3,
+                nonlinear_option_3.value,
+                spring_option,
+                soil_profile,
+                end_length_ratio,
+                period,
+                colour,
+                notes,
+                guid,
+            )
+        )

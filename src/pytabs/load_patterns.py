@@ -1,5 +1,5 @@
 # PyTABS - ETABS .NET API python wrapper
-# LoadPatterns- cLoadPatterns interface 
+# LoadPatterns- cLoadPatterns interface
 __all__ = ['LoadPatterns']
 
 # import ETABS namespace and pyTABS error handler
@@ -18,8 +18,13 @@ class LoadPatterns:
         # create LoadPatterns interface
         self.load_patterns = etabs.cLoadPatterns(sap_model.LoadPatterns)
 
-    def add(self, load_pattern_name: str, load_pattern_type: etabs.eLoadPatternType, self_weight_multiplier: float = 0,
-            add_analysis_case: bool = True):
+    def add(
+        self,
+        load_pattern_name: str,
+        load_pattern_type: etabs.eLoadPatternType,
+        self_weight_multiplier: float = 0,
+        add_analysis_case: bool = True,
+    ):
         """Adds a new load pattern.
 
         :param load_pattern_name: name for the new load pattern
@@ -31,7 +36,14 @@ class LoadPatterns:
         :param add_analysis_case: if `True`, a linear static load case corresponding to the new load pattern is added, defaults to `True`
         :type add_analysis_case: bool, optional
         """
-        handle(self.load_patterns.Add(load_pattern_name, load_pattern_type, self_weight_multiplier, add_analysis_case))
+        handle(
+            self.load_patterns.Add(
+                load_pattern_name,
+                load_pattern_type,
+                self_weight_multiplier,
+                add_analysis_case,
+            )
+        )
 
     # TODO Add ChangeName method
 
@@ -81,8 +93,9 @@ class LoadPatterns:
         :rtype: float
         """
         self_weight_multiplier = float()
-        [ret, self_weight_multiplier] = self.load_patterns.GetSelfWTMultiplier(load_pattern_name,
-                                                                               self_weight_multiplier)
+        [ret, self_weight_multiplier] = self.load_patterns.GetSelfWTMultiplier(
+            load_pattern_name, self_weight_multiplier
+        )
         handle(ret)
         return self_weight_multiplier
 
@@ -101,7 +114,7 @@ class LoadPatterns:
 
         :param load_pattern_name: name of an existing load pattern
         :type load_pattern_name: str
-        :param self_weight_multiplier: self weight multiplier for the specified load pattern 
+        :param self_weight_multiplier: self weight multiplier for the specified load pattern
         :type self_weight_multiplier: float
         """
         handle(self.load_patterns.SetSelfWTMultiplier(load_pattern_name, self_weight_multiplier))

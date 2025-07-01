@@ -47,24 +47,27 @@ from .view import View
 
 class UnitsComponents(TypedDict):
     """TypedDict class for Units components return"""
+
     force_units: etabs.eForce
     length_units: etabs.eLength
     temperature_units: etabs.eTemperature
 
 
 class EtabsModel:
-    """pytabs ETABS Model Object `EtabsObject` 🏢. 
-    
+    """pytabs ETABS Model Object `EtabsObject` 🏢.
+
     All interfaces and enumerations to the Etabs model objects are accessed as properties - refer below.
-    
+
     """
-    def __init__(self,
-                 attach_to_instance: bool = True,
-                 specific_etabs: bool = False,
-                 specific_etabs_path: Union[str, Path] = '',
-                 model_path: Union[str, Path] = '',
-                 remote_computer: str = '') -> None:
-        
+
+    def __init__(
+        self,
+        attach_to_instance: bool = True,
+        specific_etabs: bool = False,
+        specific_etabs_path: Union[str, Path] = '',
+        model_path: Union[str, Path] = '',
+        remote_computer: str = '',
+    ) -> None:
         # relate ETABS interfaces
         self.analyse: Analyse
         """EtabsModel `Analyse` interface."""
@@ -122,7 +125,7 @@ class EtabsModel:
         """EtabsModel `Tower` interface."""
         self.view: View
         """EtabsModel `View` interface."""
-        
+
         # relate ETABS cross interface enumerations
         self.eAreaDesignOrientation = etabs.eAreaDesignOrientation
         """EtabsModel `AreaDesignOrientation` enumeration."""
@@ -144,10 +147,10 @@ class EtabsModel:
         """EtabsModel `Temperature` enumeration."""
         self.eUnits = etabs.eUnits
         """EtabsModel `Units` enumeration."""
-        
+
         # relate pyTABS custom enumerations
         self.eFrameDesignProcedure = eFrameDesignProcedure
-        
+
         # EtabsModel initial properties
         self.pytabs_config = pytabs_config
         """pyTABS config file (pytabs_config.ini)"""
@@ -157,46 +160,55 @@ class EtabsModel:
         """`True` if model open, otherwise `False`."""
         self.model_path: Union[str, Path] = ''
         """Etabs model filepath."""
-        
+
         # create ETABS API helper interface and try to initialise EtabsObject
         helper = etabs.cHelper(etabs.Helper())
         if attach_to_instance:
             # attach to a running instance of ETABS
             try:
-                # get the active ETABS object        
+                # get the active ETABS object
                 if remote_computer:
-                    self.etabs_object = etabs.cOAPI(helper.GetObjectHost(remote_computer, "CSI.ETABS.API.ETABSObject"))
+                    self.etabs_object = etabs.cOAPI(helper.GetObjectHost(remote_computer, 'CSI.ETABS.API.ETABSObject'))
                 else:
-                    self.etabs_object = etabs.cOAPI(helper.GetObject("CSI.ETABS.API.ETABSObject"))
+                    self.etabs_object = etabs.cOAPI(helper.GetObject('CSI.ETABS.API.ETABSObject'))
                 self.active = True
-            except:
-                raise EtabsError(-1, "No running instance ETABS found or failed to attach.")
+            except Exception as e:
+                raise EtabsError(
+                    -1,
+                    'No running instance ETABS found or failed to attach.' + f'\n[{e}]',
+                )
+            # create an instance of the ETABS object from
         else:
             if specific_etabs:
                 try:
                     # create an instance of the ETABS object from the specified path
                     if remote_computer:
-                        self.etabs_object = etabs.cOAPI(helper.CreateObjectHost(remote_computer,
-                                                                                str(specific_etabs_path)))
+                        self.etabs_object = etabs.cOAPI(
+                            helper.CreateObjectHost(remote_computer, str(specific_etabs_path))
+                        )
                     else:
                         self.etabs_object = etabs.cOAPI(helper.CreateObject(str(specific_etabs_path)))
                     self.active = True
-                except:
-                    raise EtabsError(-1, f"Cannot start a new instance of the ETABS from {str(specific_etabs_path)}")
+                except Exception as e:
+                    raise EtabsError(
+                        -1,
+                        f'Cannot start a new instance of the ETABS from {str(specific_etabs_path)}' + f'\n[{e}]',
+                    )
             else:
-                try: 
+                try:
                     # create an instance of the ETABS object from the latest installed ETABS
                     if remote_computer:
-                        self.etabs_object = etabs.cOAPI(helper.CreateObjectProgIDHost(remote_computer,
-                                                                                      "CSI.ETABS.API.ETABSObject"))
+                        self.etabs_object = etabs.cOAPI(
+                            helper.CreateObjectProgIDHost(remote_computer, 'CSI.ETABS.API.ETABSObject')
+                        )
                     else:
-                        self.etabs_object = etabs.cOAPI(helper.CreateObjectProgID("CSI.ETABS.API.ETABSObject"))
+                        self.etabs_object = etabs.cOAPI(helper.CreateObjectProgID('CSI.ETABS.API.ETABSObject'))
                     self.active = True
-                except:
-                    raise EtabsError(-1, "Cannot start a new instance of ETABS.")
+                except Exception as e:
+                    raise EtabsError(-1, 'Cannot start a new instance of ETABS.' + f'\n[{e}]')
             # start etabs application
             self.etabs_object.ApplicationStart()
-        
+
         # if EtabsObject active
         if self.active:
             # create SapModel interface
@@ -204,7 +216,7 @@ class EtabsModel:
             """EtabsModel `SapModel` interface."""
             # create File interface
             self.file = etabs.cFile(self.sap_model.File)
-            
+
             # relate external pyTABS interfaces
             self.analyse = Analyse(self.sap_model)
             self.analysis_results_setup = AnalysisResultsSetup(self.sap_model)
@@ -271,8 +283,8 @@ class EtabsModel:
     def save_model(self, save_model_path: Union[str, Path]) -> None:
         """Saves the present model.
         If no file name is specified, the file is saved using its current name.
-        If there is no current name for the file (the file has not been saved previously) 
-        and this function is called with no file name specified, an error will be returned. 
+        If there is no current name for the file (the file has not been saved previously)
+        and this function is called with no file name specified, an error will be returned.
 
         :param save_model_path: file path to save new blank ETABS model file
         :type save_model_path: Union[str, Path]
@@ -293,7 +305,6 @@ class EtabsModel:
 
         return str(self.sap_model.GetModelFilename(IncludePath))
 
-
     def get_database_units(self) -> etabs.eUnits:
         """Returns a value from the eUnits enumeration indicating the database units for the model.
         All data is internally stored in the model in these units and converted to the present units as needed.
@@ -304,7 +315,7 @@ class EtabsModel:
         """
         ret = self.sap_model.GetDatabaseUnits()
         if ret == 0:
-            raise EtabsError(0, "Database units could not be returned.")
+            raise EtabsError(0, 'Database units could not be returned.')
         else:
             return ret
 
@@ -318,13 +329,15 @@ class EtabsModel:
         force_units = etabs.eForce.NotApplicable
         length_units = etabs.eLength.NotApplicable
         temperature_units = etabs.eTemperature.NotApplicable
-        [ret, force_units, length_units, temperature_units] = self.sap_model.GetDatabaseUnits_2(force_units,
-                                                                                                length_units,
-                                                                                                temperature_units)
+        [ret, force_units, length_units, temperature_units] = self.sap_model.GetDatabaseUnits_2(
+            force_units, length_units, temperature_units
+        )
         handle(ret)
-        return {'force_units': force_units,
-                'length_units': length_units,
-                'temperature_units': temperature_units}
+        return {
+            'force_units': force_units,
+            'length_units': length_units,
+            'temperature_units': temperature_units,
+        }
 
     def get_model_is_locked(self) -> bool:
         """Retrieves locked status of the model.
@@ -351,7 +364,7 @@ class EtabsModel:
         """
         ret = self.sap_model.GetPresentUnits()
         if ret == 0:
-            raise EtabsError(0, "Present units could not be returned.")
+            raise EtabsError(0, 'Present units could not be returned.')
         else:
             return ret
 
@@ -364,13 +377,15 @@ class EtabsModel:
         force_units = etabs.eForce.NotApplicable
         length_units = etabs.eLength.NotApplicable
         temperature_units = etabs.eTemperature.NotApplicable
-        [ret, force_units, length_units, temperature_units] = self.sap_model.GetPresentUnits_2(force_units,
-                                                                                               length_units,
-                                                                                               temperature_units)
+        [ret, force_units, length_units, temperature_units] = self.sap_model.GetPresentUnits_2(
+            force_units, length_units, temperature_units
+        )
         handle(ret)
-        return {'force_units': force_units,
-                'length_units': length_units,
-                'temperature_units': temperature_units}
+        return {
+            'force_units': force_units,
+            'length_units': length_units,
+            'temperature_units': temperature_units,
+        }
 
     def set_model_is_locked(self, lock_it: bool = True):
         """Locks or unlocks the model.
@@ -379,7 +394,7 @@ class EtabsModel:
         :type lock_it: bool, optional
         """
         handle(self.sap_model.SetModelIsLocked(lock_it))
-    
+
     def set_present_units(self, units: etabs.eUnits):
         """Sets the display (present) units.
 
@@ -388,8 +403,12 @@ class EtabsModel:
         """
         handle(self.sap_model.SetPresentUnits(units))
 
-    def set_present_units_components(self, force_units: etabs.eForce, length_units: etabs.eLength,
-                                     temperature_units: etabs.eTemperature):
+    def set_present_units_components(
+        self,
+        force_units: etabs.eForce,
+        length_units: etabs.eLength,
+        temperature_units: etabs.eTemperature,
+    ):
         """Specifies the units for the model.
 
         :param force_units: Force enumeration to set

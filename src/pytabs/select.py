@@ -15,6 +15,7 @@ from typing import TypedDict
 
 class SelectedObjects(TypedDict):
     """TypedDict class for get_selected return"""
+
     number_items: int
     object_types: list[eSelectObjectType]
     object_names: list[str]
@@ -41,8 +42,7 @@ class Select:
         handle(self.select.All(deselect))
 
     def clear_selection(self) -> None:
-        """Deselects all objects in the model.
-        """
+        """Deselects all objects in the model."""
         handle(self.select.ClearSelection())
 
     def get_selected(self) -> SelectedObjects:
@@ -54,12 +54,15 @@ class Select:
         number_items = int()
         object_types = [int()]
         object_names = [str()]
-        [ret, number_items, object_types, object_names] = self.select.GetSelected(number_items, object_types,
-                                                                                  object_names)
+        [ret, number_items, object_types, object_names] = self.select.GetSelected(
+            number_items, object_types, object_names
+        )
         handle(ret)
-        return {'number_items': number_items,
-                'object_types': [eSelectObjectType(o) for o in object_types],
-                'object_names': list(object_names)}
+        return {
+            'number_items': number_items,
+            'object_types': [eSelectObjectType(o) for o in object_types],
+            'object_names': list(object_names),
+        }
 
     def group(self, name: str, deselect: bool = False) -> None:
         """Selects or deselects all objects in the specified group.
@@ -72,11 +75,9 @@ class Select:
         handle(self.select.Group(name, deselect))
 
     def invert_selection(self) -> None:
-        """Deselects all selected objects and selects all unselected objects; that is, it inverts the selection.
-        """
+        """Deselects all selected objects and selects all unselected objects; that is, it inverts the selection."""
         handle(self.select.InvertSelection())
 
     def previous_selection(self) -> None:
-        """Restores the previous selection.
-        """
+        """Restores the previous selection."""
         handle(self.select.PreviousSelection())

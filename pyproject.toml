@@ -1,10 +1,10 @@
 [project]
 name = "pytabs"
-authors = [{name = "Mitchell Tesch"}, {email = "mitchell.z.tesch@gmail.com"}]
 description = "A python wrapper for the CSi ETABS .NET API"
 readme = "README.md"
-requires-python = ">=3.10"
-dependencies = ["pythonnet"]
+authors = [
+    { name = "Mitchell tesch", email = "mitchell.z.tesch@gmail.com" }
+]
 license_file = {file = "LICENSE"}
 keyword = ["engineering", "structural-engineering", "computational-design", "finite-element-analysis", "ETABS", "API"]
 classifiers = [
@@ -18,23 +18,32 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
+requires-python = ">=3.13"
+dependencies = [
+    "pythonnet>=3.0.5",
+]
 dynamic = ["version"]
-
-
-[project.optional-dependencies]
-examples = ["pandas", "xlwings"]
-
 
 [project.urls]
 Homepage = "https://github.com/mitchell-tesch/pytabs"
 Issues = "https://github.com/mitchell-tesch/pytabs/issues"
 Repository = "https://github.com/mitchell-tesch/pytabs"
 
+[project.optional-dependencies]
+examples = [
+    "pandas>=2.3.0",
+    "xlwings>=0.33.15",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.1",
+]
 
 [tool.hatch.version]
 path = "src/pytabs/__init__.py"
 
-
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+

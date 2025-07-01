@@ -37,16 +37,19 @@ pytabs_config = config.read_config()
 etabs_api_path = pytabs_config['ETABS']['API_DLL_PATH']
 
 # pythonnet clr-loader import of Marshal - ETABS API requirement
-clr.AddReference("System.Runtime.InteropServices")
+clr.AddReference('System.Runtime.InteropServices')
 
 # pythonnet clr-loader try import of ETABS API DLL (ETABSv1.dll) else load Mock
 warnings.filterwarnings('default')
 try:
     clr.AddReference(etabs_api_path)
     import ETABSv1 as etabs
-except:
+except Exception as _e:
     for mod_name in MOCK_MODULES:
         sys.modules[mod_name] = Mock()
     import ETABSv1 as etabs
-    warnings.warn("ETABS API DLL file (ETABSv1.dll) not found in configured location, check pytabs_config.ini",
-                  ImportWarning)
+
+    warnings.warn(
+        'ETABS API DLL file (ETABSv1.dll) not found in configured location, check pytabs_config.ini',
+        ImportWarning,
+    )

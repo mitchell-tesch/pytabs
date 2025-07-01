@@ -1,5 +1,5 @@
 # PyTABS - ETABS .NET API python wrapper
-# Story - cStory interface 
+# Story - cStory interface
 __all__ = ['Story']
 
 # import ETABS namespace and pyTABS error handler
@@ -14,6 +14,7 @@ from typing import TypedDict, Union
 
 class StoryInfo(TypedDict):
     """TypedDict class for Story information return"""
+
     base_elevation: float
     number_stories: int
     story_names: list[str]
@@ -146,35 +147,51 @@ class Story:
         splice_height = [float()]
         colour = [int()]
 
-        [ret, base_elevation, number_stories, story_names,
-         story_elevations, story_heights, is_master_story,
-         similar_to_story, splice_above, splice_height, colour] = self.story.GetStories_2(base_elevation,
-                                                                                          number_stories, story_names,
-                                                                                          story_elevations,
-                                                                                          story_heights,
-                                                                                          is_master_story,
-                                                                                          similar_to_story,
-                                                                                          splice_above, splice_height,
-                                                                                          colour)
+        [
+            ret,
+            base_elevation,
+            number_stories,
+            story_names,
+            story_elevations,
+            story_heights,
+            is_master_story,
+            similar_to_story,
+            splice_above,
+            splice_height,
+            colour,
+        ] = self.story.GetStories_2(
+            base_elevation,
+            number_stories,
+            story_names,
+            story_elevations,
+            story_heights,
+            is_master_story,
+            similar_to_story,
+            splice_above,
+            splice_height,
+            colour,
+        )
         handle(ret)
-        return {'base_elevation': base_elevation,
-                'number_stories': number_stories,
-                'story_names': list(story_names),
-                'story_elevations': list(story_elevations),
-                'story_heights': list(story_heights),
-                'is_master_story': list(is_master_story),
-                'similar_to_story': list(similar_to_story),
-                'splice_above': list(splice_above),
-                'splice_height': list(splice_height),
-                'colour': list(colour)}
+        return {
+            'base_elevation': base_elevation,
+            'number_stories': number_stories,
+            'story_names': list(story_names),
+            'story_elevations': list(story_elevations),
+            'story_heights': list(story_heights),
+            'is_master_story': list(is_master_story),
+            'similar_to_story': list(similar_to_story),
+            'splice_above': list(splice_above),
+            'splice_height': list(splice_height),
+            'colour': list(colour),
+        }
 
     def set_elevation(self, story_name: int, elevation: float) -> None:
         """Sets the elevation of a defined story.
-        
-        :param story_name: name of a defined story 
+
+        :param story_name: name of a defined story
         :type story_name: int
-        :param elevation: elevation of the story 
-        :type elevation: float 
+        :param elevation: elevation of the story
+        :type elevation: float
         """
         handle(self.story.SetElevation(story_name, elevation))
 
@@ -190,51 +207,58 @@ class Story:
 
     def set_height(self, story_name: int, height: float) -> None:
         """Sets the height of a defined story.
-        
+
         :param story_name: name of a defined story
         :type story_name: int
         :param height: height of the story
-        :type height: float 
+        :type height: float
         """
         handle(self.story.SetHeight(story_name, height))
 
     def set_master_story(self, story_name: str, is_master_story: bool) -> None:
         """Sets whether a defined story is a master story.
-        
+
         :param story_name: name of a defined story
         :type story_name: str
-        :param is_master_story: `True` if the story is a master story, `False` otherwise 
-        :type is_master_story: bool 
+        :param is_master_story: `True` if the story is a master story, `False` otherwise
+        :type is_master_story: bool
         """
         handle(self.story.SetMasterStory(story_name, is_master_story))
 
     def set_similar(self, story_name: str, similar_to_story: str) -> None:
         """Sets the master story that a defined story should be similar to.
-        
+
         :param story_name: name of a defined story which is not a master story
-        :type story_name: str 
-        :param similar_to_story: name of a defined master story that the requested story should be similar to 
+        :type story_name: str
+        :param similar_to_story: name of a defined master story that the requested story should be similar to
         :type similar_to_story: str
         """
         handle(self.story.SetSimilarTo(story_name, similar_to_story))
 
     def set_splice(self, story_name: str, splice_above: bool, splice_height: float) -> None:
         """Sets the splice height of a defined story.
-        
+
         :param story_name: name of defined story
         :type story_name: str
-        :param splice_above: `True` if the story has a splice height, and `False` otherwise  
-        :type splice_above: bool 
-        :param splice_height: story splice height 
-        :type splice_height: float 
+        :param splice_above: `True` if the story has a splice height, and `False` otherwise
+        :type splice_above: bool
+        :param splice_height: story splice height
+        :type splice_height: float
         """
         handle(self.story.SetSplice(story_name, splice_above, splice_height))
 
-    def set_stories(self, base_elevation: float, number_stories: int, story_names: list[str],
-                    story_heights: list[float],
-                    is_master_story: list[bool], similar_to_story: list[str], splice_above: list[bool],
-                    splice_height: list[float],
-                    colour: list[int]) -> None:
+    def set_stories(
+        self,
+        base_elevation: float,
+        number_stories: int,
+        story_names: list[str],
+        story_heights: list[float],
+        is_master_story: list[bool],
+        similar_to_story: list[str],
+        splice_above: list[bool],
+        splice_height: list[float],
+        colour: list[int],
+    ) -> None:
         """Sets the stories for the current tower.
 
         :param base_elevation: elevation of the base
@@ -245,21 +269,35 @@ class Story:
         :type story_names: list[str]
         :param story_heights: story heights
         :type story_heights: list[float]
-        :param is_master_story: `True` if the story is master story, and `False` otherwise 
+        :param is_master_story: `True` if the story is master story, and `False` otherwise
         :type is_master_story: list[bool]
-        :param similar_to_story: if the story is not a master story, which master story the story is similar to 
+        :param similar_to_story: if the story is not a master story, which master story the story is similar to
         :type similar_to_story: list[str]
-        :param splice_above: `True` if the story has a splice height, and `False` otherwise 
+        :param splice_above: `True` if the story has a splice height, and `False` otherwise
         :type splice_above: list[bool]
         :param splice_height: story splice height
         :type splice_height: list[float]
         :param colour: display color for the story specified
         :type colour: list[int]
         """
-        [ret, _story_names, _story_heights,
-         _is_master_story, _similar_to_story,
-         _splice_above, _splice_height, _colour] = self.story.SetStories_2(base_elevation, number_stories,
-                                                                           story_names, story_heights, is_master_story,
-                                                                           similar_to_story, splice_above,
-                                                                           splice_height, colour)
+        [
+            ret,
+            _story_names,
+            _story_heights,
+            _is_master_story,
+            _similar_to_story,
+            _splice_above,
+            _splice_height,
+            _colour,
+        ] = self.story.SetStories_2(
+            base_elevation,
+            number_stories,
+            story_names,
+            story_heights,
+            is_master_story,
+            similar_to_story,
+            splice_above,
+            splice_height,
+            colour,
+        )
         handle(ret)

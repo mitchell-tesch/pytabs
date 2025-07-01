@@ -14,6 +14,7 @@ from typing import TypedDict
 
 class CaseList(TypedDict):
     """TypedDict class for case list return"""
+
     number_items: int
     cname_types: list[etabs.eCNameType]
     cnames: list[str]
@@ -49,15 +50,17 @@ class Combo:
         cnames = [str()]
         mode_numbers = [int()]
         scaling_factors = [float()]
-        [ret, number_items, cname_types,
-         cnames, mode_numbers, scaling_factors] = self.combo.GetCaseList_1(name, number_items, cname_types,
-                                                                           cnames, mode_numbers, scaling_factors)
+        [ret, number_items, cname_types, cnames, mode_numbers, scaling_factors] = self.combo.GetCaseList_1(
+            name, number_items, cname_types, cnames, mode_numbers, scaling_factors
+        )
         handle(ret)
-        return {'number_items': number_items,
-                'cname_types': list(cname_types),
-                'cnames': list(cnames),
-                'mode_numbers': list(mode_numbers),
-                'scaling_factors': list(scaling_factors)}
+        return {
+            'number_items': number_items,
+            'cname_types': list(cname_types),
+            'cnames': list(cnames),
+            'mode_numbers': list(mode_numbers),
+            'scaling_factors': list(scaling_factors),
+        }
 
     def get_name_list(self) -> list[str]:
         """Retrieves the names of all defined response combinations.

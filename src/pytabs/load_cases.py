@@ -1,5 +1,5 @@
 # PyTABS - ETABS .NET API python wrapper
-# LoadCases - cLoadCases interface 
+# LoadCases - cLoadCases interface
 __all__ = ['LoadCases']
 
 # import ETABS namespace and pyTABS error handler
@@ -26,6 +26,7 @@ from typing import TypedDict
 
 class LoadCaseType(TypedDict):
     """TypedDict class for load case type return"""
+
     case_name: str
     case_type: etabs.eLoadCaseType
     sub_type: Union[None, str]
@@ -124,21 +125,31 @@ class LoadCases:
         design_type_options_desc = {0: 'Program determined', 1: 'User specified'}
         is_automatic_desc = {0: False, 1: True}
 
-        [ref, case_type, sub_type, design_type,
-         design_type_option, is_automatic] = self.load_cases.GetTypeOAPI_1(case_name, case_type, sub_type,
-                                                                           design_type, design_type_option,
-                                                                           is_automatic)
+        [ref, case_type, sub_type, design_type, design_type_option, is_automatic] = self.load_cases.GetTypeOAPI_1(
+            case_name,
+            case_type,
+            sub_type,
+            design_type,
+            design_type_option,
+            is_automatic,
+        )
         handle(ref)
         sub_type = self.__determine_sub_type(case_type, sub_type)
-        return {'case_name': case_name,
-                'case_type': case_type,
-                'sub_type': sub_type,
-                'design_type': design_type,
-                'design_type_option': design_type_options_desc[design_type_option],
-                'is_automatic': is_automatic_desc[is_automatic]}
+        return {
+            'case_name': case_name,
+            'case_type': case_type,
+            'sub_type': sub_type,
+            'design_type': design_type,
+            'design_type_option': design_type_options_desc[design_type_option],
+            'is_automatic': is_automatic_desc[is_automatic],
+        }
 
-    def set_design_type(self, case_name: str, design_type_option: int,
-                        design_type: etabs.eLoadPatternType = etabs.eLoadPatternType.Dead) -> None:
+    def set_design_type(
+        self,
+        case_name: str,
+        design_type_option: int,
+        design_type: etabs.eLoadPatternType = etabs.eLoadPatternType.Dead,
+    ) -> None:
         """Set design type of existing load case.
 
         :param case_name: name of existing load case
@@ -151,10 +162,12 @@ class LoadCases:
         handle(self.load_cases.SetDesignType(case_name, design_type_option, design_type))
 
     def __determine_sub_type(self, case_type: etabs.eLoadCaseType, sub_type: int) -> Union[None, str]:
-        """Private method to determine string of load case subtype.
-        """
-        if int(case_type) in [int(etabs.eLoadCaseType.NonlinearStatic), int(etabs.eLoadCaseType.Modal),
-                              int(etabs.eLoadCaseType.LinearHistory)]:
+        """Private method to determine string of load case subtype."""
+        if int(case_type) in [
+            int(etabs.eLoadCaseType.NonlinearStatic),
+            int(etabs.eLoadCaseType.Modal),
+            int(etabs.eLoadCaseType.LinearHistory),
+        ]:
             if int(case_type) == int(etabs.eLoadCaseType.NonlinearStatic):
                 sub_types_dict = {1: 'Nonlinear', 2: 'Nonlinear staged construction'}
             elif int(case_type) == int(etabs.eLoadCaseType.Modal):

@@ -90,8 +90,8 @@ class eResultsSetupStepOutOption(IntEnum):
 class eResultsSetupComboOutOption(IntEnum):
     ENVELOPES = 1
     MULTIPLE = 2
-    
-    
+
+
 class eFrameDesignProcedure(IntEnum):
     PROGRAM = 0
     STEEL_FRAME = 1
@@ -136,7 +136,7 @@ class eLinkHysteresisType(IntEnum):
     KINEMATIC = 1
     TAKEDA = 2
     PIVOT = 3
-    
+
 
 class eTableImportableType(IntEnum):
     NOT_IMPORTABLE = 0

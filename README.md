@@ -31,11 +31,6 @@ $ pip install pytabs
 ```
 
 
-## Requirements
- - Python 3.10+
- - pythonnet
-
-
 ## Usage
 🗒️Documentation can be found at https://mitchell-tesch.github.io/pytabs/pytabs.html
 

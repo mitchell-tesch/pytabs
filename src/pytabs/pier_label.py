@@ -1,5 +1,5 @@
 # PyTABS - ETABS .NET API python wrapper
-# PierLabel - cPierLabel interface 
+# PierLabel - cPierLabel interface
 __all__ = ['PierLabel']
 
 # import ETABS namespace and pyTABS error handler
@@ -14,6 +14,7 @@ from typing import TypedDict
 
 class PierSectionProperties(TypedDict):
     """TypedDict class for Pier section properties return"""
+
     pier_name: str
     number_stories: int
     story_name: list[str]
@@ -109,37 +110,66 @@ class PierLabel:
         cg_top_x = [float()]
         cg_top_y = [float()]
         cg_top_z = [float()]
-        [ret, number_stories, story_name, axis_angle,
-         num_area_objs, num_line_objs, width_bot,
-         thickness_bot, width_top, thickness_top,
-         mat_prop, cg_bot_x, cg_bot_y, cg_bot_z,
-         cg_top_x, cg_top_y, cg_top_z] = self.pier_label.GetSectionProperties(pier_name, number_stories, story_name,
-                                                                              axis_angle, num_area_objs, num_line_objs,
-                                                                              width_bot, thickness_bot, width_top,
-                                                                              thickness_top, mat_prop, cg_bot_x,
-                                                                              cg_bot_y,
-                                                                              cg_bot_z, cg_top_x, cg_top_y, cg_top_z)
+        [
+            ret,
+            number_stories,
+            story_name,
+            axis_angle,
+            num_area_objs,
+            num_line_objs,
+            width_bot,
+            thickness_bot,
+            width_top,
+            thickness_top,
+            mat_prop,
+            cg_bot_x,
+            cg_bot_y,
+            cg_bot_z,
+            cg_top_x,
+            cg_top_y,
+            cg_top_z,
+        ] = self.pier_label.GetSectionProperties(
+            pier_name,
+            number_stories,
+            story_name,
+            axis_angle,
+            num_area_objs,
+            num_line_objs,
+            width_bot,
+            thickness_bot,
+            width_top,
+            thickness_top,
+            mat_prop,
+            cg_bot_x,
+            cg_bot_y,
+            cg_bot_z,
+            cg_top_x,
+            cg_top_y,
+            cg_top_z,
+        )
         handle(ret)
-        return {'pier_name': pier_name,
-                'number_stories': number_stories,
-                'story_name': list(story_name),
-                'axis_angle': list(axis_angle),
-                'num_area_objs': list(num_area_objs),
-                'num_line_objs': list(num_line_objs),
-                'width_bot': list(width_bot),
-                'thickness_bot': list(thickness_bot),
-                'width_top': list(width_top),
-                'thickness_top': list(thickness_top),
-                'mat_prop': list(mat_prop),
-                'cg_bot_x': list(cg_bot_x),
-                'cg_bot_y': list(cg_bot_y),
-                'cg_bot_z': list(cg_bot_z),
-                'cg_top_x': list(cg_top_x),
-                'cg_top_y': list(cg_top_y),
-                'cg_top_z': list(cg_top_z)}
+        return {
+            'pier_name': pier_name,
+            'number_stories': number_stories,
+            'story_name': list(story_name),
+            'axis_angle': list(axis_angle),
+            'num_area_objs': list(num_area_objs),
+            'num_line_objs': list(num_line_objs),
+            'width_bot': list(width_bot),
+            'thickness_bot': list(thickness_bot),
+            'width_top': list(width_top),
+            'thickness_top': list(thickness_top),
+            'mat_prop': list(mat_prop),
+            'cg_bot_x': list(cg_bot_x),
+            'cg_bot_y': list(cg_bot_y),
+            'cg_bot_z': list(cg_bot_z),
+            'cg_top_x': list(cg_top_x),
+            'cg_top_y': list(cg_top_y),
+            'cg_top_z': list(cg_top_z),
+        }
 
     def set_pier(self, pier_name: str) -> None:
-        """Adds a new Pier Label. 
+        """Adds a new Pier Label.
 
         :param pier_name: name of new pier label
         :type pier_name: str

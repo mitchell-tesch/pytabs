@@ -15,6 +15,7 @@ from typing import TypedDict
 
 class StaticLinearLoadData(TypedDict):
     """TypedDict class for static linear load case loading data"""
+
     case_name: str
     load_types: list[eLinearStaticCaseLoadType]
     load_names: list[str]
@@ -58,15 +59,17 @@ class CaseStaticLinear:
         load_types = [str()]
         load_names = [str()]
         scaling_factors = [float()]
-        [ret, _number_names, load_types,
-         load_names, scaling_factors] = self.static_linear.GetLoads(name, _number_names, load_types,
-                                                                    load_names, scaling_factors)
+        [ret, _number_names, load_types, load_names, scaling_factors] = self.static_linear.GetLoads(
+            name, _number_names, load_types, load_names, scaling_factors
+        )
         handle(ret)
         load_types = [eLinearStaticCaseLoadType(load_type) for load_type in load_types]
-        return {'case_name': name,
-                'load_types': load_types,
-                'load_names': load_names,
-                'scaling_factors': scaling_factors}
+        return {
+            'case_name': name,
+            'load_types': load_types,
+            'load_names': load_names,
+            'scaling_factors': scaling_factors,
+        }
 
     def set_case(self, name: str) -> None:
         """Initializes a static linear load case.
@@ -86,8 +89,14 @@ class CaseStaticLinear:
         """
         handle(self.static_linear.SetInitialCase(name, initial_case_name))
 
-    def set_loads(self, name: str, number_loads: int, load_types: list[eLinearStaticCaseLoadType],
-                  load_names: list[str], scale_factors: list[float]) -> None:
+    def set_loads(
+        self,
+        name: str,
+        number_loads: int,
+        load_types: list[eLinearStaticCaseLoadType],
+        load_names: list[str],
+        scale_factors: list[float],
+    ) -> None:
         """Sets the load data for the specified analysis case.
 
         :param name: name of an existing static nonlinear load case
@@ -103,19 +112,26 @@ class CaseStaticLinear:
         """
         self.__verify_loading_details(number_loads, load_types, load_names, scale_factors)
         load_types = [load_type.value for load_type in load_types]
-        [ret, _load_types, _load_names, _scale_factors] = self.static_linear.SetLoads(name, number_loads,
-                                                                                      load_types, load_names,
-                                                                                      scale_factors)
+        [ret, _load_types, _load_names, _scale_factors] = self.static_linear.SetLoads(
+            name, number_loads, load_types, load_names, scale_factors
+        )
         handle(ret)
 
-    def __verify_loading_details(self, number_loads: int, load_types: list[eLinearStaticCaseLoadType],
-                                 load_names: list[str], scale_factors: list[float]):
-        """Private method for verifying loading details used by method `.set_loads`
-        """
+    def __verify_loading_details(
+        self,
+        number_loads: int,
+        load_types: list[eLinearStaticCaseLoadType],
+        load_names: list[str],
+        scale_factors: list[float],
+    ):
+        """Private method for verifying loading details used by method `.set_loads`"""
         if any(len(input_list) != number_loads for input_list in [load_types, load_names, scale_factors]):
             raise ValueError('length of all input lists must must be equal to input number_loads')
         for _l, load_type in enumerate(load_types):
             load_name = load_names[_l]
             if load_type is eLinearStaticCaseLoadType.ACCELERATION and (
-                    load_name not in ['UX', 'UY', 'UZ', 'RX', 'RY', 'RZ']):
-                raise ValueError('where load type is acceleration, the load name must be UX, UY, UZ, RX, RY or RZ, indicating the direction')
+                load_name not in ['UX', 'UY', 'UZ', 'RX', 'RY', 'RZ']
+            ):
+                raise ValueError(
+                    'where load type is acceleration, the load name must be UX, UY, UZ, RX, RY or RZ, indicating the direction'
+                )

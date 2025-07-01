@@ -4,15 +4,17 @@ __all__ = ['CaseStaticNonlinear']
 
 # import ETABS namespace and pyTABS error handler
 from pytabs.etabs_config import etabs
-from pytabs.error_handle import *
+from pytabs.error_handle import handle
 
 # import custom enumerations
-from pytabs.enumerations import (eGeometryNonlinearityType,
-                                 eLoadApplicationControlType,
-                                 eDisplacementControlType,
-                                 eDisplacementMonitorType,
-                                 eMonitoredDisplacementDoF,
-                                 eNonlinearStaticCaseLoadType)
+from pytabs.enumerations import (
+    eGeometryNonlinearityType,
+    eLoadApplicationControlType,
+    eDisplacementControlType,
+    eDisplacementMonitorType,
+    eMonitoredDisplacementDoF,
+    eNonlinearStaticCaseLoadType,
+)
 
 
 class CaseStaticNonlinear:
@@ -47,7 +49,7 @@ class CaseStaticNonlinear:
 
         :param name: name of an existing static nonlinear load case
         :type name: str
-        :param geometry_nonlinearity_type: one of load case 
+        :param geometry_nonlinearity_type: one of load case
         :type geometry_nonlinearity_type: eGeometryNonlinearityTypes
         """
         handle(self.static_nonlinear.SetGeometricNonlinearity(name, int(geometry_nonlinearity_type)))
@@ -64,14 +66,17 @@ class CaseStaticNonlinear:
         """
         handle(self.static_nonlinear.SetInitialCase(name, initial_case_name))
 
-    def set_load_application(self, name: str,
-                             load_application_control: eLoadApplicationControlType,
-                             displacement_control: eDisplacementControlType,
-                             displacement: float,
-                             displacement_monitor: eDisplacementMonitorType,
-                             monitored_dof: eMonitoredDisplacementDoF,
-                             point_name: str,
-                             generalized_displacement: str) -> None:
+    def set_load_application(
+        self,
+        name: str,
+        load_application_control: eLoadApplicationControlType,
+        displacement_control: eDisplacementControlType,
+        displacement: float,
+        displacement_monitor: eDisplacementMonitorType,
+        monitored_dof: eMonitoredDisplacementDoF,
+        point_name: str,
+        generalized_displacement: str,
+    ) -> None:
         """Set load case load application control parameters.
 
         :param name: name of existing nonlinear static load case
@@ -91,12 +96,27 @@ class CaseStaticNonlinear:
         :param generalized_displacement: generalized displacement input (refer ETABS manual)
         :type generalized_displacement: str
         """
-        handle(self.static_nonlinear.SetLoadApplication(name, load_application_control, displacement_control,
-                                                        displacement, displacement_monitor, monitored_dof,
-                                                        point_name, generalized_displacement))
+        handle(
+            self.static_nonlinear.SetLoadApplication(
+                name,
+                load_application_control,
+                displacement_control,
+                displacement,
+                displacement_monitor,
+                monitored_dof,
+                point_name,
+                generalized_displacement,
+            )
+        )
 
-    def set_loads(self, name: str, number_loads: int, load_types: list[eNonlinearStaticCaseLoadType],
-                  load_names: list[str], scale_factors: list[float]) -> None:
+    def set_loads(
+        self,
+        name: str,
+        number_loads: int,
+        load_types: list[eNonlinearStaticCaseLoadType],
+        load_names: list[str],
+        scale_factors: list[float],
+    ) -> None:
         """Sets the load data for the specified analysis case.
 
         :param name: name of an existing static nonlinear load case
@@ -112,14 +132,14 @@ class CaseStaticNonlinear:
         """
         self.__verify_loading_details(number_loads, load_types, load_names, scale_factors)
         load_types = [load_type.value for load_type in load_types]
-        [ret, _load_types, _load_names, _scale_factors] = self.static_nonlinear.SetLoads(name, number_loads,
-                                                                                         load_types, load_names,
-                                                                                         scale_factors)
+        [ret, _load_types, _load_names, _scale_factors] = self.static_nonlinear.SetLoads(
+            name, number_loads, load_types, load_names, scale_factors
+        )
         handle(ret)
 
     def set_mass_source(self, name: str, mass_source: str) -> None:
         """Sets the mass source for the specified analysis case.
-        
+
         :param name: name of an existing static nonlinear load case
         :type name: str
         :param mass_source: name of an existing mass source
@@ -137,13 +157,19 @@ class CaseStaticNonlinear:
         """
         handle(self.static_nonlinear.SetModalCase(name, modal_case))
 
-    def set_results_saved(self, name: str, save_multiple_steps: bool, min_saved_steps: int = 10,
-                          max_saved_steps: int = 100, save_positive_displacements_only: bool = True) -> None:
+    def set_results_saved(
+        self,
+        name: str,
+        save_multiple_steps: bool,
+        min_saved_steps: int = 10,
+        max_saved_steps: int = 100,
+        save_positive_displacements_only: bool = True,
+    ) -> None:
         """Set results saved settings for specified load case.
 
         :param name: name of an existing static nonlinear load case
         :type name: str
-        :param save_multiple_steps: if `True`, save multiple steps, if `False` save final step only 
+        :param save_multiple_steps: if `True`, save multiple steps, if `False` save final step only
         :type save_multiple_steps: bool
         :param min_saved_steps: minimum number of steps saved per stage, defaults to 10
         :type min_saved_steps: int, optional
@@ -152,24 +178,37 @@ class CaseStaticNonlinear:
         :param save_positive_displacements_only: if `True` save positive displacement increments only, defaults to True
         :type save_positive_displacements_only: bool, optional
         """
-        handle(self.static_nonlinear.SetResultsSaved(name, save_multiple_steps, min_saved_steps,
-                                                     max_saved_steps, save_positive_displacements_only))
+        handle(
+            self.static_nonlinear.SetResultsSaved(
+                name,
+                save_multiple_steps,
+                min_saved_steps,
+                max_saved_steps,
+                save_positive_displacements_only,
+            )
+        )
 
     # TODO SetSolControlParameters
     # TODO SetTargetForceParameters
 
-    def __verify_loading_details(self, number_loads: int, load_types: list[eNonlinearStaticCaseLoadType],
-                                 load_names: list[str], scale_factors: list[float]):
-        """Private method for verifying loading details used by method `.set_loads`
-        """
+    def __verify_loading_details(
+        self,
+        number_loads: int,
+        load_types: list[eNonlinearStaticCaseLoadType],
+        load_names: list[str],
+        scale_factors: list[float],
+    ):
+        """Private method for verifying loading details used by method `.set_loads`"""
         if any(len(input_list) != number_loads for input_list in [load_types, load_names, scale_factors]):
             raise ValueError('length of all input lists must must be equal to input number_loads')
         for _l, load_type in enumerate(load_types):
             load_name = load_names[_l]
             if load_type is eNonlinearStaticCaseLoadType.ACCELERATION and (
-                    load_name not in ['UX', 'UY', 'UZ', 'RX', 'RY', 'RZ']):
+                load_name not in ['UX', 'UY', 'UZ', 'RX', 'RY', 'RZ']
+            ):
                 raise ValueError(
-                    'where load type is acceleration, the load name must be UX, UY, UZ, RX, RY or RZ, indicating the direction')
+                    'where load type is acceleration, the load name must be UX, UY, UZ, RX, RY or RZ, indicating the direction'
+                )
             elif load_type is eNonlinearStaticCaseLoadType.MODE:
                 try:
                     int(load_name)

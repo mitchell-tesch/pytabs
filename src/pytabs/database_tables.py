@@ -19,11 +19,17 @@ class DbEditLog(TypedDict):
     num_warn_msgs: int
     num_info_msgs: int
     import_log: str
-    
+
 
 class DbField:
-    def __init__(self, field_key: str, field_name: str,
-                 description: str, units_string: str, is_importable: bool):
+    def __init__(
+        self,
+        field_key: str,
+        field_name: str,
+        description: str,
+        units_string: str,
+        is_importable: bool,
+    ):
         self._field_key = field_key
         self._field_name = field_name
         self._description = description
@@ -39,7 +45,7 @@ class DbField:
         return self._field_name
 
     @property
-    def description (self):
+    def description(self):
         return self._description
 
     @property
@@ -52,14 +58,19 @@ class DbField:
 
 
 class DbTable:
-    def __init__(self, table_key: str, table_name: str, importable_type: eTableImportableType,
-                 is_empty: bool):
+    def __init__(
+        self,
+        table_key: str,
+        table_name: str,
+        importable_type: eTableImportableType,
+        is_empty: bool,
+    ):
         self._table_key = table_key
         self._table_name = table_name
         self._importable_type = importable_type
         self._is_empty = is_empty
         self._fields: list[DbField] = []
- 
+
     @property
     def table_key(self):
         return self._table_key
@@ -85,27 +96,33 @@ class DbTable:
 
 
 class DbTableDataArray:
-    def __init__(self, table_version: int, fields_included: list[str], number_records: int,
-                 records: list[str], group_name: str = ''):
+    def __init__(
+        self,
+        table_version: int,
+        fields_included: list[str],
+        number_records: int,
+        records: list[str],
+        group_name: str = '',
+    ):
         self._table_version = table_version
         self._fields_included = fields_included
         self._group_name = group_name
         self._num_fields = len(self._fields_included)
         self._num_records = number_records
         self._table_data = self._reshape_data(records)
-        
+
     @property
     def table_version(self):
         return self._table_version
-    
+
     @property
     def fields_included(self):
         return self._fields_included
-    
+
     @property
     def group_name(self):
         return self._group_name
-    
+
     @property
     def table_data(self):
         return self._table_data
@@ -130,7 +147,12 @@ class DatabaseTables:
         number_tables, table_key, table_name, is_importable, is_empty = self._get_all_tables()
         tables: list[DbTable] = []
         for _t in range(number_tables):
-            table = DbTable(table_key[_t], table_name[_t], eTableImportableType(is_importable[_t]), is_empty[_t])
+            table = DbTable(
+                table_key[_t],
+                table_name[_t],
+                eTableImportableType(is_importable[_t]),
+                is_empty[_t],
+            )
             fields = self.get_table_fields(table_key[_t])
             table.add_table_fields(fields)
             tables.append(table)
@@ -139,7 +161,12 @@ class DatabaseTables:
     def get_table_details(self, key) -> DbTable:
         number_tables, table_key, table_name, is_importable, is_empty = self._get_all_tables()
         for _t in range(number_tables):
-            table = DbTable(table_key[_t], table_name[_t], eTableImportableType(is_importable[_t]), is_empty[_t])
+            table = DbTable(
+                table_key[_t],
+                table_name[_t],
+                eTableImportableType(is_importable[_t]),
+                is_empty[_t],
+            )
             if key == table_key[_t]:
                 fields = self.get_table_fields(table_key[_t])
                 table.add_table_fields(fields)
@@ -153,19 +180,46 @@ class DatabaseTables:
         description = [str()]
         units_string = [str()]
         is_importable = [bool()]
-        [ret, _table_version, number_fields,
-         field_key, field_name, description,
-         units_string, is_importable] = self.database_tables.GetAllFieldsInTable(table_key, table_version, number_fields,
-                                                                                 field_key, field_name, description,
-                                                                                 units_string, is_importable)
+        [
+            ret,
+            _table_version,
+            number_fields,
+            field_key,
+            field_name,
+            description,
+            units_string,
+            is_importable,
+        ] = self.database_tables.GetAllFieldsInTable(
+            table_key,
+            table_version,
+            number_fields,
+            field_key,
+            field_name,
+            description,
+            units_string,
+            is_importable,
+        )
         handle(ret)
         fields: list[DbField] = []
         for _f in range(number_fields):
-            fields.append(DbField(field_key[_f], field_name[_f], description[_f], units_string[_f], is_importable[_f]))
+            fields.append(
+                DbField(
+                    field_key[_f],
+                    field_name[_f],
+                    description[_f],
+                    units_string[_f],
+                    is_importable[_f],
+                )
+            )
         return fields
 
-    def get_table_data_array(self, table: DbTable, edit_mode: bool = False,
-                             group_name: str = '', field_key: list[str] = ['']):
+    def get_table_data_array(
+        self,
+        table: DbTable,
+        edit_mode: bool = False,
+        group_name: str = '',
+        field_key: list[str] = [''],
+    ):
         table_version = int()
         field_keys_out = [str()]
         number_records = int()
@@ -173,19 +227,31 @@ class DatabaseTables:
         if edit_mode:
             # not active in current version of ETABS - refer manual.
             group_name = ''
-            [ret, table_version, field_keys_out,
-             number_records, records] = self.database_tables.GetTableForEditingArray(table.table_key, group_name,
-                                                                                     table_version, field_keys_out,
-                                                                                     number_records, records)
+            [ret, table_version, field_keys_out, number_records, records] = (
+                self.database_tables.GetTableForEditingArray(
+                    table.table_key,
+                    group_name,
+                    table_version,
+                    field_keys_out,
+                    number_records,
+                    records,
+                )
+            )
             handle(ret)
             return DbTableDataArray(table_version, list(field_keys_out), number_records, records)
-             
+
         else:
-            [ret, field_key, table_version,
-             field_keys_out, number_records,
-             records] = self.database_tables.GetTableForDisplayArray(table.table_key, field_key, group_name,
-                                                                     table_version, field_keys_out, number_records,
-                                                                     records)
+            [ret, field_key, table_version, field_keys_out, number_records, records] = (
+                self.database_tables.GetTableForDisplayArray(
+                    table.table_key,
+                    field_key,
+                    group_name,
+                    table_version,
+                    field_keys_out,
+                    number_records,
+                    records,
+                )
+            )
             handle(ret)
             return DbTableDataArray(table_version, list(field_keys_out), number_records, records, group_name)
 
@@ -193,9 +259,9 @@ class DatabaseTables:
         table_version = int()
         num_records = len(table_data)
         records = [item for record in table_data for item in record]
-        [ret, _table_version,
-         _field_keys_out, _table_data] = self.database_tables.SetTableForEditingArray(table.table_key, table_version,
-                                                                                      field_keys, num_records, records)
+        [ret, _table_version, _field_keys_out, _table_data] = self.database_tables.SetTableForEditingArray(
+            table.table_key, table_version, field_keys, num_records, records
+        )
         handle(ret)
 
     def apply_table_edits(self, log_import: bool = False) -> DbEditLog:
@@ -204,27 +270,41 @@ class DatabaseTables:
         num_warn_msgs = int()
         num_info_msgs = int()
         import_log = str()
-        [ret, num_fatal_errors, num_error_msgs,
-         num_warn_msgs, num_info_msgs, import_log] = self.database_tables.ApplyEditedTables(log_import, num_fatal_errors, num_error_msgs,
-                                                                                            num_warn_msgs, num_info_msgs, import_log)
+        [
+            ret,
+            num_fatal_errors,
+            num_error_msgs,
+            num_warn_msgs,
+            num_info_msgs,
+            import_log,
+        ] = self.database_tables.ApplyEditedTables(
+            log_import,
+            num_fatal_errors,
+            num_error_msgs,
+            num_warn_msgs,
+            num_info_msgs,
+            import_log,
+        )
 
-        return {'num_fatal_errors': num_fatal_errors,
-                'num_error_msgs': num_error_msgs,
-                'num_warn_msgs': num_warn_msgs,
-                'num_info_msgs': num_info_msgs,
-                'import_log': import_log}
-    
+        return {
+            'num_fatal_errors': num_fatal_errors,
+            'num_error_msgs': num_error_msgs,
+            'num_warn_msgs': num_warn_msgs,
+            'num_info_msgs': num_info_msgs,
+            'import_log': import_log,
+        }
+
     def discard_table_edits(self):
         handle(self.database_tables.CancelTableEditing())
-    
+
     def _get_all_tables(self):
         number_tables = int()
         table_key = [str()]
         table_name = [str()]
         is_importable = [int()]
         is_empty = [bool()]
-        [ret, number_tables, table_key,
-         table_name, is_importable, is_empty] = self.database_tables.GetAllTables(number_tables, table_key,
-                                                                                  table_name, is_importable, is_empty)
+        [ret, number_tables, table_key, table_name, is_importable, is_empty] = self.database_tables.GetAllTables(
+            number_tables, table_key, table_name, is_importable, is_empty
+        )
         handle(ret)
         return number_tables, table_key, table_name, is_importable, is_empty

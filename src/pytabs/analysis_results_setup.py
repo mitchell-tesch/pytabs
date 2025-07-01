@@ -7,7 +7,7 @@ from .etabs_config import etabs
 from .error_handle import handle
 
 # import custom enumerations
-from .enumerations import (eResultsSetupStepOutOption, eResultsSetupComboOutOption)
+from .enumerations import eResultsSetupStepOutOption, eResultsSetupComboOutOption
 
 
 class AnalysisResultsSetup:
@@ -67,18 +67,19 @@ class AnalysisResultsSetup:
         return gx, gy, gz
 
     def get_buckling_mode_setup(self) -> tuple[int, int, bool]:
-        """Retrieves the mode buckling range for output. 
-        
+        """Retrieves the mode buckling range for output.
+
         :return: return[0] - first buckling mode, return[1] - last buckling mode, return[2] - all buckling modes
         :rtype: tuple[int, int, bool]"""
 
         start_buckling_mode = int()
         end_buckling_mode = int()
         all_buckling_modes = bool()
-        [ret, start_buckling_mode,
-         end_buckling_mode, all_buckling_modes] = self.analysis_results_setup.GetOptionBucklingMode(start_buckling_mode,
-                                                                                                    end_buckling_mode,
-                                                                                                    all_buckling_modes)
+        [ret, start_buckling_mode, end_buckling_mode, all_buckling_modes] = (
+            self.analysis_results_setup.GetOptionBucklingMode(
+                start_buckling_mode, end_buckling_mode, all_buckling_modes
+            )
+        )
         handle(ret)
         return start_buckling_mode, end_buckling_mode, all_buckling_modes
 
@@ -94,7 +95,7 @@ class AnalysisResultsSetup:
         return eResultsSetupStepOutOption(option)
 
     def get_modal_history_setup(self) -> eResultsSetupStepOutOption:
-        """Retrieves the output option for modal history results. 
+        """Retrieves the output option for modal history results.
 
         :return: one of step out options (envelopes, step-by-step or last-step)
         :rtype: eResultsSetupStepOutOption
@@ -113,8 +114,9 @@ class AnalysisResultsSetup:
         start_mode = int()
         end_mode = int()
         all_modes = bool()
-        [ret, start_mode, end_mode, all_modes] = self.analysis_results_setup.GetOptionModeShape(start_mode, end_mode,
-                                                                                                all_modes)
+        [ret, start_mode, end_mode, all_modes] = self.analysis_results_setup.GetOptionModeShape(
+            start_mode, end_mode, all_modes
+        )
         handle(ret)
         return all_modes, start_mode, end_mode
 
@@ -170,23 +172,30 @@ class AnalysisResultsSetup:
         """
         handle(self.analysis_results_setup.SetOptionBaseReactLoc(point[0], point[1], point[2]))
 
-    def set_buckling_mode_setup(self, start_buckling_mode: int, end_buckling_mode: int,
-                                all_buckling_modes: bool = False) -> None:
-        """Sets the buckling mode range for output. 
-        
-        :param start_buckling_mode: first buckling mode number 
+    def set_buckling_mode_setup(
+        self,
+        start_buckling_mode: int,
+        end_buckling_mode: int,
+        all_buckling_modes: bool = False,
+    ) -> None:
+        """Sets the buckling mode range for output.
+
+        :param start_buckling_mode: first buckling mode number
         :type start_buckling_mode: int
-        :param end_buckling_mode: last buckling mode number 
+        :param end_buckling_mode: last buckling mode number
         :type start_buckling_mode: int
-        :param all_buckling_modes: all buckling modes, defaults to `False` 
-        :type start_buckling_mode: bool, optional 
+        :param all_buckling_modes: all buckling modes, defaults to `False`
+        :type start_buckling_mode: bool, optional
         """
-        handle(self.analysis_results_setup.SetOptionBucklingMode(start_buckling_mode, end_buckling_mode,
-                                                                 all_buckling_modes))
+        handle(
+            self.analysis_results_setup.SetOptionBucklingMode(
+                start_buckling_mode, end_buckling_mode, all_buckling_modes
+            )
+        )
 
     def set_direct_history_setup(self, option: eResultsSetupStepOutOption) -> None:
         """Sets the direct history results option.
-        
+
         :param option: one of step out options (envelopes, step-by-step or last-step)
         :type option:  eResultsSetupStepOutOption
         """
@@ -194,7 +203,7 @@ class AnalysisResultsSetup:
 
     def set_modal_history_setup(self, option: eResultsSetupStepOutOption) -> None:
         """Sets the modal history results option.
-        
+
         :param option: one of step out options (envelopes, step-by-step or last-step)
         :type option:  eResultsSetupStepOutOption
         """
@@ -216,7 +225,7 @@ class AnalysisResultsSetup:
 
     def set_combination_setup(self, option: eResultsSetupComboOutOption) -> None:
         """Sets the non-linear static results option.
-        
+
         :param option: one of combo options (envelopes or multiple)
         :type option: eResultsSetupComboOutOption
         """
@@ -224,7 +233,7 @@ class AnalysisResultsSetup:
 
     def set_nonlinear_setup(self, option: eResultsSetupStepOutOption) -> None:
         """Sets the non-linear static results option.
-        
+
         :param option: one of step out options (envelopes, step-by-step or last-step)
         :type option: eResultsSetupStepOutOption
         """

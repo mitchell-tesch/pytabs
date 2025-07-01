@@ -8,6 +8,7 @@ from .etabs_config import *
 
 class Error(Exception):
     """Error base class for non-exit exceptions"""
+
     pass
 
 
@@ -21,10 +22,10 @@ class EtabsError(Error):
 
 def handle(ret: int) -> None:
     """Handles ETABS API return.
-    
+
     :param ret: return integer from ETABS API function
     :type ret: int
-    :raises EtabsError: general ETABS API error if return int is != 0 
+    :raises EtabsError: general ETABS API error if return int is != 0
     """
     try:
         return_code = etabs.eReturnCode(ret)
@@ -34,6 +35,6 @@ def handle(ret: int) -> None:
     if return_code != etabs.eReturnCode.NoError:
         try:
             message = str(etabs.eReturnCode(ret))
-        except:
-            message = 'UnknownError'
+        except Exception as e:
+            message = f'UnknownError: {e}'
         raise EtabsError(ret, message)

@@ -1,0 +1,4 @@
+{
+    "python.autoComplete.extraPaths": [".\\stub"],
+    "python.analysis.extraPaths": [".\\stub"],
+}

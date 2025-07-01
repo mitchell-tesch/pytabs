@@ -24,7 +24,7 @@ class Property:
     def __init__(self, sap_model: etabs.cSapModel) -> None:
         # link of SapModel interface
         self.sap_model = sap_model
-        
+
         # create interface for individual property types
         self.area_spring = PropAreaSpring(sap_model)
         self.area = PropArea(sap_model)

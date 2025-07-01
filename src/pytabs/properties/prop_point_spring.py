@@ -15,6 +15,7 @@ from typing import TypedDict
 
 class PointSpringProperties(TypedDict):
     """TypedDict class for point spring properties return"""
+
     point_spring_name: str
     spring_option: ePointSpringStiffnessOption
     stiffness: list[float]
@@ -68,26 +69,56 @@ class PropPointSpring:
         colour = int()
         notes = str()
         guid = str()
-        [ret, spring_option, stiffness,
-         coord_sys, soil_profile, footing,
-         period, colour, notes, guid] = self.prop_point_spring.GetPointSpringProp(point_spring_name, spring_option,
-                                                                                  stiffness, coord_sys, soil_profile,
-                                                                                  footing, period, colour, notes, guid)
+        [
+            ret,
+            spring_option,
+            stiffness,
+            coord_sys,
+            soil_profile,
+            footing,
+            period,
+            colour,
+            notes,
+            guid,
+        ] = self.prop_point_spring.GetPointSpringProp(
+            point_spring_name,
+            spring_option,
+            stiffness,
+            coord_sys,
+            soil_profile,
+            footing,
+            period,
+            colour,
+            notes,
+            guid,
+        )
         handle(ret)
-        return {'point_spring_name': point_spring_name,
-                'spring_option': ePointSpringStiffnessOption(spring_option),
-                'stiffness': stiffness,
-                'coord_sys': coord_sys,
-                'soil_profile': soil_profile,
-                'footing': footing,
-                'period': period,
-                'colour': colour,
-                'notes': notes,
-                'guid': guid}
+        return {
+            'point_spring_name': point_spring_name,
+            'spring_option': ePointSpringStiffnessOption(spring_option),
+            'stiffness': stiffness,
+            'coord_sys': coord_sys,
+            'soil_profile': soil_profile,
+            'footing': footing,
+            'period': period,
+            'colour': colour,
+            'notes': notes,
+            'guid': guid,
+        }
 
-    def set_point_spring_prop(self, point_spring_name: str, spring_option: ePointSpringStiffnessOption,
-                              stiffness: list[float], coord_sys: str = '', soil_profile: str = '', footing: str = '',
-                              period: float = 0., colour: int = 0, notes: str = '', guid: str = '') -> None:
+    def set_point_spring_prop(
+        self,
+        point_spring_name: str,
+        spring_option: ePointSpringStiffnessOption,
+        stiffness: list[float],
+        coord_sys: str = '',
+        soil_profile: str = '',
+        footing: str = '',
+        period: float = 0.0,
+        colour: int = 0,
+        notes: str = '',
+        guid: str = '',
+    ) -> None:
         """Creates a new named point spring property, or modifies an existing named point spring property.
 
         :param point_spring_name: name of an existing point spring property
@@ -111,7 +142,16 @@ class PropPointSpring:
         :param guid: global unique identifier
         :type guid: str, optional
         """
-        [ret, _point_springs] = self.prop_point_spring.SetPointSpringProp(point_spring_name, spring_option.value,
-                                                                          stiffness, coord_sys, soil_profile, footing,
-                                                                          period, colour, notes, guid)
+        [ret, _point_springs] = self.prop_point_spring.SetPointSpringProp(
+            point_spring_name,
+            spring_option.value,
+            stiffness,
+            coord_sys,
+            soil_profile,
+            footing,
+            period,
+            colour,
+            notes,
+            guid,
+        )
         handle(ret)

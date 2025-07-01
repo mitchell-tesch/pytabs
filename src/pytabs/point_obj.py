@@ -29,9 +29,9 @@ class PointObj:
     def get_name_from_label(self, label: str, story: str) -> str:
         """Retrieves the unique name of a point object, given the label and story level.
 
-        :param label: The point object label 
+        :param label: The point object label
         :type label: str
-        :param story: The point object story level  
+        :param story: The point object story level
         :type label: str
         :return point_name: The unique name of the point object
         :rtype: str
@@ -56,9 +56,9 @@ class PointObj:
         handle(ret)
         return list(point_names)
 
-    def get_coordinate_cartesian(self, point_name, coord_system: str = "Global") -> list[float]:
+    def get_coordinate_cartesian(self, point_name, coord_system: str = 'Global') -> list[float]:
         """Retrieves the x, y, and z coordinates of the specified point object in the present units
-        
+
         :param point_name: unique name of an existing point object
         :type point_name: str
         :param coord_system: coordinate system definition, 'Global' by default
@@ -100,10 +100,14 @@ class PointObj:
         handle(ret)
         return spring_prop
 
-    def set_spring_assignment(self, point_name: str, point_spring_prop: str,
-                              item_type: etabs.eItemType = etabs.eItemType.Objects) -> None:
+    def set_spring_assignment(
+        self,
+        point_name: str,
+        point_spring_prop: str,
+        item_type: etabs.eItemType = etabs.eItemType.Objects,
+    ) -> None:
         """Assigns an existing name point spring property to point objects.
-        
+
         :param point_name: unique name of an existing point object
         :type point_name: str
         :param point_spring_prop: name of an existing point spring property

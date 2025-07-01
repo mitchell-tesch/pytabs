@@ -15,6 +15,7 @@ from typing import TypedDict
 
 class LineSpringProperties(TypedDict):
     """TypedDict class for line spring properties return"""
+
     line_spring_name: str
     u1: float
     u2: float
@@ -68,25 +69,53 @@ class PropLineSpring:
         colour = int()
         notes = str()
         guid = str()
-        [ret, u1, u2, u3, r1, nonlinear_option_2,
-         nonlinear_option_3, colour, notes, guid] = self.prop_line_spring.GetLineSpringProp(name, u1, u2, u3, r1,
-                                                                                            nonlinear_option_2, nonlinear_option_3,
-                                                                                            colour, notes, guid)
+        [
+            ret,
+            u1,
+            u2,
+            u3,
+            r1,
+            nonlinear_option_2,
+            nonlinear_option_3,
+            colour,
+            notes,
+            guid,
+        ] = self.prop_line_spring.GetLineSpringProp(
+            name,
+            u1,
+            u2,
+            u3,
+            r1,
+            nonlinear_option_2,
+            nonlinear_option_3,
+            colour,
+            notes,
+            guid,
+        )
         handle(ret)
-        return {'line_spring_name': name,
-                'u1': u1,
-                'u2': u2,
-                'u3': u3,
-                'r1': r1,
-                'nonlinear_option_2': eSpringNonlinearOption(nonlinear_option_2),
-                'nonlinear_option_3': eSpringNonlinearOption(nonlinear_option_3),
-                'colour': colour,
-                'notes': notes,
-                'guid': guid}
+        return {
+            'line_spring_name': name,
+            'u1': u1,
+            'u2': u2,
+            'u3': u3,
+            'r1': r1,
+            'nonlinear_option_2': eSpringNonlinearOption(nonlinear_option_2),
+            'nonlinear_option_3': eSpringNonlinearOption(nonlinear_option_3),
+            'colour': colour,
+            'notes': notes,
+            'guid': guid,
+        }
 
-    def set_line_spring_prop(self, name: str, stiffness: list[float],
-                             nonlinear_option_2: eSpringNonlinearOption, nonlinear_option_3: eSpringNonlinearOption,
-                             colour: int = 0, notes: str = '', guid: str = '') -> None:
+    def set_line_spring_prop(
+        self,
+        name: str,
+        stiffness: list[float],
+        nonlinear_option_2: eSpringNonlinearOption,
+        nonlinear_option_3: eSpringNonlinearOption,
+        colour: int = 0,
+        notes: str = '',
+        guid: str = '',
+    ) -> None:
         """Creates a new named line spring property, or modifies an existing named line spring property
 
         :param name: name of the new spring property to be defined or an existing line spring property to re-define
@@ -109,5 +138,17 @@ class PropLineSpring:
         u2 = stiffness[1]
         u3 = stiffness[2]
         r1 = stiffness[3]
-        handle(self.prop_line_spring.SetLineSpringProp(name, u1, u2, u3, r1, nonlinear_option_2.value,
-                                                       nonlinear_option_3.value, colour, notes, guid))
+        handle(
+            self.prop_line_spring.SetLineSpringProp(
+                name,
+                u1,
+                u2,
+                u3,
+                r1,
+                nonlinear_option_2.value,
+                nonlinear_option_3.value,
+                colour,
+                notes,
+                guid,
+            )
+        )
