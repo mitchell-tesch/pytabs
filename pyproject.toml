@@ -18,7 +18,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "pythonnet>=3.0.5",
 ]
